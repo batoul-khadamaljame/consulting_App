@@ -1,5 +1,8 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
+import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
+import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
+import 'package:consulting_app/UI/Screens/home.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
@@ -35,18 +38,22 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-        create: (BuildContext context) => ConsultingCubit(),
-        )
+        create: (BuildContext context) => ConsultingCubit()
+        ),
+        BlocProvider(
+            create: (BuildContext context) => EnterMoblieNumberCubit()
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           '/': (context) => LoginScreen(),
-          '/userregister': (context) => UserRegister(),
-
+          '/userRegister': (context) => UserRegister(),
+          '/expertRegister': (context) => ExpertRegisterScreen(),
+          '/home': (context) => HomePage(),
         },
-        home: LoginScreen(),
+        home: null,
       ),
     );
   }

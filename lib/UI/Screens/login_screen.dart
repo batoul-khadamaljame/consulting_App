@@ -1,14 +1,17 @@
-
+import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
+import 'package:consulting_app/UI/Widgets/region_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  final _mobileController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child:Text('fdgd',style: Theme.of(context).textTheme.headline1,
-      )
+    return Scaffold(
     );
   }
 }
