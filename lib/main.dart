@@ -1,6 +1,7 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
+import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => LoginScreen(),
+          '/userregister': (context) => UserRegister(),
+
+        },
         home: LoginScreen(),
       ),
     );
