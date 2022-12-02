@@ -1,5 +1,6 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
+import 'package:consulting_app/Bloc/input_date_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
 import 'package:consulting_app/UI/Screens/home.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()
+        ),
+        BlocProvider(
+            create: (BuildContext context) => InputDateCubit()
         ),
       ],
       child: MaterialApp(
