@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
@@ -23,10 +22,11 @@ void main() async {
 
   //The color of the status bar and system navigation bar
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.black,
-        systemNavigationBarColor: Colors.black,
-      ),);
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
+      systemNavigationBarColor: Colors.black,
+    ),
+  );
 
   runApp(const MyApp());
 }
@@ -38,15 +38,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()),
         BlocProvider(
-        create: (BuildContext context) => ConsultingCubit()
-        ),
-        BlocProvider(
-            create: (BuildContext context) => EnterMoblieNumberCubit()
-        ),
-        BlocProvider(
-            create: (BuildContext context) => InputDateCubit()
-        ),
+            create: (BuildContext context) => EnterMoblieNumberCubit()),
+        BlocProvider(create: (BuildContext context) => InputDateCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -62,4 +57,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
