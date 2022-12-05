@@ -1,12 +1,5 @@
-import 'dart:ffi';
-
-import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
-import 'package:consulting_app/Bloc/input_date_cubit.dart';
-import 'package:consulting_app/UI/Widgets/input_field.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:flutter/material.dart';
 
 var myemail = TextEditingController();
 var mypassword = TextEditingController();
@@ -20,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     double heightscreen = MediaQuery.of(context).size.height;

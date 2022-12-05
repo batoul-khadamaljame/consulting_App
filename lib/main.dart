@@ -8,6 +8,7 @@ import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
+import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,7 @@ void main() async {
   //The color of the status bar and system navigation bar
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
+      statusBarColor: Colors.purple,
       systemNavigationBarColor: Colors.black,
     ),
   );
