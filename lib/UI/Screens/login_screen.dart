@@ -1,5 +1,12 @@
-import 'package:consulting_app/theme/theme.dart';
+import 'dart:ffi';
+
+import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
+import 'package:consulting_app/Bloc/input_date_cubit.dart';
+import 'package:consulting_app/UI/Widgets/input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:consulting_app/theme/theme.dart';
 
 var myemail = TextEditingController();
 var mypassword = TextEditingController();
@@ -13,7 +20,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
-
   @override
   Widget build(BuildContext context) {
     double heightscreen = MediaQuery.of(context).size.height;
@@ -92,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: heightscreen * 0.05,
+                          height: heightscreen * 0.03,
                         ),
                         TextFormField(
                           obscureText: _isObscure,
@@ -160,9 +166,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 150,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            gradient: ThemeColors.button,
+                            gradient: RadialGradient(radius: 4, colors: [
+                              Color.fromARGB(255, 141, 68, 243),
+                              Colors.purple
+                            ]),
                             border: Border.all(
-                              color: ThemeColors.borderbutton,
+                              color: Color.fromARGB(255, 163, 33, 243),
                             ),
                           ),
                           child: Material(
@@ -175,12 +184,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: const Center(
                                   child: Text(
-                                'LOGIN',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
+                                    'LOGIN',
+                                    style: TextStyle(
+                                      color: ThemeColors.backgroundColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
                             ),
                           ),
                         ),
@@ -192,9 +202,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 150,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            gradient: ThemeColors.button,
+                            gradient: RadialGradient(radius: 4, colors: [
+                              Color.fromARGB(255, 141, 68, 243),
+                              Colors.purple
+                            ]),
                             border: Border.all(
-                              color: ThemeColors.borderbutton,
+                              color: Color.fromARGB(255, 163, 33, 243),
                             ),
                           ),
                           child: Material(
@@ -208,12 +221,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: const Center(
                                   child: Text(
-                                'login as Guests',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
+                                    'login as Guests',
+                                    style: TextStyle(
+                                      color: ThemeColors.backgroundColor,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
                             ),
                           ),
                         ),
@@ -228,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 MaterialButton(
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pushNamed('/expertRegister_screen');
+                                        .pushReplacementNamed('/getStarted');
                                   },
                                   child: const Text(
                                     'Sign Up',

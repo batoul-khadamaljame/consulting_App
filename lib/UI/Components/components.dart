@@ -3,38 +3,36 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 
 
-void showToast({
+void showToast ({
   required String text,
-  required ToastStates state,
-}) =>
-    Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 5,
-      backgroundColor: chooseToastColor(state),
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+  required ToastState state,
+}) => Fluttertoast.showToast(
+  msg: text,
+  toastLength: Toast.LENGTH_LONG,
+  gravity: ToastGravity.BOTTOM,
+  timeInSecForIosWeb: 5,
+  backgroundColor: chooseToastColor(state),
+  textColor: Colors.white,
+  fontSize: 16.0,
+);
 
-// enum
-enum ToastStates {SUCCESS, ERROR, WARNING}
+enum ToastState{success,error,warning}
 
-Color chooseToastColor(ToastStates state) {
+Color chooseToastColor(ToastState state)
+{
   Color color;
-
-  switch (state) {
-    case ToastStates.SUCCESS:
+  switch(state)
+  {
+    case ToastState.success:
       color = Colors.green;
       break;
-    case ToastStates.ERROR:
+    case ToastState.error:
       color = Colors.red;
       break;
-    case ToastStates.WARNING:
+    case ToastState.warning:
       color = Colors.amber;
       break;
   }
-
   return color;
 }
 
