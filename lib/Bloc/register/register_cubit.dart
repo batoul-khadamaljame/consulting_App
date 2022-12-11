@@ -12,8 +12,8 @@ class RegisterCubit extends Cubit<RegisterStates>
 
   static RegisterCubit get(context) => BlocProvider.of(context);
 
-  bool isPassword = false;
-  IconData suffix = Icons.visibility;
+  bool isPassword = true;
+  IconData suffix = Icons.visibility_off;
 
   bool? isExpert;
 
@@ -27,11 +27,11 @@ class RegisterCubit extends Cubit<RegisterStates>
     print('$isExpert');
   }
 
-  void changePassVisibility()
+  void changePasswordVisibility()
   {
     isPassword = !isPassword;
     suffix = isPassword ? Icons.visibility_off : Icons.visibility;
-    emit(ChangePassVisibility());
+    emit(ChangePasswordVisibility());
   }
 
   LoginModel? loginModel;

@@ -93,7 +93,6 @@ class GetStartedScreen extends StatelessWidget {
                           .user();
                       Navigator.of(context).pushNamed('/userRegister');
                     },
-
                     child :Column(
                       children: [
                         Container(

@@ -4,7 +4,7 @@ abstract class RegisterStates {}
 
 class RegisterInitialState extends RegisterStates{}
 
-class ChangePassVisibility extends RegisterStates{}
+class ChangePasswordVisibility extends RegisterStates{}
 
 class RegisterLoadingState extends RegisterStates{}
 class RegisterSuccessState extends RegisterStates

@@ -1,6 +1,7 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
-
+        BlocProvider(create: (BuildContext context) => LoginCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

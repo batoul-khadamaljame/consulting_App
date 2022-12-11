@@ -1,6 +1,21 @@
-part of 'login_cubit.dart';
+import 'package:consulting_app/models/login_model.dart';
 
-@immutable
-abstract class LoginState {}
+abstract class LoginStates {}
 
-class LoginInitial extends LoginState {}
+class LoginInitialState extends LoginStates{}
+
+class ChangePasswordVisibility extends LoginStates{}
+
+class LoginLoadingState extends LoginStates{}
+class LoginSuccessState extends LoginStates
+{
+  final LoginModel loginModel;
+
+  LoginSuccessState(this.loginModel);
+}
+class LoginErrorState extends LoginStates
+{
+  final String error;
+
+  LoginErrorState(this.error);
+}

@@ -1,15 +1,23 @@
 import 'dart:ffi';
 
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/login/login_state.dart';
+import 'package:consulting_app/UI/Components/components.dart';
+import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Widgets/input_field.dart';
+import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:consulting_app/theme/theme.dart';
 
-var myemail = TextEditingController();
-var mypassword = TextEditingController();
+var emailController = TextEditingController();
+var passwordController = TextEditingController();
+var formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -24,6 +32,33 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     double heightscreen = MediaQuery.of(context).size.height;
     double widthscreen = MediaQuery.of(context).size.width;
+    return BlocConsumer<LoginCubit, LoginStates>(
+  listener: (context, state) {
+    if (state is LoginSuccessState) {
+      if (state.loginModel.status!) {
+        print(state.loginModel.message!);
+        print(state.loginModel.data!.token);
+        showToast(
+          text: state.loginModel.message!,
+          state: ToastState.success,
+        );
+        CacheHelper.saveData(
+          key: 'token',
+          value: state.loginModel.data!.token,
+        ).then((value) {
+          token = state.loginModel.data!.token;
+          Navigator.of(context).pushReplacementNamed('/home');
+        });
+      } else {
+        print(state.loginModel.message!);
+        showToast(
+          text: state.loginModel.message!,
+          state: ToastState.error,
+        );
+      }
+    }
+  },
+  builder: (context, state) {
     return Scaffold(
       appBar: null,
       body: SafeArea(
@@ -49,214 +84,279 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: const [
-                            Text(
-                              'Welcom Back..',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                'Welcome Back..',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: heightscreen * 0.05,
-                        ),
-                        TextFormField(
-                          controller: myemail,
-                          keyboardType: TextInputType.emailAddress,
-                          onFieldSubmitted: (String value) {
-                            print(value);
-                          },
-                          decoration: InputDecoration(
-                            labelText: "Enter Email",
-                            prefixIcon: const Icon(
-                              Icons.email,
-                              color: ThemeColors.icon,
-                            ),
-                            labelStyle: const TextStyle(
-                              color: ThemeColors.highlight,
-                            ),
-                            fillColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35.0),
-                              borderSide: const BorderSide(
-                                color: ThemeColors.bordertextfromfiled,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: const BorderSide(
-                                color: Colors.black,
-                                width: 2.0,
-                              ),
-                            ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: heightscreen * 0.03,
-                        ),
-                        TextFormField(
-                          obscureText: _isObscure,
-                          controller: mypassword,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecoration(
-                            labelText: ' password',
-                            labelStyle: TextStyle(
-                              color: Colors.deepPurpleAccent,
+                          SizedBox(
+                            height: heightscreen * 0.05,
+                          ),
+                          TextFormField(
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            onFieldSubmitted: (String value) {
+                              print(value);
+                            },
+                            decoration: InputDecoration(
+                              labelText: "Enter Email",
+                              prefixIcon: const Icon(
+                                Icons.email,
+                                color: ThemeColors.icon,
+                              ),
+                              labelStyle: const TextStyle(
+                                color: ThemeColors.highlight,
+                              ),
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(35.0),
+                                borderSide: const BorderSide(
+                                  color: ThemeColors.bordertextfromfiled,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.5,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.5,
+                                ),
+                              ),
+
                             ),
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: ThemeColors.icon,
-                            ),
-                            suffixIcon: IconButton(
+                            validator: (value){
+                              if(value!.isEmpty){
+                                return 'Please enter your Email';
+                              }
+                              if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+                                return 'Invalid Email';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(
+                            height: heightscreen * 0.03,
+                          ),
+                          TextFormField(
+                            obscureText: LoginCubit
+                                .get(context)
+                                .isPassword,
+                            controller: passwordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            decoration: InputDecoration(
+                              labelText: ' password',
+                              labelStyle: TextStyle(
+                                color: Colors.deepPurpleAccent,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: ThemeColors.icon,
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  LoginCubit.get(context)
+                                      .changePasswordVisibility();
+                                },
                                 icon: Icon(
-                                  _isObscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                  LoginCubit
+                                      .get(context)
+                                      .suffix,
                                   color: ThemeColors.icon,
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    _isObscure = !_isObscure;
-                                  });
-                                }),
-                            fillColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(35.0),
-                              borderSide: BorderSide(
-                                color: ThemeColors.bordertextfromfiled,
                               ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: Colors.black,
-                                width: 2.0,
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(35.0),
+                                borderSide: BorderSide(
+                                  color: ThemeColors.bordertextfromfiled,
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: heightscreen * 0.01,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            MaterialButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Forgot Password?',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  // decoration: TextDecoration.underline,
-                                  color: ThemeColors.highlight,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.black,
+                                  width: 1.5,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.5,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        Container(
-                          height: 50,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: RadialGradient(radius: 4, colors: [
-                              Color.fromARGB(255, 141, 68, 243),
-                              Colors.purple
-                            ]),
-                            border: Border.all(
-                              color: Color.fromARGB(255, 163, 33, 243),
-                            ),
+                            validator: (value){
+                              if(value!.isEmpty){
+                                return 'Please enter your Password';
+                              }
+                              return null;
+                            },
                           ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              splashColor: ThemeColors.splashinkweel,
-                              borderRadius: BorderRadius.circular(30),
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/home');
-                              },
-                              child: const Center(
-                                  child: Text(
-                                    'LOGIN',
-                                    style: TextStyle(
-                                      color: ThemeColors.backgroundColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                            ),
+                          SizedBox(
+                            height: heightscreen * 0.01,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 50,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: RadialGradient(radius: 4, colors: [
-                              Color.fromARGB(255, 141, 68, 243),
-                              Colors.purple
-                            ]),
-                            border: Border.all(
-                              color: Color.fromARGB(255, 163, 33, 243),
-                            ),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              // highlightColor: Colors.orange.withOpacity(0.3),
-                              splashColor: ThemeColors.splashinkweel,
-                              borderRadius: BorderRadius.circular(30),
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/home');
-                              },
-                              child: const Center(
-                                  child: Text(
-                                    'login as Guests',
-                                    style: TextStyle(
-                                      color: ThemeColors.backgroundColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: heightscreen * 0.05),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text('Don\'t have an acount?'),
-                                MaterialButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/getStarted');
-                                  },
-                                  child: const Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: ThemeColors.highlight,
-                                    ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              MaterialButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Forgot Password?',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    // decoration: TextDecoration.underline,
+                                    color: ThemeColors.highlight,
                                   ),
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          ConditionalBuilder(
+                            condition: state is! LoginLoadingState,
+                            builder: (context) =>
+                            Container(
+                              height: 50,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: RadialGradient(radius: 4, colors: [
+                                  Color.fromARGB(255, 141, 68, 243),
+                                  Colors.purple
+                                ]),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 163, 33, 243),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  splashColor: ThemeColors.splashinkweel,
+                                  borderRadius: BorderRadius.circular(30),
+                                  onTap: () {
+                                    if (formKey.currentState!.validate())
+                                    {
+                                      LoginCubit.get(context).loginUser(
+                                          email: emailController.text,
+                                          password: passwordController.text);
+                                    }
+                                  },
+                                  child: const Center(
+                                      child: Text(
+                                        'LOGIN',
+                                        style: TextStyle(
+                                          color: ThemeColors.backgroundColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                      ],
+                            fallback: (context) => const Center(child: CircularProgressIndicator()),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 50,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              gradient: RadialGradient(radius: 4, colors: [
+                                Color.fromARGB(255, 141, 68, 243),
+                                Colors.purple
+                              ]),
+                              border: Border.all(
+                                color: Color.fromARGB(255, 163, 33, 243),
+                              ),
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                // highlightColor: Colors.orange.withOpacity(0.3),
+                                splashColor: ThemeColors.splashinkweel,
+                                borderRadius: BorderRadius.circular(30),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('/home');
+                                },
+                                child: const Center(
+                                    child: Text(
+                                      'login as Guests',
+                                      style: TextStyle(
+                                        color: ThemeColors.backgroundColor,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: heightscreen * 0.05),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Don\'t have an acount?'),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/getStarted');
+                                    },
+                                    child: const Text(
+                                      'Sign Up',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: ThemeColors.highlight,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ]),
@@ -266,5 +366,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  },
+);
   }
 }
