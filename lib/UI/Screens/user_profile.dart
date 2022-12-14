@@ -1,4 +1,5 @@
 
+import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -6,6 +7,16 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: null,
+      body: Center(
+        child: ElevatedButton(
+          onPressed: (){
+            signOut(context);
+          },
+          child: Text('logout'),
+        ),
+      ),
+    );
   }
 }

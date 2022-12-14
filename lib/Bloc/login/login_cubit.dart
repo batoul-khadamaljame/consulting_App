@@ -11,6 +11,13 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
+
+  bool isLoginAsGuest = false;
+
+  void changeIsLoginAsGuesst(){
+    isLoginAsGuest = true;
+  }
+
   bool isPassword = true;
   IconData suffix = Icons.visibility_off;
 
@@ -38,9 +45,9 @@ class LoginCubit extends Cubit<LoginStates> {
     ).then((value) {
       //print(value.data);
       loginModel = LoginModel.fromJson(value.data);
-      // print(loginModel!.status);
-      // print(loginModel!.message);
-      // print(loginModel!.data!.token);
+      print(loginModel!.status);
+      print(loginModel!.message);
+      print(loginModel!.data!.token);
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));

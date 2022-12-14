@@ -7,7 +7,7 @@ class DioHelper {
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: '',
+        baseUrl: 'http://192.168.43.167:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -41,12 +41,7 @@ class DioHelper {
     String? token,
   }) async
   {
-    dio!.options.headers =
-    {
-      'lang':lang,
-      'Authorization': token??'',
-      'Content-Type': 'application/json',
-    };
+
 
     return dio!.post(
       url,

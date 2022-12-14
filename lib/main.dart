@@ -3,7 +3,9 @@ import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
+import 'package:consulting_app/Bloc/search/search_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
+import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
 import 'package:consulting_app/UI/Screens/get_started.dart';
 import 'package:consulting_app/UI/Screens/home.dart';
@@ -26,7 +28,8 @@ void main() async {
   DioHelper.init();
 
   await CacheHelper.init();
-
+  token = CacheHelper.getData(key: 'token');
+  print(token);
   //The color of the status bar and system navigation bar
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -39,22 +42,26 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  int id = 0;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()),
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeData(id)/*..getCategories()*/..getFavorites()/*..getUserData()*/,),
         BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
+        BlocProvider(create: (BuildContext context) => SearchCubit()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

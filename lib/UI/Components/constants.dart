@@ -4,7 +4,7 @@ import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:flutter/material.dart';
 
-/*
+
 void signOut(context)
 {
   CacheHelper.removeData(key: 'token',).then((value) {
@@ -22,7 +22,7 @@ void signOut(context)
     }
   });
 }
-*/
+
 
 void printFullText(String text)
 {

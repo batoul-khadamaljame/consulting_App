@@ -1,18 +1,13 @@
-import 'dart:ffi';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
-import 'package:consulting_app/Bloc/input_date_cubit.dart';
-import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_state.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
-import 'package:consulting_app/UI/Widgets/input_field.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:consulting_app/theme/theme.dart';
 
 var emailController = TextEditingController();
@@ -20,14 +15,13 @@ var passwordController = TextEditingController();
 var formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     double heightscreen = MediaQuery.of(context).size.height;
@@ -70,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: widthscreen,
                 color: ThemeColors.backgroundColor,
                 child: Column(children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     // height: 100,
                     child: Image.asset(
@@ -152,12 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
 
                             ),
-                            validator: (value){
-                              if(value!.isEmpty){
-                                return 'Please enter your Email';
-                              }
-                              if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
-                                return 'Invalid Email';
+                            validator: (value) {
+                              if (!EmailValidator.validate(value!)) {
+                                return 'Please enter a valid Email';
                               }
                               return null;
                             },
@@ -166,6 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: heightscreen * 0.03,
                           ),
                           TextFormField(
+                            autovalidateMode:
+                            AutovalidateMode.onUserInteraction,
                             obscureText: LoginCubit
                                 .get(context)
                                 .isPassword,
@@ -173,10 +166,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               labelText: ' password',
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                 color: Colors.deepPurpleAccent,
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.lock,
                                 color: ThemeColors.icon,
                               ),
@@ -195,13 +188,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               fillColor: Colors.white,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(35.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: ThemeColors.bordertextfromfiled,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.black,
                                   width: 2.0,
                                 ),
@@ -258,12 +251,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                gradient: RadialGradient(radius: 4, colors: [
+                                gradient: const RadialGradient(radius: 4, colors: [
                                   Color.fromARGB(255, 141, 68, 243),
                                   Colors.purple
                                 ]),
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 163, 33, 243),
+                                  color: const Color.fromARGB(255, 163, 33, 243),
                                 ),
                               ),
                               child: Material(
@@ -301,12 +294,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
-                              gradient: RadialGradient(radius: 4, colors: [
+                              gradient: const RadialGradient(radius: 4, colors: [
                                 Color.fromARGB(255, 141, 68, 243),
                                 Colors.purple
                               ]),
                               border: Border.all(
-                                color: Color.fromARGB(255, 163, 33, 243),
+                                color: const Color.fromARGB(255, 163, 33, 243),
                               ),
                             ),
                             child: Material(
@@ -316,6 +309,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 splashColor: ThemeColors.splashinkweel,
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () {
+                                  LoginCubit.get(context).changeIsLoginAsGuesst();
                                   Navigator.of(context).pushNamed('/home');
                                 },
                                 child: const Center(

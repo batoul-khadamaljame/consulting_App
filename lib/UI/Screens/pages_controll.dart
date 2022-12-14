@@ -1,6 +1,7 @@
 
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,8 @@ class PagesControllScreen extends StatelessWidget {
           backgroundColor: ThemeColors.backgroundColor,
           appBar: null,
 
-          body: cubit.screens1[cubit.currentIndex],
+          body: LoginCubit.get(context).isLoginAsGuest ==true? cubit.screens1[cubit.currentIndex]:LoginCubit.get(context).loginModel!.data!.isExp == 0?
+          cubit.screens2[cubit.currentIndex] :cubit.screens3[cubit.currentIndex],
 
           bottomNavigationBar: GNav(
             iconSize: 30,

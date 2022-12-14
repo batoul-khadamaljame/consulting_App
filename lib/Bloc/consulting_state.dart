@@ -1,8 +1,12 @@
+import 'package:consulting_app/models/change_favoirites_model.dart';
+
 abstract class ConsultingStates{}
 
 class ConsultingInitialState extends ConsultingStates{}
 
 class ChangeBottomNavState extends ConsultingStates{}
+
+class ChangeCatIndex extends ConsultingStates{}
 
 class LoadingHomeDataState extends ConsultingStates{}
 
@@ -17,9 +21,9 @@ class ErrorHomeDataState extends ConsultingStates
 
 class SuccessChangeFavoritesState extends ConsultingStates
 {
-  //final ChangeFavoritesModel model;
+  final ChangeFavoritesModel model;
 
-  //ShopSuccessChangeFavoritesState(this.model);
+  SuccessChangeFavoritesState(this.model);
 }
 
 class ErrorChangeFavoritesState extends ConsultingStates

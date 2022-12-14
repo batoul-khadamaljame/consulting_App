@@ -6,6 +6,9 @@ class ExpertProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: null,
+      body: Center(child: Text('bbb'),),
+    );
   }
 }
