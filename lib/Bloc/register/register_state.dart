@@ -9,6 +9,7 @@ class PickImage extends RegisterStates{}
 class ChangePasswordVisibility extends RegisterStates{}
 
 class RegisterLoadingState extends RegisterStates{}
+
 class RegisterSuccessState extends RegisterStates
 {
   final LoginModel loginModel;

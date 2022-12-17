@@ -2,6 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_state.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
+import 'package:consulting_app/UI/Components/constants.dart';
+import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:email_validator/email_validator.dart';
@@ -36,11 +38,11 @@ class _UserRegisterState extends State<UserRegister> {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          if (state.loginModel.status!) {
-            print(state.loginModel.message!);
-            print(state.loginModel.data!.token);
+         // if (state.loginModel.status!) {
+            print(state.loginModel.status!);
+            print(state.loginModel!.data!.token);
             showToast(
-              text: state.loginModel.message!,
+              text: state.loginModel.status!,
               state: ToastState.success,
             );
             CacheHelper.saveData(
@@ -50,13 +52,14 @@ class _UserRegisterState extends State<UserRegister> {
               token = state.loginModel.data!.token;
               Navigator.of(context).pushReplacementNamed('/home');
             });
-          } else {
-            print(state.loginModel.message!);
-            showToast(
-              text: state.loginModel.message!,
-              state: ToastState.error,
-            );
-          }
+         // }
+         //    else {
+         //    print(state.loginModel.message!);
+         //    showToast(
+         //      text: state.loginModel.message!,
+         //      state: ToastState.error,
+         //    );
+         //  }
         }
       },
       builder: (context, state) {

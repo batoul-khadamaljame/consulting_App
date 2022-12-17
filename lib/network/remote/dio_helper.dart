@@ -7,7 +7,7 @@ class DioHelper {
   {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.43.167:8000/api/',
+        baseUrl:'http://10.0.2.2:8000/api/',
         receiveDataWhenStatusError: true,
       ),
     );
@@ -20,12 +20,7 @@ class DioHelper {
     String? token,
   }) async
   {
-    dio!.options.headers =
-    {
-      'lang':lang,
-      'Authorization': token??'',
-      'Content-Type': 'application/json',
-    };
+
 
     return await dio!.get(
       url,
@@ -37,11 +32,14 @@ class DioHelper {
     required String url,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
-    String lang = 'en',
     String? token,
   }) async
   {
 
+    dio!.options.headers =
+    {
+      'Accept' : 'application/json',
+    };
 
     return dio!.post(
       url,

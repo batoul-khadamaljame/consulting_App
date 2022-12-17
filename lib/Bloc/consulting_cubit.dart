@@ -24,6 +24,10 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
 
   int currentIndex = 0;
 
+  void indx(){
+    currentIndex = 0;
+  }
+
   List<GButton> bottomItems = [
     GButton(icon: Icons.home, text: 'Home'),
     GButton(icon: Icons.favorite, text: 'Favorites'),
@@ -32,7 +36,7 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
 
   List<Widget> screens1 = [
     HomePage(),
-    const FavoritesScreen(),
+    const GuestProfileScreen(),
     const GuestProfileScreen(),
   ];
   List<Widget> screens2 = [

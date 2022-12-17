@@ -77,13 +77,12 @@ class RegisterCubit extends Cubit<RegisterStates>
         'phone1' : phone,
         'isExp': isExpert,
       },
-      token: token,
     ).then((value)
     {
       loginModel = LoginModel.fromJson(value.data);
-      print(loginModel!.data!.name);
-      print(loginModel!.data!.phone);
-      print(loginModel!.data!.email);
+      print(loginModel!.data!.user!.name);
+      print(loginModel!.data!.user!.phone);
+      print(loginModel!.data!.user!.email);
       emit(RegisterSuccessState(loginModel!));
     }).catchError((error)
     {
@@ -91,42 +90,6 @@ class RegisterCubit extends Cubit<RegisterStates>
       print(error.toString());
     });
   }
-
-  void expertRegister({
-    required String name,
-    required String phone,
-    required String email,
-    required String password,
-
-  })
-  {
-    emit(RegisterLoadingState());
-    DioHelper.postData(
-      url: REGISTER2,
-      data:
-      {
-        //'image' : image,//object from type file
-        'name' : name,
-        'email' : email,
-        'password' : password,
-        'phone1' : phone,
-        'isExp': isExpert,
-      },
-      token: token,
-    ).then((value)
-    {
-      loginModel = LoginModel.fromJson(value.data);
-      print(loginModel!.data!.name);
-      print(loginModel!.data!.phone);
-      print(loginModel!.data!.email);
-      emit(RegisterSuccessState(loginModel!));
-    }).catchError((error)
-    {
-      emit(RegisterErrorState(error.toString()));
-      print(error.toString());
-    });
-  }
-
 
 
 }

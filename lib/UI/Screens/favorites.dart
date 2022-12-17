@@ -4,6 +4,7 @@ import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
 import 'package:consulting_app/UI/Screens/home.dart';
 import 'package:consulting_app/models/home_model.dart';
+import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
@@ -23,7 +24,38 @@ class FavoritesScreen extends StatelessWidget {
     return ConditionalBuilder(
       condition: state is! LoadingGetFavoritesState,
       builder:(context)=> Scaffold(
-        appBar: null,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: ThemeColors.icons),
+          backgroundColor: ThemeColors.backgroundColor,
+          /*leading: Icon(
+
+                        Icons.menu,
+                        color: ThemeColors.icons,
+
+
+                  ),*/
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: ThemeColors.icons,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/search');
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.message,
+                color: ThemeColors.icons,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/messege');
+              },
+            ),
+          ],
+          elevation: 0.0,
+        ),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),

@@ -13,9 +13,13 @@ class LoginCubit extends Cubit<LoginStates> {
 
 
   bool isLoginAsGuest = false;
-
+  bool isLogin= false;
   void changeIsLoginAsGuesst(){
-    isLoginAsGuest = true;
+    isLoginAsGuest = !isLoginAsGuest;
+  }
+
+  void changeIsLogin(){
+    isLogin = !isLogin;
   }
 
   bool isPassword = true;
@@ -46,7 +50,7 @@ class LoginCubit extends Cubit<LoginStates> {
       //print(value.data);
       loginModel = LoginModel.fromJson(value.data);
       print(loginModel!.status);
-      print(loginModel!.message);
+      //print(loginModel!.message);
       print(loginModel!.data!.token);
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {

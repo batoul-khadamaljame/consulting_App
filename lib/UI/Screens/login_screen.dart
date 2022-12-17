@@ -29,11 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginCubit, LoginStates>(
   listener: (context, state) {
     if (state is LoginSuccessState) {
-      if (state.loginModel.status!) {
-        print(state.loginModel.message!);
+      if (true) {
+        print(state.loginModel.status!);
         print(state.loginModel.data!.token);
         showToast(
-          text: state.loginModel.message!,
+          text: state.loginModel.status!,
           state: ToastState.success,
         );
         CacheHelper.saveData(
@@ -44,9 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.of(context).pushReplacementNamed('/home');
         });
       } else {
-        print(state.loginModel.message!);
+        print(state.loginModel.status!);
         showToast(
-          text: state.loginModel.message!,
+          text: state.loginModel.status!,
           state: ToastState.error,
         );
       }
@@ -267,10 +267,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     if (formKey.currentState!.validate())
                                     {
+                                      LoginCubit.get(context).changeIsLogin();
                                       LoginCubit.get(context).loginUser(
                                           email: emailController.text,
                                           password: passwordController.text);
                                     }
+
                                   },
                                   child: const Center(
                                       child: Text(
@@ -310,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () {
                                   LoginCubit.get(context).changeIsLoginAsGuesst();
-                                  Navigator.of(context).pushNamed('/home');
+                                  Navigator.of(context).pushReplacementNamed('/home');
                                 },
                                 child: const Center(
                                     child: Text(

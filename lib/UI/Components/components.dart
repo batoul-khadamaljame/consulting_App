@@ -13,8 +13,8 @@ void showToast ({
   gravity: ToastGravity.BOTTOM,
   timeInSecForIosWeb: 5,
   backgroundColor: chooseToastColor(state),
-  textColor: Colors.white,
-  fontSize: 16.0,
+  textColor: Colors.purple,
+  fontSize: 15.0,
 );
 
 enum ToastState{success,error,warning}

@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -30,6 +31,14 @@ void main() async {
   await CacheHelper.init();
   token = CacheHelper.getData(key: 'token');
   print(token);
+
+  Widget widget;
+  if (token != null) {
+    widget = HomePage();
+  } else {
+    widget = const LoginScreen();
+  }
+
   //The color of the status bar and system navigation bar
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -42,11 +51,14 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp( MyApp());
+  runApp( MyApp(startWidget: widget));
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+
+  final Widget startWidget;
+
+   MyApp({required this.startWidget, Key? key}) : super(key: key);
 
   int id = 0;
 
@@ -54,8 +66,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeData(id)/*..getCategories()*/..getFavorites()/*..getUserData()*/,),
-        BlocProvider(
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()//..getHomeData(id)/*..getCategories()*/..getFavorites()/*..getUserData()*/,),
+        ,),BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
@@ -67,7 +79,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (context) => LoginScreen(),
+          '/': (context) => startWidget,
           '/login': (context) => LoginScreen(),
           '/getStarted': (context) => GetStartedScreen(),
           '/userRegister': (context) => UserRegister(),

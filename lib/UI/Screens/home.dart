@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
 
     double heightscreen = MediaQuery.of(context).size.height;
     double widthscreen = MediaQuery.of(context).size.width;
-    final state1 = context.watch<ConsultingCubit>().state;
+
     return BlocConsumer<ConsultingCubit, ConsultingStates>(
       listener: (context, state) {
         if (state is SuccessChangeFavoritesState) {
@@ -200,7 +200,7 @@ class HomePage extends StatelessWidget {
     return InkWell(
       onTap: (){
         ConsultingCubit.get(context).changeCatIndex(id);
-        ConsultingCubit.get(context).getHomeData(id);
+        //ConsultingCubit.get(context).getHomeData(id);
       },
       child: Container(
         width: 100,
