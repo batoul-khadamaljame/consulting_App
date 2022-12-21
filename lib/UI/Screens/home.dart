@@ -463,11 +463,11 @@ class Experts {
 
 List<Experts> expertsList = [
   Experts(
-      1, 5.0, 'Bassam Jawish', 'Medicine', 12, 'assets/demo/img.png', false),
-  Experts(2, 4.5, 'BBRO', 'Family', 25, 'assets/demo/img.png', false),
-  Experts(3, 4.8, 'Messi', 'Career', 55, 'assets/demo/img.png', false),
+      1, 5.0, 'Bassam Jawish', 'Medicine', 120, 'assets/demo/tech.png', false),
+  Experts(2, 4.5, 'Batoul kh', 'Family', 100, 'assets/demo/img.png', false),
+  Experts(3, 4.8, 'Obada Jaiwsh', 'Career', 550, 'assets/demo/lawyer.png', false),
   Experts(
-      1, 5.0, 'Bassam Jawish', 'Medicine', 12, 'assets/demo/img.png', false),
-  Experts(2, 4.5, 'BBRO', 'Family', 25, 'assets/demo/img.png', false),
-  Experts(3, 4.8, 'Messi', 'Career', 55, 'assets/demo/img.png', false),
+      1, 5.0, 'Bassam Jawish', 'Medicine', 10, 'assets/demo/doc.jpg', false),
+  Experts(2, 3.8, 'BBRO', 'Family', 25, 'assets/demo/kk.png', false),
+  Experts(3, 4.8, 'Messi', 'Career', 55, 'assets/demo/doc.jpg', false),
 ];

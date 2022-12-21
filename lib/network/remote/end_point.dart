@@ -2,7 +2,7 @@ const LOGIN = 'login';
 
 const REGISTER1 = 'registerUser';
 
-const REGISTER2 = 'expertUser';
+const REGISTER2 = 'registerExpert';
 
 const HOME = 'home';
 const HOME1 = 'home/1';

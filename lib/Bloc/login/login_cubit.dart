@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:consulting_app/Bloc/login/login_state.dart';
 import 'package:consulting_app/models/login_model.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
@@ -50,11 +52,9 @@ class LoginCubit extends Cubit<LoginStates> {
       //print(value.data);
       loginModel = LoginModel.fromJson(value.data);
       print(loginModel!.status);
-      //print(loginModel!.message);
+      print(loginModel!.message);
       print(loginModel!.data!.token);
       emit(LoginSuccessState(loginModel!));
-    }).catchError((error) {
-      emit(LoginErrorState(error.toString()));
     });
   }
 }

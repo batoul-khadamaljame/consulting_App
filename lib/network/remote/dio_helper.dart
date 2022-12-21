@@ -9,6 +9,7 @@ class DioHelper {
       BaseOptions(
         baseUrl:'http://10.0.2.2:8000/api/',
         receiveDataWhenStatusError: true,
+
       ),
     );
   }
@@ -30,7 +31,7 @@ class DioHelper {
 
   static Future<Response> postData({
     required String url,
-    required Map<String, dynamic> data,
+    required Map<String, dynamic>? data,
     Map<String, dynamic>? query,
     String? token,
   }) async
@@ -42,6 +43,7 @@ class DioHelper {
     };
 
     return dio!.post(
+
       url,
       queryParameters: query,
       data: data,

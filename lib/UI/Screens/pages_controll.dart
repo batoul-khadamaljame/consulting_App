@@ -20,15 +20,18 @@ class PagesControllScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: ThemeColors.backgroundColor,
           appBar: null,
-          body: LoginCubit.get(context).isLoginAsGuest == true
+          body: LoginCubit.get(context).isLoginAsGuest == true?cubit.screens1[cubit.currentIndex]:cubit.screens2[cubit.currentIndex],
+
+
+          /*
               ? cubit.screens1[cubit.currentIndex]
-              : LoginCubit.get(context).loginModel!.data!.user!.isExp == null
+              : LoginCubit.get(context).loginModel!.data!.user!.isExp == 2
                   ? RegisterCubit.get(context).loginModel!.data!.user!.isExp == 0
                       ? cubit.screens2[cubit.currentIndex]
                       : cubit.screens3[cubit.currentIndex]
                   : LoginCubit.get(context).loginModel!.data!.user!.isExp == 0
                       ? cubit.screens2[cubit.currentIndex]
-                      : cubit.screens3[cubit.currentIndex],
+                      : cubit.screens3[cubit.currentIndex],*/
           bottomNavigationBar: GNav(
             iconSize: 30,
             gap: 20,

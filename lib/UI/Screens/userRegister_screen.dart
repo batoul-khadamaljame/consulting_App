@@ -1,8 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_state.dart';
-import 'package:consulting_app/UI/Components/constants.dart';
-import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
@@ -38,34 +37,34 @@ class _UserRegisterState extends State<UserRegister> {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-         // if (state.loginModel.status!) {
-            print(state.loginModel.status!);
-            print(state.loginModel!.data!.token);
-            showToast(
-              text: state.loginModel.status!,
-              state: ToastState.success,
-            );
-            CacheHelper.saveData(
-              key: 'token',
-              value: state.loginModel.data!.token,
-            ).then((value) {
-              token = state.loginModel.data!.token;
-              Navigator.of(context).pushReplacementNamed('/home');
-            });
-         // }
-         //    else {
-         //    print(state.loginModel.message!);
-         //    showToast(
-         //      text: state.loginModel.message!,
-         //      state: ToastState.error,
-         //    );
-         //  }
+          if (state.loginModel.status != null) {
+          print(state.loginModel.status!);
+          print(state.loginModel!.data!.token);
+          print(state.loginModel.data!.user!.isExp);
+          showToast(
+            text: state.loginModel.message!,
+            state: ToastState.success,
+          );
+          CacheHelper.saveData(
+            key: 'token',
+            value: state.loginModel.data!.token,
+          ).then((value) {
+            token = state.loginModel.data!.token;
+            Navigator.of(context).pushReplacementNamed('/home');
+          });
+          }
+              else {
+              print(state.loginModel.message!);
+              showToast(
+               text: state.loginModel.message!,
+                state: ToastState.error,
+              );
+            }
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: null,
-
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -116,9 +115,11 @@ class _UserRegisterState extends State<UserRegister> {
                                                         ),
                                                       ),
                                                       onTap: () {
-                                                        RegisterCubit.get(context)
-                                                            .pickImage(ImageSource
-                                                                .gallery);
+                                                        RegisterCubit.get(
+                                                                context)
+                                                            .pickImage(
+                                                                ImageSource
+                                                                    .gallery);
                                                       },
                                                     ),
                                                   ),
@@ -140,9 +141,11 @@ class _UserRegisterState extends State<UserRegister> {
                                                         ),
                                                       ),
                                                       onTap: () {
-                                                        RegisterCubit.get(context)
-                                                            .pickImage(ImageSource
-                                                                .gallery);
+                                                        RegisterCubit.get(
+                                                                context)
+                                                            .pickImage(
+                                                                ImageSource
+                                                                    .gallery);
                                                       },
                                                     ),
                                                   ),
@@ -181,7 +184,8 @@ class _UserRegisterState extends State<UserRegister> {
                                   children: [
                                     Expanded(
                                         child: TextFormField(
-                                      autovalidateMode:
+                                          cursorColor: ThemeColors.highlight,
+                                          autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       controller: firstnameController,
                                       keyboardType: TextInputType.text,
@@ -252,7 +256,8 @@ class _UserRegisterState extends State<UserRegister> {
                                     ),
                                     Expanded(
                                         child: TextFormField(
-                                      autovalidateMode:
+                                          cursorColor: ThemeColors.highlight,
+                                          autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       controller: lastnameController,
                                       keyboardType: TextInputType.text,
@@ -322,6 +327,8 @@ class _UserRegisterState extends State<UserRegister> {
                                   height: heightscreen * 0.04,
                                 ),
                                 TextFormField(
+                                  cursorColor: ThemeColors.highlight,
+
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   controller: emailController,
@@ -338,6 +345,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
+
                                     fillColor: Colors.white,
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(35.0),
@@ -368,7 +376,6 @@ class _UserRegisterState extends State<UserRegister> {
                                     ),
                                   ),
                                   validator: (value) {
-
                                     if (!EmailValidator.validate(value!)) {
                                       return 'Please enter a valid Email';
                                     }
@@ -379,6 +386,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   height: heightscreen * 0.04,
                                 ),
                                 TextFormField(
+                                  cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   obscureText:
@@ -464,6 +472,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   height: heightscreen * 0.04,
                                 ),
                                 TextFormField(
+                                  cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   obscureText:
@@ -536,7 +545,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     ),
                                   ),
                                   validator: (value) {
-                                    if(value != passwordController.text){
+                                    if (value != passwordController.text) {
                                       return "Password doesn't match";
                                     }
                                   },
@@ -545,6 +554,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   height: heightscreen * 0.04,
                                 ),
                                 TextFormField(
+                                  cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   controller: numberController,
@@ -599,7 +609,8 @@ class _UserRegisterState extends State<UserRegister> {
                                         .hasMatch(value)) {
                                       return 'Wrong number';
                                     }
-                                    if (value.length > 10 || value.length < 10) {
+                                    if (value.length > 10 ||
+                                        value.length < 10) {
                                       return 'Invalid number';
                                     }
                                     return null;
@@ -608,7 +619,8 @@ class _UserRegisterState extends State<UserRegister> {
                                 SizedBox(height: heightscreen * 0.04),
                                 RegisterCubit.get(context).isExpert == 0
                                     ? ConditionalBuilder(
-                                        condition: state is! RegisterLoadingState,
+                                        condition:
+                                            state is! RegisterLoadingState,
                                         builder: (context) => Container(
                                           height: 50,
                                           width: 150,
@@ -643,7 +655,8 @@ class _UserRegisterState extends State<UserRegister> {
                                                     email: emailController.text,
                                                     password:
                                                         passwordController.text,
-                                                    phone: numberController.text,
+                                                    phone:
+                                                        numberController.text,
                                                   );
                                                 }
                                               },
@@ -651,8 +664,8 @@ class _UserRegisterState extends State<UserRegister> {
                                                   child: Text(
                                                 'Sign up',
                                                 style: TextStyle(
-                                                  color:
-                                                      ThemeColors.backgroundColor,
+                                                  color: ThemeColors
+                                                      .backgroundColor,
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -667,11 +680,13 @@ class _UserRegisterState extends State<UserRegister> {
                                         height: 50,
                                         width: 150,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
                                           gradient: const RadialGradient(
                                               radius: 4,
                                               colors: [
-                                                Color.fromARGB(255, 141, 68, 243),
+                                                Color.fromARGB(
+                                                    255, 141, 68, 243),
                                                 Colors.purple
                                               ]),
                                           border: Border.all(
@@ -687,9 +702,20 @@ class _UserRegisterState extends State<UserRegister> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             onTap: () {
+                                              //if (formKey.currentState!
+                                                //  .validate()) {
+                                              print(fullname);
+                                              print(emailController.text);
+                                              print(passwordController.text);
+                                              print(numberController.text);
+                                              print(RegisterCubit.get(context).isExpert);
+                                              print('object');
+
+
                                               Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      '/expertRegister');
+                                                    .pushNamed(
+                                                        '/expertRegister');
+                                              //}
                                             },
                                             child: const Center(
                                                 child: Text(
@@ -709,7 +735,8 @@ class _UserRegisterState extends State<UserRegister> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         const Text('Alrready have a account?'),
                                         MaterialButton(

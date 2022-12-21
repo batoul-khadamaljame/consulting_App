@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:consulting_app/Bloc/register/register_state.dart';
@@ -55,6 +57,8 @@ class RegisterCubit extends Cubit<RegisterStates>
     emit(ChangePasswordVisibility());
   }
 
+
+
   LoginModel? loginModel;
 
   void userRegister({
@@ -63,34 +67,126 @@ class RegisterCubit extends Cubit<RegisterStates>
     required String email,
     required String password,
 
-  })
-  {
+  }) {
     emit(RegisterLoadingState());
     DioHelper.postData(
       url: REGISTER1,
       data:
       {
         //'image' : image,//object from type file
-        'name' : name,
-        'email' : email,
-        'password' : password,
-        'phone1' : phone,
+        'name': name,
+        'email': email,
+        'password': password,
+        'phone1': phone,
         'isExp': isExpert,
       },
-    ).then((value)
-    {
+    ).then((value) {
       loginModel = LoginModel.fromJson(value.data);
       print(loginModel!.data!.user!.name);
       print(loginModel!.data!.user!.phone);
       print(loginModel!.data!.user!.email);
       emit(RegisterSuccessState(loginModel!));
-    }).catchError((error)
-    {
+    }).catchError((error) {
       emit(RegisterErrorState(error.toString()));
       print(error.toString());
     });
   }
 
 
+    List<Services> services =[];
+
+    void addService(int id, String name, String price){
+      services.add(Services(id, name, price));
+    }
+
+    void deleteService(){
+      services.removeLast();
+    }
+
+    void deleteSpecificService(int id){
+      services.removeWhere((element) => element.id == id);
+    }
+
+  List<bool?> days =[];
+
+  void addDays(isSunday,isMonday,isTuesday,isWednesday,isThursday,isFriday,isSaturday){
+    days.add(isSunday);
+    days.add(isMonday);
+    days.add(isTuesday);
+    days.add(isWednesday);
+    days.add(isThursday);
+    days.add(isFriday);
+    days.add(isSaturday);
+
+  }
+
+
+  List<Time>times =[];
+
+  void addTimes(dynamic from,dynamic to){
+    times.add(Time(from,to));
+  }
+
+  void deleteTimes(){
+    times.removeLast();
+  }
+
+    void ExpertRegister({
+      required String name,
+      required String phone,
+      required String email,
+      required String password,
+      required String country,
+      required String city,
+      required String experience,
+    }) {
+      emit(RegisterLoadingState());
+      DioHelper.postData(
+        url: REGISTER2,
+        data:
+        {
+          //'image' : image,//object from type file
+
+          'name': name,
+          'email': email,
+          'password': password,
+          'phone1': phone,
+          'isExp': isExpert,
+          'country': country,
+          'city': city,
+          'skills': experience,
+          'categories':services.toString(),
+          'days':days,
+          'durations':times.toString(),
+
+        },
+      ).then((value) {
+        print('sucessssssssssssssssssssssssssssssssssssssssssssss');
+        loginModel = LoginModel.fromJson(value.data);
+        print(loginModel!.data!.user!.name);
+        print(loginModel!.data!.user!.phone);
+        print(loginModel!.data!.user!.email);
+        emit(RegisterSuccessState(loginModel!));
+      }).catchError((error) {
+        emit(RegisterErrorState(error.toString()));
+        print(error.toString());
+      });
+    }
+
+
 }
 
+
+class Services{
+  final int id;
+  final String name;
+  final String price;
+  Services(this.id, this.name,this.price);
+}
+
+class Time {
+  final dynamic from;
+  final dynamic to;
+
+  Time(this.from, this.to);
+}

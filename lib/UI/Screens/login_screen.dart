@@ -2,6 +2,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_state.dart';
+import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
@@ -29,11 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginCubit, LoginStates>(
   listener: (context, state) {
     if (state is LoginSuccessState) {
-      if (true) {
+      if (state.loginModel.status != null) {
         print(state.loginModel.status!);
         print(state.loginModel.data!.token);
+
         showToast(
-          text: state.loginModel.status!,
+          text: state.loginModel.message!,
           state: ToastState.success,
         );
         CacheHelper.saveData(
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         print(state.loginModel.status!);
         showToast(
-          text: state.loginModel.status!,
+          text: 'Invalid Email or Password',
           state: ToastState.error,
         );
       }
@@ -98,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: heightscreen * 0.05,
                           ),
                           TextFormField(
+                            cursorColor: ThemeColors.highlight,
                             autovalidateMode:
                             AutovalidateMode.onUserInteraction,
                             controller: emailController,
@@ -157,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: heightscreen * 0.03,
                           ),
                           TextFormField(
+                            cursorColor: ThemeColors.highlight,
                             autovalidateMode:
                             AutovalidateMode.onUserInteraction,
                             obscureText: LoginCubit
