@@ -22,6 +22,10 @@ class DioHelper {
   }) async
   {
 
+    dio!.options.headers =
+    {
+      'Accept': 'application/json',
+    };
 
     return await dio!.get(
       url,
@@ -37,16 +41,17 @@ class DioHelper {
   }) async
   {
 
-    dio!.options.headers =
-    {
-      'Accept' : 'application/json',
-    };
+      dio!.options.headers =
+      {
+        'Accept': 'application/json',
+      };
 
-    return dio!.post(
+      return dio!.post(
 
-      url,
-      queryParameters: query,
-      data: data,
-    );
-  }
+        url,
+        queryParameters: query,
+        data: data,
+      );
+    }
+
 }

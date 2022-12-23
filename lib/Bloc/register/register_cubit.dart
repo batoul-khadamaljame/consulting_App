@@ -85,6 +85,8 @@ class RegisterCubit extends Cubit<RegisterStates>
       print(loginModel!.data!.user!.name);
       print(loginModel!.data!.user!.phone);
       print(loginModel!.data!.user!.email);
+      print(loginModel!.data!.user!.isExp);
+
       emit(RegisterSuccessState(loginModel!));
     }).catchError((error) {
       emit(RegisterErrorState(error.toString()));
@@ -95,7 +97,7 @@ class RegisterCubit extends Cubit<RegisterStates>
 
     List<Services> services =[];
 
-    void addService(int id, String name, String price){
+    void addService(String id, String name, dynamic price){
       services.add(Services(id, name, price));
     }
 
@@ -131,6 +133,7 @@ class RegisterCubit extends Cubit<RegisterStates>
     times.removeLast();
   }
 
+
     void ExpertRegister({
       required String name,
       required String phone,
@@ -141,6 +144,27 @@ class RegisterCubit extends Cubit<RegisterStates>
       required String experience,
     }) {
       emit(RegisterLoadingState());
+
+     // var array = services.map((e) => e.toJson()).toList();
+     // var array2 = times.map((e) => e.toJson()).toList();
+
+
+      print(services);
+      print(times);
+
+      print('"name": $name');
+      print('"email": $email');
+      print('"password": $password');
+      print('"phone1": $phone');
+      print('"isExp": $isExpert');
+      print('"country": $country');
+      print('"city": $city');
+      print('"skills": $experience');
+      print('"categories": $services');
+      print('"days": $days');
+      print('"durations": $times');
+
+
       DioHelper.postData(
         url: REGISTER2,
         data:
@@ -155,9 +179,9 @@ class RegisterCubit extends Cubit<RegisterStates>
           'country': country,
           'city': city,
           'skills': experience,
-          'categories':services.toString(),
+          'categories':services,
           'days':days,
-          'durations':times.toString(),
+          'durations':times,
 
         },
       ).then((value) {
@@ -178,10 +202,18 @@ class RegisterCubit extends Cubit<RegisterStates>
 
 
 class Services{
-  final int id;
+  final String id;
   final String name;
-  final String price;
+  final dynamic price;
   Services(this.id, this.name,this.price);
+
+  Map<String, dynamic>? toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['category_id'] = this.id;
+    data['category_name'] = this.name;
+    data['price'] = this.price;
+    return data;
+  }
 }
 
 class Time {
@@ -189,4 +221,12 @@ class Time {
   final dynamic to;
 
   Time(this.from, this.to);
+
+  Map<String, dynamic>? toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['from'] = this.from;
+    data['to'] = this.to;
+    return data;
+  }
+
 }

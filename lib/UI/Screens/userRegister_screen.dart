@@ -37,7 +37,7 @@ class _UserRegisterState extends State<UserRegister> {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          if (state.loginModel.status != null) {
+          if (state.loginModel.status != false) {
           print(state.loginModel.status!);
           print(state.loginModel!.data!.token);
           print(state.loginModel.data!.user!.isExp);
@@ -245,6 +245,8 @@ class _UserRegisterState extends State<UserRegister> {
                                                 .hasMatch(value)) {
                                           return 'Invalid first name';
                                         }
+
+
                                         if (value.length > 20) {
                                           return 'You reached the maximum length';
                                         }

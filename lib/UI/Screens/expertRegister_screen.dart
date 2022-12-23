@@ -55,7 +55,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
 
   void addOtherServices() {
     for (int i = varb; i < name.length; i++) {
-      RegisterCubit.get(context).addService(6, name[i], price[i]);
+      RegisterCubit.get(context).addService('6', name[i], price[i]);
     }
 
     varb = name.length;
@@ -83,7 +83,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
   int point = 0;
 
   void addListsTime() {
-
     for (int i = point; i < startTime.length; i++) {
       RegisterCubit.get(context).addTimes(startTime[i], endTime[i]);
     }
@@ -100,28 +99,27 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     return BlocConsumer<RegisterCubit, RegisterStates>(
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-           if (state.loginModel.status!) {
-          print(state.loginModel.status!);
-          print(state.loginModel!.data!.token);
-          showToast(
-            text: state.loginModel.message!,
-            state: ToastState.success,
-          );
-          CacheHelper.saveData(
-            key: 'token',
-            value: state.loginModel.data!.token,
-          ).then((value) {
-            token = state.loginModel.data!.token;
-            Navigator.of(context).pushReplacementNamed('/home');
-          });
-           }
-              else {
-              print(state.loginModel.status!);
-              showToast(
-                text: state.loginModel.message!,
-                state: ToastState.error,
-              );
-            }
+          if (state.loginModel.status!) {
+            print(state.loginModel.status!);
+            print(state.loginModel!.data!.token);
+            showToast(
+              text: state.loginModel.message!,
+              state: ToastState.success,
+            );
+            CacheHelper.saveData(
+              key: 'token',
+              value: state.loginModel.data!.token,
+            ).then((value) {
+              token = state.loginModel.data!.token;
+              Navigator.of(context).pushReplacementNamed('/home');
+            });
+          } else {
+            print(state.loginModel.status!);
+            showToast(
+              text: state.loginModel.message!,
+              state: ToastState.error,
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -240,7 +238,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     return null;
                                   },
                                   onFieldSubmitted: (value) {
-                                    cubit.addService(1, 'medicine', value);
+                                    cubit.addService('1', 'medicine', int.parse(value));
                                     print(cubit.services[0].name);
                                   },
                                 ),
@@ -327,7 +325,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     return null;
                                   },
                                   onFieldSubmitted: (value) {
-                                    cubit.addService(2, 'career', value);
+                                    cubit.addService('2', 'career', int.parse(value));
                                   },
                                 ),
                               ],
@@ -411,7 +409,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     return null;
                                   },
                                   onFieldSubmitted: (value) {
-                                    cubit.addService(3, 'psychology', value);
+                                    cubit.addService('3', 'psychology', int.parse(value));
                                   },
                                 ),
                               ],
@@ -455,7 +453,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   onFieldSubmitted: (value) {
-                                    cubit.addService(4, 'family', value);
+                                    cubit.addService('4', 'family', int.parse(value));
                                   },
                                   controller: familyController,
                                   keyboardType: TextInputType.number,
@@ -579,7 +577,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     return null;
                                   },
                                   onFieldSubmitted: (value) {
-                                    cubit.addService(5, 'management', value);
+                                    cubit.addService('5', 'management', int.parse(value));
                                   },
                                 ),
                               ],
@@ -1096,7 +1094,17 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 print(cubit.services);
                                 print(cubit.days);
                                 print(cubit.times);
-
+                                for (int i = 0;
+                                    i < cubit.services.length;
+                                    i++) {
+                                  print(cubit.services[i].id);
+                                  print(cubit.services[i].name);
+                                  print(cubit.services[i].price);
+                                }
+                                for (int i = 0; i < cubit.times.length; i++) {
+                                  print(cubit.times[i].from);
+                                  print(cubit.times[i].to);
+                                }
 
                                 RegisterCubit.get(context).ExpertRegister(
                                   name: fullname,
@@ -1106,7 +1114,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   country: countryController.text,
                                   city: cityController.text,
                                   experience: descriptionController.text,
-
                                 );
                               } else {
                                 setState(() {
@@ -1141,7 +1148,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     return Column(
       children: [
         TextFormField(
-
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.text,
@@ -1182,11 +1188,13 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           },
           onFieldSubmitted: (value) {
             setState(() {
-              name.add(value);
-              if (countcategory == name.length &&
-                  countcategory == price.length) {
-                addOtherServices();
-              }
+
+                name.add(value);
+                if (countcategory == name.length &&
+                    countcategory == price.length) {
+                  addOtherServices();
+                }
+
             });
           },
         ),
@@ -1233,11 +1241,13 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           },
           onFieldSubmitted: (value) {
             setState(() {
-              price.add(value);
-              if (countcategory == name.length &&
-                  countcategory == price.length) {
-                addOtherServices();
-              }
+
+                price.add(value);
+                if (countcategory == name.length &&
+                    countcategory == price.length) {
+                  addOtherServices();
+                }
+
             });
           },
         ),
@@ -1300,18 +1310,20 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                   if (value!.isEmpty) {
                     return "It's empty!";
                   }
-                  if(int.parse(value) < 0 || int.parse(value) > 22){
+                  if (int.parse(value) < 0 || int.parse(value) > 22) {
                     return 'Invalid start time';
                   }
                   return null;
                 },
                 onFieldSubmitted: (value) {
                   setState(() {
-                    startTime.add(value);
-                    if (counttime == startTime.length &&
-                        counttime == endTime.length) {
-                      addListsTime();
-                    }
+
+                      startTime.add(int.parse(value));
+                      if (counttime == startTime.length &&
+                          counttime == endTime.length) {
+                        addListsTime();
+                      }
+
                   });
                 },
                 onTap: () {
@@ -1369,18 +1381,20 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     if (value!.isEmpty) {
                       return "It's empty!";
                     }
-                    if(int.parse(value) < 1 || int.parse(value) > 23){
+                    if (int.parse(value) < 1 || int.parse(value) > 23) {
                       return 'Invalid end time';
                     }
                     return null;
                   },
                   onFieldSubmitted: (value) {
                     setState(() {
-                      endTime.add(value);
-                      if (counttime == startTime.length &&
-                          counttime == endTime.length) {
-                        addListsTime();
-                      }
+
+                        endTime.add(int.parse(value));
+                        if (counttime == startTime.length &&
+                            counttime == endTime.length) {
+                          addListsTime();
+                        }
+
                     });
                   },
                 )),
@@ -1456,8 +1470,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     setState(() {
                                       name.removeLast();
                                     });
-                                  } else if (counttime ==
-                                      endTime.length) {
+                                  } else if (counttime == endTime.length) {
                                     setState(() {
                                       price.removeLast();
                                     });
