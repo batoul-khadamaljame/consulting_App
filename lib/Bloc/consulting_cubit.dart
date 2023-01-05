@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
-import 'package:consulting_app/UI/Screens/expert_profile.dart';
 import 'package:consulting_app/UI/Screens/favorites.dart';
 import 'package:consulting_app/UI/Screens/guest_profile.dart';
 import 'package:consulting_app/UI/Screens/home.dart';
-import 'package:consulting_app/UI/Screens/user_profile.dart';
+import 'package:consulting_app/UI/Screens/private_profile.dart';
 import 'package:consulting_app/models/change_favoirites_model.dart';
 import 'package:consulting_app/models/favorites_model.dart';
 import 'package:consulting_app/models/home_model.dart';
+import 'package:consulting_app/models/login_model.dart';
+import 'package:consulting_app/models/logout_model.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:consulting_app/network/remote/end_point.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,9 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
   List<Widget> screens2 = [
     HomePage(),
     const FavoritesScreen(),
-    const UserProfileScreen(),
+     ProfileScreen(),
   ];
-  List<Widget> screens3 = [
-    HomePage(),
-    const FavoritesScreen(),
-    const ExpertProfileScreen(),
-  ];
+
 
   void changeBottomNavBar(int index) {
     currentIndex = index;
@@ -67,10 +64,14 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
 
   void getHomeData(id) {
     emit(LoadingHomeDataState());
+
     DioHelper.getData(
-      url: id == 0
-          ? HOME
-          : id == 1
+      url:
+      id == 0
+          ? HOME:
+    'home/$id',
+    /*
+           id == 1
               ? HOME1
               : id == 2
                   ? HOME2
@@ -80,16 +81,15 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
                           ? HOME4
                           : id == 5
                               ? HOME5
-                              : HOME6,
-      token: token,
+                              : HOME6,*/
     ).then((value) {
       homeModel = HomeModel.fromJson(value.data);
-      homeModel!.data!.experts.forEach((element) {
-        favorites.addAll({
-          element.id!: element.inFavorites!,
-        });
-      });
-      print(favorites.toString());
+     // homeModel!.data!.experts.forEach((element) {
+      //  favorites.addAll({
+      //    element.id!: element.inFavorites!,
+      //  });
+     // });
+      //print(favorites.toString());
       emit(SuccessHomeDataState());
     }).catchError((error) {
       emit(ErrorHomeDataState(error.toString()));
@@ -138,4 +138,42 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
       emit(ErrorGetFavoritesState(error.toString()));
     });
   }
+
+
+  LoginModel? userDataModel;
+
+  void getUserData() {
+    emit(LoadingUserDataState());
+    DioHelper.getData(
+      url: MYPROFILE,
+      token: token,
+    ).then((value) {
+      userDataModel = LoginModel.fromJson(value.data);
+      emit(SuccessUserDataState());
+    }).catchError((error) {
+      emit(ErrorUserDataState(error.toString()));
+      print(error.toString());
+
+    });
+  }
+
+  LogoutModel? logoutModel;
+
+  void logout(){
+    emit(LoadingLogoutState());
+    DioHelper.postData(
+      url: LOGOUT,
+      token: token,
+    ).then((value) {
+      logoutModel = LogoutModel.fromJson(value.data);
+      emit(SuccessLogoutState(logoutModel!));
+    }).catchError((error) {
+      emit(ErrorLogoutState(error.toString()));
+      print(error.toString());
+    });
+  }
+
+
+
+
 }

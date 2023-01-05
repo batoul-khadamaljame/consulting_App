@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  static Dio? dio;
+  static late Dio dio;
 
   static init()
   {
     dio = Dio(
       BaseOptions(
-        baseUrl:'http://10.0.2.2:8000/api/',
+        //baseUrl:'http://10.0.2.2:8000/api/',
+        baseUrl:'http://192.168.1.115:8000/api/',
         receiveDataWhenStatusError: true,
 
       ),
@@ -25,6 +26,7 @@ class DioHelper {
     dio!.options.headers =
     {
       'Accept': 'application/json',
+      'Authorization' : 'Bearer ${token}'??'',
     };
 
     return await dio!.get(
@@ -35,7 +37,7 @@ class DioHelper {
 
   static Future<Response> postData({
     required String url,
-    required Map<String, dynamic>? data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? query,
     String? token,
   }) async
@@ -44,7 +46,9 @@ class DioHelper {
       dio!.options.headers =
       {
         'Accept': 'application/json',
+        'Authorization' : 'Bearer ${token}'??'',
       };
+
 
       return dio!.post(
 

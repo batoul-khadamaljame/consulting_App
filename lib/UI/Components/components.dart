@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:like_button/like_button.dart';
@@ -13,6 +14,7 @@ void showToast ({
   gravity: ToastGravity.BOTTOM,
   timeInSecForIosWeb: 5,
   backgroundColor: chooseToastColor(state),
+
   textColor: Colors.black87,
   fontSize: 17.0,
 );
@@ -36,7 +38,6 @@ Color chooseToastColor(ToastState state)
   }
   return color;
 }
-
 
 
 

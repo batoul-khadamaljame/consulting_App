@@ -3,42 +3,42 @@ import 'dart:io';
 
 class HomeModel {
   bool? status;
-  DataModel? data;
+  List<ExpertCardModel>? data;
 
-  HomeModel.fromJson(Map<String, dynamic> json) {
+
+  HomeModel.fromJson(Map<String, dynamic> json){
+
     status = json['status'];
-    data = DataModel.fromJson(json['data']);
+
+    if (json['data'] != null) {
+      data = [];
+      json['data'].forEach((element) {
+        data!.add(ExpertCardModel.fromJson(element));
+      });
+    }
+
   }
+
 }
 
-class DataModel {
-  List<ExpertModel> experts = [];
 
-  DataModel.fromJson(Map<String, dynamic> json) {
-    //name of map in backend
-    json['experts'].forEach((element) {
-      experts.add(ExpertModel.fromJson(element));
-    });
-  }
-}
-
-class ExpertModel {
+class ExpertCardModel {
 
   int? id;
-  dynamic rate;
+  //dynamic rate;
   String? name;
   String? type;
   dynamic price;
-  File? image;
-  bool? inFavorites;
+  //File? image;
+  //bool? inFavorites;
 
-  ExpertModel.fromJson(Map<String, dynamic> json) {
+  ExpertCardModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    rate = json['rate'];
+    //rate = json['rate'];
     name = json['name'];
     type = json['type'];
     price = json['price'];
-    image = json['image'];
-    inFavorites = json['in_favorites'];
+    //image = json['image'];
+    //inFavorites = json['in_favorites'];
   }
 }

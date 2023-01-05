@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:consulting_app/models/favorites_model.dart';
 
-class LoginModel {
+class PublicProfileModel {
 
-  LoginModel.fromJson(dynamic json) {
+  PublicProfileModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != '' ? Data.fromJson(json['data']) : null;

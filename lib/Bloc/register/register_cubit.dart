@@ -82,10 +82,6 @@ class RegisterCubit extends Cubit<RegisterStates>
       },
     ).then((value) {
       loginModel = LoginModel.fromJson(value.data);
-      print(loginModel!.data!.user!.name);
-      print(loginModel!.data!.user!.phone);
-      print(loginModel!.data!.user!.email);
-      print(loginModel!.data!.user!.isExp);
 
       emit(RegisterSuccessState(loginModel!));
     }).catchError((error) {
@@ -109,7 +105,7 @@ class RegisterCubit extends Cubit<RegisterStates>
       services.removeWhere((element) => element.id == id);
     }
 
-  List<bool?> days =[];
+  List<bool?> days = [];
 
   void addDays(isSunday,isMonday,isTuesday,isWednesday,isThursday,isFriday,isSaturday){
     days.add(isSunday);
@@ -160,9 +156,9 @@ class RegisterCubit extends Cubit<RegisterStates>
       print('"country": $country');
       print('"city": $city');
       print('"skills": $experience');
-      print('"categories": $services');
+      print('"categories": $services'.toString());
       print('"days": $days');
-      print('"durations": $times');
+      print('"durations": $times'.toString());
 
 
       DioHelper.postData(
@@ -185,11 +181,10 @@ class RegisterCubit extends Cubit<RegisterStates>
 
         },
       ).then((value) {
-        print('sucessssssssssssssssssssssssssssssssssssssssssssss');
         loginModel = LoginModel.fromJson(value.data);
-        print(loginModel!.data!.user!.name);
-        print(loginModel!.data!.user!.phone);
-        print(loginModel!.data!.user!.email);
+        //print(loginModel!.data!.user!.name);
+        //print(loginModel!.data!.user!.phone);
+        //print(loginModel!.data!.user!.email);
         emit(RegisterSuccessState(loginModel!));
       }).catchError((error) {
         emit(RegisterErrorState(error.toString()));

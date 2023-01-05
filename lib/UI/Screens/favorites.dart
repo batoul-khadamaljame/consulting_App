@@ -56,6 +56,7 @@ class FavoritesScreen extends StatelessWidget {
           ],
           elevation: 0.0,
         ),
+        drawer: const Drawer(),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -96,7 +97,7 @@ class FavoritesScreen extends StatelessWidget {
           ),
         ),
       ),
-      fallback: (context)=>Center(child: CircularProgressIndicator(),),
+      fallback: (context)=>Center(child: CircularProgressIndicator(color: Colors.purple,),),
     );
   },
 );

@@ -166,7 +166,7 @@ class GetStartedScreen extends StatelessWidget {
                                 width: width * 0.65,
                                 padding: const EdgeInsets.only(top: 14),
                                 child: const Image(
-                                  image: AssetImage('assets/img.png'),
+                                  image: AssetImage('assets/demo/ExpertImg.png'),
                                   height: 40,
                                   width: 50,
                                 )

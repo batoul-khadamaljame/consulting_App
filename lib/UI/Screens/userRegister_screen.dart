@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../Components/components.dart';
 
+
 var firstnameController = TextEditingController();
 var lastnameController = TextEditingController();
 var emailController = TextEditingController();
@@ -74,6 +75,7 @@ class _UserRegisterState extends State<UserRegister> {
                     width: widthscreen,
                     color: ThemeColors.backgroundColor,
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       child: Column(children: [
                         Stack(
                           alignment: Alignment.bottomCenter,
@@ -235,13 +237,14 @@ class _UserRegisterState extends State<UserRegister> {
                                           ),
                                         ),
                                       ),
+
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return 'Please enter your first name';
                                         }
                                         if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                                 .hasMatch(value) ||
-                                            RegExp(r'[!@#<>?":_`~.,/;{}€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
+                                            RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                                 .hasMatch(value)) {
                                           return 'Invalid first name';
                                         }
@@ -313,7 +316,7 @@ class _UserRegisterState extends State<UserRegister> {
                                         }
                                         if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                                 .hasMatch(value) ||
-                                            RegExp(r'[!@#<>?":_`~.,/;{}€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
+                                            RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                                 .hasMatch(value)) {
                                           return 'Invalid last name';
                                         }
@@ -460,6 +463,8 @@ class _UserRegisterState extends State<UserRegister> {
                                       ),
                                     ),
                                   ),
+                                  maxLength: 50,
+                                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "This field shouldn't be empty";
@@ -551,6 +556,8 @@ class _UserRegisterState extends State<UserRegister> {
                                       return "Password doesn't match";
                                     }
                                   },
+                                  maxLength: 50,
+                                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                 ),
                                 SizedBox(
                                   height: heightscreen * 0.04,
@@ -602,6 +609,8 @@ class _UserRegisterState extends State<UserRegister> {
                                       ),
                                     ),
                                   ),
+                                  maxLength: 10,
+                                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Please enter your number';
@@ -704,20 +713,19 @@ class _UserRegisterState extends State<UserRegister> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             onTap: () {
-                                              //if (formKey.currentState!
-                                                //  .validate()) {
+                                              if (formKey.currentState!
+                                                  .validate()) {
                                               print(fullname);
                                               print(emailController.text);
                                               print(passwordController.text);
                                               print(numberController.text);
                                               print(RegisterCubit.get(context).isExpert);
-                                              print('object');
 
 
                                               Navigator.of(context)
                                                     .pushNamed(
                                                         '/expertRegister');
-                                              //}
+                                              }
                                             },
                                             child: const Center(
                                                 child: Text(

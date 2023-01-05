@@ -6,20 +6,34 @@ import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-var medicineController = TextEditingController();
-var careerController = TextEditingController();
-var psychologyController = TextEditingController();
-var familyController = TextEditingController();
-var managementController = TextEditingController();
-var descriptionController = TextEditingController();
-var starttimeController = TextEditingController();
-var endtimeController = TextEditingController();
+var medicinePriceController = TextEditingController();
+var careerPriceController = TextEditingController();
+var psychologyPriceController = TextEditingController();
+var familyPriceController = TextEditingController();
+var managementPriceController = TextEditingController();
+
+List<TextEditingController> OtherNamesController = [];
+List<TextEditingController> OtherPricesController = [];
+
 var countryController = TextEditingController();
 var cityController = TextEditingController();
+
+var descriptionController = TextEditingController();
+
+var startTimeController = TextEditingController();
+var endTimeController = TextEditingController();
+
+List<TextEditingController> starttimesController = [];
+List<TextEditingController> endtimesController = [];
+
+
+var formKey = GlobalKey<FormState>();
 
 class ExpertRegisterScreen extends StatefulWidget {
   const ExpertRegisterScreen({super.key});
@@ -29,8 +43,6 @@ class ExpertRegisterScreen extends StatefulWidget {
 }
 
 class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
-  int countcategory = 0;
-  int counttime = 1;
 
   //category
   bool? isMedecine = false;
@@ -48,48 +60,87 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
   bool? isFriday = false;
   bool? isSaturday = false;
 
-  List<String> name = [];
-  List<String> price = [];
 
-  int varb = 0;
-
-  void addOtherServices() {
-    for (int i = varb; i < name.length; i++) {
-      RegisterCubit.get(context).addService('6', name[i], price[i]);
-    }
-
-    varb = name.length;
-    /*
-    for (int i = 0; i < RegisterCubit
-        .get(context)
-        .services
-        .length; i++) {
-      print(RegisterCubit
-          .get(context)
-          .services[i].id);
-      print(RegisterCubit
-          .get(context)
-          .services[i].name);
-      print(RegisterCubit
-          .get(context)
-          .services[i].price);
-    }
-    */
+  void addOtherCategoryController() {
+    OtherNamesController.add(TextEditingController());
+    OtherPricesController.add(TextEditingController());
+    print(OtherNamesController);
+    print(OtherPricesController);
   }
 
-  List<dynamic> startTime = [];
-  List<dynamic> endTime = [];
-
-  int point = 0;
-
-  void addListsTime() {
-    for (int i = point; i < startTime.length; i++) {
-      RegisterCubit.get(context).addTimes(startTime[i], endTime[i]);
-    }
-    point = startTime.length;
+  void deleteOtherCategoryController() {
+    OtherNamesController.removeLast();
+    OtherPricesController.removeLast();
   }
 
-  var formKey = GlobalKey<FormState>();
+  void addOtherTimesController() {
+    starttimesController.add(TextEditingController());
+    endtimesController.add(TextEditingController());
+  }
+
+  void deleteOtherTimesController() {
+    starttimesController.removeLast();
+    endtimesController.removeLast();
+  }
+
+
+  void addServices(
+      bool isMedecine,
+      bool isCareer,
+      bool isPsychology,
+      bool isFamily,
+      bool isManagement,
+      bool isSunday,
+      bool isMonday,
+      bool isTuesday,
+      bool isWednesday,
+      bool isThursday,
+      bool isFriday,
+      bool isSaturday) {
+    if (isMedecine) {
+      RegisterCubit.get(context)
+          .addService('1', 'Medicine', medicinePriceController.text);
+    }
+    if (isCareer) {
+      RegisterCubit.get(context)
+          .addService('2', 'Career', careerPriceController.text);
+    }
+    if (isPsychology) {
+      RegisterCubit.get(context)
+          .addService('3', 'Psychology', psychologyPriceController.text);
+    }
+    if (isFamily) {
+      RegisterCubit.get(context)
+          .addService('4', 'Family', familyPriceController.text);
+    }
+    if (isManagement) {
+      RegisterCubit.get(context)
+          .addService('5', 'Management', managementPriceController.text);
+    }
+
+    for (int i = 0; i < OtherNamesController.length; i++) {
+      RegisterCubit.get(context).addService(
+          '6', OtherNamesController[i].text, OtherPricesController[i].text);
+    }
+
+    if (isSunday ||
+        isMonday ||
+        isTuesday ||
+        isWednesday ||
+        isThursday ||
+        isFriday ||
+        isSaturday) {
+      RegisterCubit.get(context).addDays(isSunday, isMonday, isTuesday,
+          isWednesday, isThursday, isFriday, isSaturday);
+    }
+    RegisterCubit.get(context)
+        .addTimes(startTimeController.text, endTimeController.text);
+    for (int i = 0; i < starttimesController.length; i++) {
+      RegisterCubit.get(context)
+          .addTimes(starttimesController[i].text, endtimesController[i].text);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +153,32 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           if (state.loginModel.status!) {
             print(state.loginModel.status!);
             print(state.loginModel!.data!.token);
+            print(state.loginModel.data!.expert!.expertInfo!.country);
+            print(state.loginModel.data!.expert!.expertInfo!.city);
+            print(state.loginModel.data!.expert!.expertInfo!.skills);
+            print(state.loginModel.data!.expert!.days!.sunday);
+            print(state.loginModel.data!.expert!.days!.monday);
+            print(state.loginModel.data!.expert!.days!.tuesday);
+            print(state.loginModel.data!.expert!.days!.wednesday);
+            print(state.loginModel.data!.expert!.days!.thursday);
+            print(state.loginModel.data!.expert!.days!.friday);
+            print(state.loginModel.data!.expert!.days!.saturday);
+            print(state.loginModel.data!.expert!.experiences!.length);
+            for (int i = 0;
+                i < state.loginModel.data!.expert!.experiences!.length;
+                i++) {
+              print(state.loginModel.data!.expert!.experiences![i].category_id);
+              print(
+                  state.loginModel.data!.expert!.experiences![i].category_name);
+              print(state.loginModel.data!.expert!.experiences![i].price);
+            }
+            for (int i = 0;
+                i < state.loginModel.data!.expert!.duration!.length;
+                i++) {
+              print(state.loginModel.data!.expert!.duration![i].from);
+              print(state.loginModel.data!.expert!.duration![i].to);
+            }
+
             showToast(
               text: state.loginModel.message!,
               state: ToastState.success,
@@ -114,11 +191,22 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
               Navigator.of(context).pushReplacementNamed('/home');
             });
           } else {
+            cubit.days.clear();
+            medicinePriceController.clear();
+            careerPriceController.clear();
+            psychologyPriceController.clear();
+            familyPriceController.clear();
+            managementPriceController.clear();
+            cubit.services.clear();
+            cubit.times.clear();
             print(state.loginModel.status!);
+
+
             showToast(
               text: state.loginModel.message!,
               state: ToastState.error,
             );
+            Navigator.pop(context);
           }
         }
       },
@@ -187,40 +275,43 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   ),
                                 ),
                                 TextFormField(
+                                  controller: medicinePriceController,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: medicineController,
                                   enabled: isMedecine,
                                   keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: ThemeColors.bordertextfromfiled,
                                       ),
                                     ),
-                                    border: UnderlineInputBorder(
+                                    border: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                         width: 1.5,
                                       ),
                                     ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 1.5,
-                                      ),
-                                    ),
+                                    errorBorder: isMedecine == true
+                                        ? const UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.red,
+                                              width: 1.5,
+                                            ),
+                                          )
+                                        : null,
                                     labelText: 'price',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
                                     ),
-                                    suffixStyle: TextStyle(color: Colors.grey),
+                                    suffixStyle:
+                                        const TextStyle(color: Colors.grey),
                                     suffixText: '\$',
                                   ),
                                   validator: (value) {
@@ -229,17 +320,26 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                         isPsychology == false &&
                                         isFamily == false &&
                                         isManagement == false &&
-                                        countcategory == 0) {
+                                        OtherNamesController.length == 0) {
                                       return 'You should offer one service at least';
                                     }
                                     if (value!.isEmpty && isMedecine == true) {
                                       return 'Enter price';
                                     }
+                                    if (RegExp(
+                                            r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(value)) {
+                                      return 'Wrong price';
+                                    }
+                                    if (value.length > 5) {
+                                      return 'People are poor :(';
+                                    }
+                                    if (isMedecine!) {
+                                      if (value[0] == '0') {
+                                        return 'Invalid price';
+                                      }
+                                    }
                                     return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    cubit.addService('1', 'medicine', int.parse(value));
-                                    print(cubit.services[0].name);
                                   },
                                 ),
                               ],
@@ -250,10 +350,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isMedecine = newbool;
                                 if (isMedecine == false) {
-                                  medicineController.clear();
-                                  if (cubit.services.length > 0) {
-                                    cubit.deleteSpecificService(1);
-                                  }
+                                  medicinePriceController.clear();
                                 }
                               });
                             },
@@ -283,49 +380,63 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 TextFormField(
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: careerController,
+                                  controller: careerPriceController,
                                   keyboardType: TextInputType.number,
                                   enabled: isCareer,
                                   cursorColor: ThemeColors.highlight,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: ThemeColors.bordertextfromfiled,
                                       ),
                                     ),
-                                    border: UnderlineInputBorder(
+                                    border: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                         width: 1.5,
                                       ),
                                     ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 1.5,
-                                      ),
-                                    ),
+                                    errorBorder: isCareer == true
+                                        ? const UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.red,
+                                              width: 1.5,
+                                            ),
+                                          )
+                                        : null,
                                     labelText: 'price',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
                                     ),
-                                    suffixStyle: TextStyle(color: Colors.grey),
+                                    suffixStyle:
+                                        const TextStyle(color: Colors.grey),
                                     suffixText: "\$",
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty && isCareer == true) {
                                       return 'Enter price';
                                     }
+                                    if (RegExp(
+                                            r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(value)) {
+                                      return 'Wrong price';
+                                    }
+                                    if (value.length > 5) {
+                                      return 'People are poor :(';
+                                    }
+
+                                    if (isCareer!) {
+                                      if (value[0] == '0') {
+                                        return 'Invalid price';
+                                      }
+                                    }
                                     return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    cubit.addService('2', 'career', int.parse(value));
                                   },
                                 ),
                               ],
@@ -335,8 +446,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isCareer = newbool;
                                 if (isCareer == false) {
-                                  careerController.clear();
-                                  cubit.deleteSpecificService(2);
+                                  careerPriceController.clear();
                                 }
                               });
                             },
@@ -367,38 +477,41 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: psychologyController,
+                                  controller: psychologyPriceController,
                                   keyboardType: TextInputType.number,
                                   enabled: isPsychology,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: ThemeColors.bordertextfromfiled,
                                       ),
                                     ),
-                                    border: UnderlineInputBorder(
+                                    border: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                         width: 1.5,
                                       ),
                                     ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 1.5,
-                                      ),
-                                    ),
+                                    errorBorder: isPsychology == true
+                                        ? const UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.red,
+                                              width: 1.5,
+                                            ),
+                                          )
+                                        : null,
                                     labelText: 'price',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
                                     ),
-                                    suffixStyle: TextStyle(color: Colors.grey),
+                                    suffixStyle:
+                                        const TextStyle(color: Colors.grey),
                                     suffixText: "\$",
                                   ),
                                   validator: (value) {
@@ -406,10 +519,20 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                         isPsychology == true) {
                                       return 'Enter price';
                                     }
+                                    if (RegExp(
+                                            r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(value)) {
+                                      return 'Wrong price';
+                                    }
+                                    if (value.length > 5) {
+                                      return 'People are poor :(';
+                                    }
+                                    if (isPsychology!) {
+                                      if (value[0] == '0') {
+                                        return 'Invalid price';
+                                      }
+                                    }
                                     return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    cubit.addService('3', 'psychology', int.parse(value));
                                   },
                                 ),
                               ],
@@ -419,8 +542,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isPsychology = newbool!;
                                 if (isPsychology == false) {
-                                  psychologyController.clear();
-                                  cubit.deleteSpecificService(3);
+                                  psychologyPriceController.clear();
                                 }
                               });
                             },
@@ -452,46 +574,59 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  onFieldSubmitted: (value) {
-                                    cubit.addService('4', 'family', int.parse(value));
-                                  },
-                                  controller: familyController,
+                                  controller: familyPriceController,
                                   keyboardType: TextInputType.number,
                                   enabled: isFamily,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: ThemeColors.bordertextfromfiled,
                                       ),
                                     ),
-                                    border: UnderlineInputBorder(
+                                    border: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                         width: 1.5,
                                       ),
                                     ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 1.5,
-                                      ),
-                                    ),
+                                    errorBorder: isFamily == true
+                                        ? const UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.red,
+                                              width: 1.5,
+                                            ),
+                                          )
+                                        : null,
                                     labelText: 'price',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
                                     ),
-                                    suffixStyle: TextStyle(color: Colors.grey),
+                                    suffixStyle:
+                                        const TextStyle(color: Colors.grey),
                                     suffixText: "\$",
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty && isFamily == true) {
                                       return 'Enter price';
+                                    }
+                                    if (RegExp(
+                                            r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(value)) {
+                                      return 'Wrong price';
+                                    }
+                                    if (value.length > 5) {
+                                      return 'People are poor :(';
+                                    }
+                                    if (isFamily!) {
+                                      if (value[0] == '0') {
+                                        return 'Invalid price';
+                                      }
                                     }
                                     return null;
                                   },
@@ -503,8 +638,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isFamily = newbool;
                                 if (isFamily == false) {
-                                  familyController.clear();
-                                  cubit.deleteSpecificService(4);
+                                  familyPriceController.clear();
                                 }
                               });
                             },
@@ -535,38 +669,41 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: managementController,
+                                  controller: managementPriceController,
                                   keyboardType: TextInputType.number,
                                   enabled: isManagement,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                       color: ThemeColors.highlight,
                                     ),
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: ThemeColors.bordertextfromfiled,
                                       ),
                                     ),
-                                    border: UnderlineInputBorder(
+                                    border: const UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.black,
                                         width: 1.5,
                                       ),
                                     ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 1.5,
-                                      ),
-                                    ),
+                                    errorBorder: isManagement == true
+                                        ? const UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.red,
+                                              width: 1.5,
+                                            ),
+                                          )
+                                        : null,
                                     labelText: 'price',
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
                                     ),
-                                    suffixStyle: TextStyle(color: Colors.grey),
+                                    suffixStyle:
+                                        const TextStyle(color: Colors.grey),
                                     suffixText: "\$",
                                   ),
                                   validator: (value) {
@@ -574,10 +711,20 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                         isManagement == true) {
                                       return 'Enter price';
                                     }
+                                    if (RegExp(
+                                            r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(value)) {
+                                      return 'Wrong price';
+                                    }
+                                    if (value.length > 5) {
+                                      return 'People are poor :(';
+                                    }
+                                    if (isManagement!) {
+                                      if (value[0] == '0') {
+                                        return 'Invalid price';
+                                      }
+                                    }
                                     return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    cubit.addService('5', 'management', int.parse(value));
                                   },
                                 ),
                               ],
@@ -587,8 +734,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isManagement = newbool;
                                 if (isManagement == false) {
-                                  managementController.clear();
-                                  cubit.deleteSpecificService(5);
+                                  managementPriceController.clear();
                                 }
                               });
                             },
@@ -634,7 +780,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      countcategory++;
+                                      addOtherCategoryController();
                                     });
                                   },
                                   child: const Center(
@@ -669,28 +815,11 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   splashColor: ThemeColors.splashinkweel,
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
-                                    if (countcategory > 0) {
-                                      if (countcategory == price.length &&
-                                          countcategory == name.length) {
-                                        setState(() {
-                                          name.removeLast();
-                                          price.removeLast();
-                                          cubit.deleteService();
-                                        });
-                                      } else if (countcategory == name.length) {
-                                        setState(() {
-                                          name.removeLast();
-                                        });
-                                      } else if (countcategory ==
-                                          price.length) {
-                                        setState(() {
-                                          price.removeLast();
-                                        });
+                                    setState(() {
+                                      if (OtherNamesController.length > 0) {
+                                        deleteOtherCategoryController();
                                       }
-                                      setState(() {
-                                        countcategory--;
-                                      });
-                                    }
+                                    });
                                   },
                                   child: const Center(
                                       child: Text(
@@ -709,8 +838,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           //reverse: true,
-                          itemCount: countcategory,
-                          itemBuilder: (context, index) => addCatergory(),
+                          itemCount: OtherNamesController.length,
+                          itemBuilder: (context, index) => addCatergory(index),
                         ),
                       ],
                     ),
@@ -778,11 +907,13 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             }
                             if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                     .hasMatch(value) ||
-                                RegExp(r'[!@#<>?":_`~.,/;{}€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
+                                RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                     .hasMatch(value)) {
-                              return "it doesn't existed";
+                              return 'Invalid country';
                             }
-
+                            if (value.length > 10) {
+                              return 'You reached the maximum length';
+                            }
                             return null;
                           },
                         )),
@@ -832,11 +963,13 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             }
                             if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                     .hasMatch(value) ||
-                                RegExp(r'[!@#<>?":_`~.,/;{}€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
+                                RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                     .hasMatch(value)) {
-                              return "it doesn't existed";
+                              return 'Invalid city';
                             }
-
+                            if (value.length > 10) {
+                              return 'You reached the maximum length';
+                            }
                             return null;
                           },
                         )),
@@ -1043,7 +1176,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 });
                               },
                             ),
-
                             // Checkbox(value: value, onChanged: onChanged)
                           ]),
                         ],
@@ -1052,12 +1184,403 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     SizedBox(
                       height: heightscreen * 0.02,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 50,
+                          child: TextFormField(
+                              controller: startTimeController,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                counterText: '',
+                                suffixStyle: const TextStyle(
+                                    color: Colors.grey, fontSize: 16),
+                                suffixText: ":00",
+                                labelText: "Start Time",
+                                labelStyle: const TextStyle(
+                                  color: ThemeColors.highlight,
+                                ),
+                                fillColor: Colors.white,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: ThemeColors.bordertextfromfiled,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1.5),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.black,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: Colors.red,
+                                    width: 1.5,
+                                  ),
+                                ),
+                              ),
+                              maxLength: 2,
+                              maxLengthEnforcement:
+                                  MaxLengthEnforcement.enforced,
+                              cursorColor: ThemeColors.highlight,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "It's empty!";
+                                }
+                                if (RegExp(
+                                        r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                    .hasMatch(value)) {
+                                  return 'Invalid start time';
+                                }
+                                if (value.length > 1) {
+                                  if (value[0] == '0') {
+                                    return 'Invalid start time';
+                                  }
+                                }
+                                if (int.parse(value) < 0 ||
+                                    int.parse(value) > 23) {
+                                  return 'Invalid start time';
+                                }
+                                if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                        .hasMatch(endTimeController.text)) {
+                                  return 'Invalid start time';
+                                }
+                                if(endTimeController.text.isNotEmpty) {
+                                  if (int.parse(value) >=
+                                      int.parse(endTimeController.text)) {
+                                    return 'Invalid start time';
+                                  }
+                                }
+                                return null;
+                              }
+                              /*validator: (value) {
+                              if (value!.isEmpty) {
+                                return "It's empty!";
+                              }
+                              if (value[value.length - 1] == '.' ||
+                                  value[value.length - 1] == '-') {
+                                return 'Invalid start time';
+                              } else if (value.length > 1) {
+                                if (value[value.length - 2] == '.' ||
+                                    value[value.length - 2] == '0' ||
+                                    value[value.length - 2] == '-') {
+                                  return 'Invalid start time';
+                                } else if (int.parse(value) < 0 ||
+                                    int.parse(value) > 23) {
+                                  return 'Invalid start time';
+                                } else if (endTimeController.text != '') {
+                                  if (endTimeController.text.length == 1) {
+                                    if (endTimeController.text[0] == '.' ||
+                                        endTimeController.text[0] == '-') {
+                                      return 'Invalid start time';
+                                    }
+                                    if (int.parse(value) >=
+                                        int.parse(endTimeController.text)) {
+                                      return 'Invalid start time';
+                                    }
+                                  } else {
+                                    if (endTimeController.text[0] == '.' ||
+                                        endTimeController.text[0] == '-') {
+                                      return 'Invalid start time';
+                                    }
+                                    if (endTimeController.text[1] == '.' ||
+                                        endTimeController.text[1] == '-') {
+                                      return 'Invalid start time';
+                                    }
+                                    if (int.parse(value) >=
+                                        int.parse(endTimeController.text)) {
+                                      return 'Invalid start time';
+                                    }
+                                  }
+                                }
+                              } else if (endTimeController.text != '') {
+                                if (endTimeController.text.length == 1) {
+                                  if (endTimeController.text[0] == '.' ||
+                                      endTimeController.text[0] == '-') {
+                                    return 'Invalid start time';
+                                  }
+                                  if (int.parse(value) >=
+                                      int.parse(endTimeController.text)) {
+                                    return 'Invalid start time';
+                                  }
+                                } else {
+                                  if (endTimeController.text[0] == '.' ||
+                                      endTimeController.text[0] == '-') {
+                                    return 'Invalid start time';
+                                  }
+                                  if (endTimeController.text[1] == '.' ||
+                                      endTimeController.text[1] == '-') {
+                                    return 'Invalid start time';
+                                  }
+                                  if (int.parse(value) >=
+                                      int.parse(endTimeController.text)) {
+                                    return 'Invalid start time';
+                                  }
+                                }
+                              }
+
+                              return null;
+                            },*/
+                              ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                            width: 120,
+                            height: 50,
+                            child: TextFormField(
+                                controller: endTimeController,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  counterText: '',
+                                  suffixStyle: const TextStyle(
+                                      color: Colors.grey, fontSize: 16),
+                                  suffixText: ":00",
+                                  labelText: "End Time",
+                                  labelStyle: const TextStyle(
+                                    color: ThemeColors.highlight,
+                                  ),
+                                  fillColor: Colors.white,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                      color: ThemeColors.bordertextfromfiled,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 1.5),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                      color: Colors.black,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                ),
+                                cursorColor: ThemeColors.highlight,
+                                maxLength: 2,
+                                maxLengthEnforcement:
+                                    MaxLengthEnforcement.enforced,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "It's empty!";
+                                  }
+                                  if (RegExp(
+                                          r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                      .hasMatch(value)) {
+                                    return 'Invalid end time';
+                                  }
+                                  if (value.length > 1) {
+                                    if (value[0] == '0') {
+                                      return 'Invalid end time';
+                                    }
+                                  }
+                                  if (int.parse(value) < 0 ||
+                                      int.parse(value) > 23) {
+                                    return 'Invalid end time';
+                                  }
+                                  if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                      .hasMatch(startTimeController.text)) {
+                                    return 'Invalid end time';
+                                  }
+                                  if(startTimeController.text.isNotEmpty) {
+                                    if (int.parse(value) <=
+                                        int.parse(startTimeController.text)) {
+                                      return 'Invalid end time';
+                                    }
+                                  }
+                                  return null;
+                                }
+                                /*validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "It's empty!";
+                                }
+                                if (value[value.length - 1] == '.' ||
+                                    value[value.length - 1] == '-') {
+                                  return 'Invalid end time';
+                                } else if (value.length > 1) {
+                                  if (value[value.length - 2] == '.' ||
+                                      value[value.length - 2] == '0' ||
+                                      value[value.length - 2] == '-') {
+                                    return 'Invalid end time';
+                                  } else if (int.parse(value) < 0 ||
+                                      int.parse(value) > 23) {
+                                    return 'Invalid end time';
+                                  } else if (startTimeController.text != '') {
+                                    if (startTimeController.text.length == 1) {
+                                      if (startTimeController.text[0] == '.' ||
+                                          startTimeController.text[0] == '-') {
+                                        return 'Invalid end time';
+                                      }
+                                      if (int.parse(value) <=
+                                          int.parse(startTimeController.text)) {
+                                        return 'Invalid end time';
+                                      }
+                                    } else {
+                                      if (startTimeController.text[0] == '.' ||
+                                          startTimeController.text[0] == '-') {
+                                        return 'Invalid end time';
+                                      }
+                                      if (startTimeController.text[1] == '.' ||
+                                          startTimeController.text[1] == '-') {
+                                        return 'Invalid end time';
+                                      }
+                                      if (int.parse(value) <=
+                                          int.parse(startTimeController.text)) {
+                                        return 'Invalid end time';
+                                      }
+                                    }
+                                  }
+                                } else if (startTimeController.text != '') {
+                                  if (startTimeController.text.length == 1) {
+                                    if (startTimeController.text[0] == '.' ||
+                                        startTimeController.text[0] == '-') {
+                                      return 'Invalid end time';
+                                    }
+                                    if (int.parse(value) <=
+                                        int.parse(startTimeController.text)) {
+                                      return 'Invalid end time';
+                                    }
+                                  } else {
+                                    if (startTimeController.text[0] == '.' ||
+                                        startTimeController.text[0] == '-') {
+                                      return 'Invalid end time';
+                                    }
+                                    if (startTimeController.text[1] == '.' ||
+                                        startTimeController.text[1] == '-') {
+                                      return 'Invalid end time';
+                                    }
+                                    if (int.parse(value) <=
+                                        int.parse(startTimeController.text)) {
+                                      return 'Invalid end time';
+                                    }
+                                  }
+                                }
+
+                                return null;
+                              },*/
+                                )),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 25,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: const RadialGradient(
+                                    radius: 4,
+                                    colors: [
+                                      Color.fromARGB(255, 141, 68, 243),
+                                      Colors.purple
+                                    ]),
+                                border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 163, 33, 243),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  // highlightColor: Colors.orange.withOpacity(0.3),
+                                  splashColor: ThemeColors.splashinkweel,
+                                  borderRadius: BorderRadius.circular(30),
+                                  onTap: () {
+                                    setState(() {
+                                      if(starttimesController.length<12) {
+                                        addOtherTimesController();
+                                      }
+                                    });
+                                  },
+                                  child: const Center(
+                                    child: Icon(Icons.add),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              height: 25,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: const RadialGradient(
+                                    radius: 4,
+                                    colors: [
+                                      Color.fromARGB(255, 141, 68, 243),
+                                      Colors.purple
+                                    ]),
+                                border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 163, 33, 243),
+                                ),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  // highlightColor: Colors.orange.withOpacity(0.3),
+                                  splashColor: ThemeColors.splashinkweel,
+                                  borderRadius: BorderRadius.circular(30),
+                                  onTap: () {
+                                    setState(() {
+                                      if (starttimesController.length > 0) {
+                                        deleteOtherTimesController();
+                                      }
+                                    });
+                                  },
+                                  child: const Center(
+                                      child: Text(
+                                    '-',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      //fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       //reverse: true,
-                      itemCount: counttime,
-                      itemBuilder: (context, j) => Addtime(j),
+                      itemCount: starttimesController.length,
+                      itemBuilder: (context, index) => Addtime(index),
                     ),
                     SizedBox(
                       height: heightscreen * 0.02,
@@ -1084,27 +1607,19 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             borderRadius: BorderRadius.circular(30),
                             onTap: () {
                               if (formKey.currentState!.validate()) {
-                                print(fullname);
-                                print(numberController.text);
-                                print(emailController.text);
-                                print(passwordController.text);
-                                print(countryController.text);
-                                print(cityController.text);
-                                print(descriptionController.text);
-                                print(cubit.services);
-                                print(cubit.days);
-                                print(cubit.times);
-                                for (int i = 0;
-                                    i < cubit.services.length;
-                                    i++) {
-                                  print(cubit.services[i].id);
-                                  print(cubit.services[i].name);
-                                  print(cubit.services[i].price);
-                                }
-                                for (int i = 0; i < cubit.times.length; i++) {
-                                  print(cubit.times[i].from);
-                                  print(cubit.times[i].to);
-                                }
+                                addServices(
+                                    isMedecine!,
+                                    isCareer!,
+                                    isPsychology!,
+                                    isFamily!,
+                                    isManagement!,
+                                    isSunday!,
+                                    isMonday!,
+                                    isTuesday!,
+                                    isWednesday!,
+                                    isThursday!,
+                                    isFriday!,
+                                    isSaturday!);
 
                                 RegisterCubit.get(context).ExpertRegister(
                                   name: fullname,
@@ -1144,10 +1659,11 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     );
   }
 
-  Widget addCatergory() {
+  Widget addCatergory(int index) {
     return Column(
       children: [
         TextFormField(
+          controller: OtherNamesController[index],
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.text,
@@ -1182,23 +1698,23 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           ),
           validator: (value) {
             if (value!.isEmpty) {
-              return 'Please enter your consultation';
+              return 'Please enter your first name';
+            }
+            if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
+                    .hasMatch(value) ||
+                RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
+                    .hasMatch(value)) {
+              return 'Invalid first name';
+            }
+
+            if (value.length > 20) {
+              return 'You reached the maximum length';
             }
             return null;
           },
-          onFieldSubmitted: (value) {
-            setState(() {
-
-                name.add(value);
-                if (countcategory == name.length &&
-                    countcategory == price.length) {
-                  addOtherServices();
-                }
-
-            });
-          },
         ),
         TextFormField(
+          controller: OtherPricesController[index],
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.number,
@@ -1235,20 +1751,19 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           ),
           validator: (value) {
             if (value!.isEmpty) {
-              return 'Please enter price';
+              return 'Enter price';
+            }
+            if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                .hasMatch(value)) {
+              return 'Wrong price';
+            }
+            if (value.length > 5) {
+              return 'People are poor :(';
+            }
+            if (value[0] == '0') {
+              return 'Invalid price';
             }
             return null;
-          },
-          onFieldSubmitted: (value) {
-            setState(() {
-
-                price.add(value);
-                if (countcategory == name.length &&
-                    countcategory == price.length) {
-                  addOtherServices();
-                }
-
-            });
           },
         ),
       ],
@@ -1258,7 +1773,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
   Widget Addtime(int index) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -1268,84 +1783,16 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
               width: 120,
               height: 50,
               child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  suffixStyle:
-                      const TextStyle(color: Colors.grey, fontSize: 16),
-                  suffixText: ":00",
-                  labelText: "Start Time",
-                  labelStyle: const TextStyle(
-                    color: ThemeColors.highlight,
-                  ),
-                  fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(
-                      color: ThemeColors.bordertextfromfiled,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide:
-                        const BorderSide(color: Colors.black, width: 1.5),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(
-                      color: Colors.black,
-                      width: 1.5,
-                    ),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(
-                      color: Colors.red,
-                      width: 1.5,
-                    ),
-                  ),
-                ),
-                cursorColor: ThemeColors.highlight,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "It's empty!";
-                  }
-                  if (int.parse(value) < 0 || int.parse(value) > 22) {
-                    return 'Invalid start time';
-                  }
-                  return null;
-                },
-                onFieldSubmitted: (value) {
-                  setState(() {
-
-                      startTime.add(int.parse(value));
-                      if (counttime == startTime.length &&
-                          counttime == endTime.length) {
-                        addListsTime();
-                      }
-
-                  });
-                },
-                onTap: () {
-                  RegisterCubit.get(context).addDays(isSunday, isMonday,
-                      isTuesday, isWednesday, isThursday, isFriday, isSaturday);
-                },
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-                width: 120,
-                height: 50,
-                child: TextFormField(
+                  inputFormatters: [],
+                  controller: starttimesController[index],
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
+                    counterText: '',
                     suffixStyle:
                         const TextStyle(color: Colors.grey, fontSize: 16),
                     suffixText: ":00",
-                    labelText: "End Time",
+                    labelText: "Start Time",
                     labelStyle: const TextStyle(
                       color: ThemeColors.highlight,
                     ),
@@ -1377,124 +1824,255 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                   ),
                   cursorColor: ThemeColors.highlight,
+                  maxLength: 2,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "It's empty!";
                     }
-                    if (int.parse(value) < 1 || int.parse(value) > 23) {
-                      return 'Invalid end time';
+                    if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                        .hasMatch(value)) {
+                      return 'Invalid start time';
+                    }
+                    if (value.length > 1) {
+                      if (value[0] == '0') {
+                        return 'Invalid start time';
+                      }
+                    }
+                    if (int.parse(value) < 0 || int.parse(value) > 23) {
+                      return 'Invalid start time';
+                    }
+                    if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                        .hasMatch(endtimesController[index].text)) {
+                      return 'Invalid start time';
+                    }
+                    if(endtimesController[index].text.isNotEmpty) {
+                      if (int.parse(value) >=
+                          int.parse(endtimesController[index].text)) {
+                        return 'Invalid start time';
+                      }
                     }
                     return null;
-                  },
-                  onFieldSubmitted: (value) {
-                    setState(() {
-
-                        endTime.add(int.parse(value));
-                        if (counttime == startTime.length &&
-                            counttime == endTime.length) {
-                          addListsTime();
+                  }
+                  /* validator: (value) {
+                  if (value!.isEmpty) {
+                    return "It's empty!";
+                  }
+                  if (value[value.length - 1] == '.' ||
+                      value[value.length - 1] == '-') {
+                    return 'Invalid start time';
+                  } else if (value.length > 1) {
+                    if (value[value.length - 2] == '.' ||
+                        value[value.length - 2] == '0' ||
+                        value[value.length - 2] == '-') {
+                      return 'Invalid start time';
+                    } else if (int.parse(value) < 0 || int.parse(value) > 23) {
+                      return 'Invalid start time';
+                    } else if (endtimesController[index].text != '') {
+                      if (endtimesController[index].text.length == 1) {
+                        if (endTimeController.text[0] == '.' ||
+                            endtimesController[index].text[0] == '-') {
+                          return 'Invalid start time';
                         }
+                        if (int.parse(value) >=
+                            int.parse(endtimesController[index].text)) {
+                          return 'Invalid start time';
+                        }
+                      } else {
+                        if (endtimesController[index].text[0] == '.' ||
+                            endtimesController[index].text[0] == '-') {
+                          return 'Invalid start time';
+                        }
+                        if (endtimesController[index].text[1] == '.' ||
+                            endtimesController[index].text[1] == '-') {
+                          return 'Invalid start time';
+                        }
+                        if (int.parse(value) >=
+                            int.parse(endtimesController[index].text)) {
+                          return 'Invalid start time';
+                        }
+                      }
+                    }
+                  } else if (endtimesController[index].text != '') {
+                    if (endtimesController[index].text.length == 1) {
+                      if (endtimesController[index].text[0] == '.' ||
+                          endtimesController[index].text[0] == '-') {
+                        return 'Invalid start time';
+                      }
+                      if (int.parse(value) >=
+                          int.parse(endtimesController[index].text)) {
+                        return 'Invalid start time';
+                      }
+                    } else {
+                      if (endtimesController[index].text[0] == '.' ||
+                          endtimesController[index].text[0] == '-') {
+                        return 'Invalid start time';
+                      }
+                      if (endtimesController[index].text[1] == '.' ||
+                          endtimesController[index].text[1] == '-') {
+                        return 'Invalid start time';
+                      }
+                      if (int.parse(value) >=
+                          int.parse(endtimesController[index].text)) {
+                        return 'Invalid start time';
+                      }
+                    }
+                  }
 
-                    });
-                  },
-                )),
+                  return null;
+                },*/
+                  ),
+            ),
             const SizedBox(
               width: 10,
             ),
-            index == 0
-                ? Row(
-                    children: [
-                      Container(
-                        height: 25,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: const RadialGradient(radius: 4, colors: [
-                            Color.fromARGB(255, 141, 68, 243),
-                            Colors.purple
-                          ]),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 163, 33, 243),
-                          ),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            // highlightColor: Colors.orange.withOpacity(0.3),
-                            splashColor: ThemeColors.splashinkweel,
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () {
-                              setState(() {
-                                counttime++;
-                              });
-                            },
-                            child: const Center(
-                              child: Icon(Icons.add),
-                            ),
-                          ),
+            Container(
+                width: 120,
+                height: 50,
+                child: TextFormField(
+                    controller: endtimesController[index],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      counterText: '',
+                      suffixStyle:
+                          const TextStyle(color: Colors.grey, fontSize: 16),
+                      suffixText: ":00",
+                      labelText: "End Time",
+                      labelStyle: const TextStyle(
+                        color: ThemeColors.highlight,
+                      ),
+                      fillColor: Colors.white,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: ThemeColors.bordertextfromfiled,
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide:
+                            const BorderSide(color: Colors.black, width: 1.5),
                       ),
-                      Container(
-                        height: 25,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          gradient: const RadialGradient(radius: 4, colors: [
-                            Color.fromARGB(255, 141, 68, 243),
-                            Colors.purple
-                          ]),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 163, 33, 243),
-                          ),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            // highlightColor: Colors.orange.withOpacity(0.3),
-                            splashColor: ThemeColors.splashinkweel,
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () {
-                              setState(() {
-                                if (counttime > 0) {
-                                  if (counttime == startTime.length &&
-                                      counttime == endTime.length) {
-                                    setState(() {
-                                      startTime.removeLast();
-                                      endTime.removeLast();
-                                      RegisterCubit.get(context).deleteTimes();
-                                    });
-                                  } else if (counttime == startTime.length) {
-                                    setState(() {
-                                      name.removeLast();
-                                    });
-                                  } else if (counttime == endTime.length) {
-                                    setState(() {
-                                      price.removeLast();
-                                    });
-                                  }
-                                  setState(() {
-                                    counttime--;
-                                  });
-                                }
-                              });
-                            },
-                            child: const Center(
-                                child: Text(
-                              '-',
-                              style: TextStyle(
-                                fontSize: 22,
-                                //fontWeight: FontWeight.bold,
-                              ),
-                            )),
-                          ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: const BorderSide(
+                          color: Colors.black,
+                          width: 1.5,
                         ),
                       ),
-                    ],
-                  )
-                : Container(),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                    maxLength: 2,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                    cursorColor: ThemeColors.highlight,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "It's empty!";
+                      }
+                      if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                          .hasMatch(value)) {
+                        return 'Invalid end time';
+                      }
+                      if (value.length > 1) {
+                        if (value[0] == '0') {
+                          return 'Invalid end time';
+                        }
+                      }
+                      if (int.parse(value) < 0 || int.parse(value) > 23) {
+                        return 'Invalid end time';
+                      }
+                      if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                          .hasMatch(starttimesController[index].text)) {
+                        return 'Invalid end time';
+                      }
+                      if(starttimesController[index].text.isNotEmpty) {
+                        if (int.parse(value) <=
+                            int.parse(starttimesController[index].text)) {
+                          return 'Invalid end time';
+                        }
+                      }
+                      return null;
+                    }
+                    /*validator: (value) {
+                    if (value!.isEmpty) {
+                      return "It's empty!";
+                    }
+                    if (value[value.length - 1] == '.' ||
+                        value[value.length - 1] == '-') {
+                      return 'Invalid end time';
+                    } else if (value.length > 1) {
+                      if (value[value.length - 2] == '.' ||
+                          value[value.length - 2] == '0' ||
+                          value[value.length - 2] == '-') {
+                        return 'Invalid end time';
+                      } else if (int.parse(value) < 0 ||
+                          int.parse(value) > 23) {
+                        return 'Invalid end time';
+                      } else if (starttimesController[index].text != '') {
+                        if (starttimesController[index].text.length == 1) {
+                          if (starttimesController[index].text[0] == '.' ||
+                              starttimesController[index].text[0] == '-') {
+                            return 'Invalid end time';
+                          }
+                          if (int.parse(value) <=
+                              int.parse(starttimesController[index].text)) {
+                            return 'Invalid end time';
+                          }
+                        } else {
+                          if (starttimesController[index].text[0] == '.' ||
+                              starttimesController[index].text[0] == '-') {
+                            return 'Invalid end time';
+                          }
+                          if (starttimesController[index].text[1] == '.' ||
+                              starttimesController[index].text[1] == '-') {
+                            return 'Invalid end time';
+                          }
+                          if (int.parse(value) <=
+                              int.parse(starttimesController[index].text)) {
+                            return 'Invalid end time';
+                          }
+                        }
+                      }
+                    } else if (starttimesController[index].text != '') {
+                      if (starttimesController[index].text.length == 1) {
+                        if (starttimesController[index].text[0] == '.' ||
+                            starttimesController[index].text[0] == '-') {
+                          return 'Invalid end time';
+                        }
+                        if (int.parse(value) <=
+                            int.parse(starttimesController[index].text)) {
+                          return 'Invalid end time';
+                        }
+                      } else {
+                        if (starttimesController[index].text[0] == '.' ||
+                            starttimesController[index].text[0] == '-') {
+                          return 'Invalid end time';
+                        }
+                        if (starttimesController[index].text[1] == '.' ||
+                            starttimesController[index].text[1] == '-') {
+                          return 'Invalid end time';
+                        }
+                        if (int.parse(value) <=
+                            int.parse(starttimesController[index].text)) {
+                          return 'Invalid end time';
+                        }
+                      }
+                    }
+
+                    return null;
+                  },*/
+                    )),
+            const SizedBox(
+              width: 10,
+            ),
+            Container(),
           ],
         ),
       ],

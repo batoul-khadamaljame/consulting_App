@@ -1,48 +1,45 @@
+
 import 'dart:io';
 
 class SearchModel {
 
-  SearchModel.fromJson(dynamic json) {
-    status = json['status'];
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
   bool? status;
-  dynamic message;
-  Data? data;
-}
+  List<ExpertCardSearchModel>? data;
 
-class Data {
-  Data.fromJson(dynamic json) {
+
+  SearchModel.fromJson(Map<String, dynamic> json){
+
+    status = json['status'];
+
     if (json['data'] != null) {
       data = [];
-      json['data'].forEach((v) {
-        data?.add(Expert.fromJson(v));
+      json['data'].forEach((element) {
+        data!.add(ExpertCardSearchModel.fromJson(element));
       });
     }
+
   }
-  List<Expert>? data;
 
 }
 
-class Expert {
+
+class ExpertCardSearchModel {
 
   int? id;
-  dynamic rate;
+  //dynamic rate;
   String? name;
   String? type;
   dynamic price;
-  File? image;
-  bool? inFavorites;
+  //File? image;
+  //bool? inFavorites;
 
-  Expert.fromJson(Map<String, dynamic> json) {
+  ExpertCardSearchModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    rate = json['rate'];
+    //rate = json['rate'];
     name = json['name'];
     type = json['type'];
     price = json['price'];
-    image = json['image'];
-    inFavorites = json['in_favorites'];
+    //image = json['image'];
+    //inFavorites = json['in_favorites'];
   }
-
 }

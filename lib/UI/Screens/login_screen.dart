@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginCubit, LoginStates>(
   listener: (context, state) {
     if (state is LoginSuccessState) {
-      if (state.loginModel.status != null) {
+      if (state.loginModel.status != false) {
         print(state.loginModel.status!);
         print(state.loginModel.data!.token);
 
@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.of(context).pushReplacementNamed('/home');
         });
       } else {
-        print(state.loginModel.status!);
         showToast(
           text: 'Invalid Email or Password',
           state: ToastState.error,
@@ -320,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 child: const Center(
                                     child: Text(
-                                      'login as Guests',
+                                      'login as guest',
                                       style: TextStyle(
                                         color: ThemeColors.backgroundColor,
                                         fontSize: 15,

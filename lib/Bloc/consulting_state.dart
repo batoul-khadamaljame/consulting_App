@@ -1,4 +1,5 @@
 import 'package:consulting_app/models/change_favoirites_model.dart';
+import 'package:consulting_app/models/logout_model.dart';
 
 abstract class ConsultingStates{}
 
@@ -47,4 +48,28 @@ class ErrorGetFavoritesState extends ConsultingStates
   final String error;
 
   ErrorGetFavoritesState(this.error);
+}
+
+class LoadingUserDataState extends ConsultingStates{}
+
+class SuccessUserDataState extends ConsultingStates{}
+
+class ErrorUserDataState extends ConsultingStates{
+  final String error;
+
+  ErrorUserDataState(this.error);
+}
+
+class LoadingLogoutState extends ConsultingStates{}
+
+class SuccessLogoutState extends ConsultingStates{
+  final LogoutModel logoutModel;
+
+  SuccessLogoutState(this.logoutModel);
+}
+
+class ErrorLogoutState extends ConsultingStates{
+  final String error;
+
+  ErrorLogoutState(this.error);
 }

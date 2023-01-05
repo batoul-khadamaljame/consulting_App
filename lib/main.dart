@@ -2,18 +2,26 @@ import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
+import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
+import 'package:consulting_app/Bloc/reservation_history/reservation_history_cubit.dart';
 import 'package:consulting_app/Bloc/search/search_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
+import 'package:consulting_app/UI/Screens/public_expert_profile.dart';
 import 'package:consulting_app/UI/Screens/get_started.dart';
 import 'package:consulting_app/UI/Screens/home.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/UI/Screens/pages_controll.dart';
+import 'package:consulting_app/UI/Screens/public_user_profile.dart';
+import 'package:consulting_app/UI/Screens/reservation_history.dart';
 import 'package:consulting_app/UI/Screens/search_screen.dart';
+import 'package:consulting_app/UI/Screens/service_reservation.dart';
 import 'package:consulting_app/UI/Screens/settiengs.dart';
 import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
+import 'package:consulting_app/UI/Screens/private_profile.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
@@ -34,7 +42,7 @@ void main() async {
 
   Widget widget;
   if (token != null) {
-    widget = HomePage();
+    widget = PagesControllScreen();
   } else {
     widget = const LoginScreen();
   }
@@ -66,13 +74,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()//..getHomeData(id)/*..getCategories()*/..getFavorites()/*..getUserData()*/,),
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeData(id)..getUserData()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
         ,),BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => SearchCubit()),
+        BlocProvider(create: (BuildContext context) => ReservationCubit()),
+        BlocProvider(create: (BuildContext context) => PublicProfileCubit()),
+        BlocProvider(create: (BuildContext context) => ReservationHistoryCubit()),
 
       ],
       child: MaterialApp(
@@ -87,6 +98,10 @@ class MyApp extends StatelessWidget {
           '/home': (context) => PagesControllScreen(),
           '/search': (context) => SearchScreen(),
           '/settings': (context) => SettingsScreen(),
+          '/reservation': (context) => ServiceReservation(),
+          '/public_expert_profile':(context) => PublicExpertProfileScreen(),
+          '/public_user_profile':(context) => PublicUserProfileScreen(),
+          '/reservation_history':(context) => ReservationHisory(),
         },
         home: null,
       ),

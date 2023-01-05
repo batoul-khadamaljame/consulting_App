@@ -12,6 +12,14 @@ const HOME4 = 'home/4';
 const HOME5 = 'home/5';
 const HOME6 = 'home/6';
 
+const RESERVATIONDONE = 'reserve';
+
 const FAVORITES = 'favorites';
 
-const SEARCH = 'products/search';
+const MYPROFILE = 'myProfile';
+
+const LOGOUT = 'logout';
+
+const HISTORY = 'history';
+
+

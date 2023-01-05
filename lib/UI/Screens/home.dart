@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/models/home_model.dart';
 import 'package:consulting_app/theme/theme.dart';
@@ -20,7 +21,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double heightscreen = MediaQuery.of(context).size.height;
     double widthscreen = MediaQuery.of(context).size.width;
 
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           backgroundColor: ThemeColors.backgroundColor,
           appBar: AppBar(
-            iconTheme: IconThemeData(color: ThemeColors.icons),
+            iconTheme: const IconThemeData(color: ThemeColors.icons),
             backgroundColor: ThemeColors.backgroundColor,
             /*leading: Icon(
 
@@ -70,11 +70,11 @@ class HomePage extends StatelessWidget {
             ],
             elevation: 0.0,
           ),
-          drawer: Drawer(),
+          drawer: const Drawer(),
           body: Padding(
             padding:  EdgeInsets.symmetric(horizontal: widthscreen*0.02),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   SizedBox(
@@ -127,7 +127,7 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(
                     height: heightscreen*0.14,
-                    child: ListView.separated(
+                    child:  ListView.separated(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       separatorBuilder: (context, index) =>  SizedBox(
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
                       Text(
-                        'Available Experts',
+                        'Available Services',
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.w700),
                       ),
@@ -156,37 +156,30 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: heightscreen*0.015,
                   ),
-                  //ConditionalBuilder(
-                  //condition: ConsultingCubit.get(context).homeModel != null,
-                  //builder:(context) =>
+                  ConditionalBuilder(
+                  condition: state is! LoadingUserDataState,
+                  builder:(context) =>
                   ListView.separated(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: expertsList.length,
-                      /*ConsultingCubit.get(context)
-                            .homeModel!
-                            .data!
-                            .experts
-                            .length,*/
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                      ConsultingCubit.get(context)
+                            .homeModel!.data!.length,
+                      //itemCount: 5,
                       separatorBuilder: (BuildContext context, int index) =>
                           SizedBox(
                             height: heightscreen*0.02,
                           ),
 
-                      itemBuilder: (context, index) => buildExpertCard(expertsList[index].id,expertsList[index].rate.toString() ,expertsList[index].name, expertsList[index].type, expertsList[index].price.toString(), expertsList[index].image, expertsList[index].inFavorites)
+                    //itemBuilder: (context, index) => buildExpertCardDummy(expertsList[index].id,expertsList[index].rate.toString() ,expertsList[index].name, expertsList[index].type, expertsList[index].price.toString(), expertsList[index].image, expertsList[index].inFavorites,context)
 
 
-                    /*itemBuilder: (context, index) => buildExpertCard(
-                            ConsultingCubit.get(context)
-                                .homeModel!
-                                .data!
-                                .experts[index],
-                            context)*/
+                    itemBuilder: (context, index) => buildExpertCard(ConsultingCubit.get(context).homeModel!.data![index],context),
                   ),
-                  // fallback: (context) => Padding(
-                  //padding: EdgeInsets.all(100),
-                  //child: CircularProgressIndicator()),
-                  //),
+                   fallback: (context) => const Padding(
+                  padding: EdgeInsets.all(100),
+                  child: CircularProgressIndicator(color: Colors.purple,)),
+                  ),
                 ],
               ),
             ),
@@ -200,7 +193,7 @@ class HomePage extends StatelessWidget {
     return InkWell(
       onTap: (){
         ConsultingCubit.get(context).changeCatIndex(id);
-        //ConsultingCubit.get(context).getHomeData(id);
+        ConsultingCubit.get(context).getHomeData(id);
       },
       child: Container(
         width: 100,
@@ -238,194 +231,212 @@ class HomePage extends StatelessWidget {
   }
 
 
-  Widget buildExpertCard(int id, String rate, String name, String type,String price, String image, bool inFavorites){
-    return Container(
-      padding: EdgeInsets.all(12),
-      height: 140,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0,3),
-            color: Colors.purple.withOpacity(0.3),
-            blurRadius: 5,
-          )
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 105,
-            width: 110,
-            decoration: BoxDecoration(
-                border: Border.all(
-                    width: 0.5,
-                    color: Colors.deepPurple
-                ),
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage(image),
-                )
-            ),
-          ),
-          SizedBox(width: 25,),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(rate,style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w600),)
-                    ,SizedBox(width: 4,),
-                    Icon(Icons.star,color: Colors.yellow,size: 12,),
-
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Text(name,style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w700),maxLines: 1,
-                  overflow: TextOverflow.ellipsis,),
-                SizedBox(height: 10,),
-                Text('Type: '+ type,style: TextStyle(color: Colors.deepPurple,fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
-                SizedBox(height: 10,),
-                Text("$price\$",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w700),),
-
-              ],
-            ),
-          ),
-          SizedBox(width: 20,),
-          Column(
-            children: [
-              LikeButton(
-
-                size: 25,
+  Widget buildExpertCardDummy(int id, String rate, String name, String type,String price, String image, bool inFavorites,context){
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).pushNamed('/reservation');
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        height: 140,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0,3),
+              color: Colors.purple.withOpacity(0.3),
+              blurRadius: 5,
+            )
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 105,
+              width: 110,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 0.5,
+                      color: Colors.deepPurple
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage(image),
+                  )
               ),
-              SizedBox(height: 50,),
-              Icon(Icons.chevron_right_outlined)
-            ],
-          )
-        ],
+            ),
+            const SizedBox(width: 25,),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(rate,style: const TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.w600),)
+                      ,const SizedBox(width: 4,),
+                      const Icon(Icons.star,color: Colors.yellow,size: 12,),
+
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
+                  Text(name,style: const TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w700),maxLines: 1,
+                    overflow: TextOverflow.ellipsis,),
+                  const SizedBox(height: 10,),
+                  Text('Type: '+ type,style: const TextStyle(color: Colors.deepPurple,fontSize: 14,fontWeight: FontWeight.w600),maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: 10,),
+                  Text("$price\$",style: const TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w700),),
+
+                ],
+              ),
+            ),
+            const SizedBox(width: 20,),
+            Column(
+              children: [
+                const LikeButton(
+
+                  size: 25,
+                ),
+                const SizedBox(height: 50,),
+                const Icon(Icons.chevron_right_outlined)
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
-/*
-Widget buildExpertCard(ExpertModel model, context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      height: 140,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 3),
-            color: Colors.purple.withOpacity(0.3),
-            blurRadius: 5,
-          )
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 105,
-            width: 110,
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.deepPurple),
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: Image.file(model.image!) as ImageProvider,
-                )),
-          ),
-          SizedBox(
-            width: 25,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      model.rate,
-                      style: TextStyle(
-                          color: Colors.black,
+
+Widget buildExpertCard(ExpertCardModel model, context) {
+    return InkWell(
+      onTap: (){
+        ReservationCubit.get(context).initDate();
+        ReservationCubit.get(context).getReservationData(model.id);
+        Navigator.of(context).pushNamed('/reservation');
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        height: 140,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 3),
+              color: Colors.purple.withOpacity(0.3),
+              blurRadius: 5,
+            )
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 105,
+              width: 110,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.5, color: Colors.deepPurple),
+                  borderRadius: BorderRadius.circular(10),
+                  image: const DecorationImage(
+                    fit: BoxFit.fill,
+                    image: AssetImage('assets/demo/img.png'),
+                    //Image.file(model.image!) as ImageProvider,
+                  )),
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        //model.rate.toString(),
+                        '4.5',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      const Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 12,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '${model.name}',
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text('Type: ' + '${model.type}',
+                      style: const TextStyle(
+                          color: Colors.deepPurple,
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                      '${model.price}\$'.toString(),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700
+
                     ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 12,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '$model.name',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text('Type: ' + '$model.type',
-                    style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "$model.price\$",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Column(
-            children:  [
-              LikeButton(
-                onTap: (isLiked) async{
-                  print('x');
-                  ConsultingCubit.get(context).changeFavorites(model.id!);
-                },
-                size: 25,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Icon(Icons.chevron_right_outlined)
-            ],
-          )
-        ],
+            const SizedBox(
+              width: 20,
+            ),
+            Column(
+              children:  [
+                LikeButton(
+                  onTap: (isLiked) async{
+                    print('x');
+                    //ConsultingCubit.get(context).changeFavorites(model.id!);
+                  },
+                  size: 25,
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                const Icon(Icons.chevron_right_outlined)
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
-*/
+
 
 }
 

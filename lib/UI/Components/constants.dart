@@ -1,5 +1,6 @@
 
 
+import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:flutter/material.dart';
@@ -7,18 +8,15 @@ import 'package:flutter/material.dart';
 
 void signOut(context)
 {
-  CacheHelper.removeData(key: 'token',).then((value) {
+  CacheHelper.signOut(key: 'token').then((value)
+  {
     if(value)
     {
       Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginScreen(),
-        ),
-            (route) {
-          return false;
-        },
-      );
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),),
+              (route) => false);
     }
   });
 }
