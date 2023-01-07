@@ -1,5 +1,6 @@
 import 'package:consulting_app/models/login_model.dart';
 import 'package:consulting_app/models/public_profile_model.dart';
+import 'package:consulting_app/models/rate_model.dart';
 
 abstract class PublicProfileStates {}
 
@@ -38,4 +39,16 @@ class PublicUserProfileErrorState extends PublicProfileStates
 }
 
 
-class ChangeRateState extends PublicProfileStates{}
+class ChangeRateLoadingState extends PublicProfileStates{}
+
+class ChangeRateSuccessState extends PublicProfileStates{
+  final RateModel ratemodel;
+  ChangeRateSuccessState(this.ratemodel);
+}
+
+class ChangeRateErrorState extends PublicProfileStates
+{
+  final String error;
+
+  ChangeRateErrorState(this.error);
+}

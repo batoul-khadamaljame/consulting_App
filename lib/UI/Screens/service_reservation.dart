@@ -235,7 +235,7 @@ class ServiceReservation extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            width: width * 0.03,
+                            width: width * 0.02,
                           ),
                           Text(
                             '${cubit.reservertionModel!.data!.name}',
@@ -249,43 +249,41 @@ class ServiceReservation extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Padding(
-                            padding:  EdgeInsets.fromLTRB(width*0.04, 0, 0, 0),
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 4),
-                              width: width * 0.27,
-                              decoration: BoxDecoration(
+                          SizedBox(width: width*0.2,),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 4),
+                            width: width * 0.27,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              gradient: const RadialGradient(
+                                  radius: 4,
+                                  colors: [
+                                    Color.fromARGB(255, 141, 68, 243),
+                                    Colors.purple
+                                  ]),),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                splashColor:
+                                    ThemeColors.splashinkweel,
                                 borderRadius: BorderRadius.circular(50),
-                                gradient: const RadialGradient(
-                                    radius: 4,
-                                    colors: [
-                                      Color.fromARGB(255, 141, 68, 243),
-                                      Colors.purple
-                                    ]),),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  splashColor:
-                                      ThemeColors.splashinkweel,
-                                  borderRadius: BorderRadius.circular(50),
-                                  onTap: () {
-                                    PublicProfileCubit.get(context).getPublicExpertProfileData(cubit.reservertionModel!.data!.expert_id);
-                                    Navigator.of(context).pushNamed('/public_expert_profile');
-                                  },
-                                  child: const Center(
-                                      child: Text(
-                                    'Show Profile',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )),
-                                ),
+                                onTap: () {
+                                  PublicProfileCubit.get(context).getPublicExpertProfileData(cubit.reservertionModel!.data!.expert_id);
+                                  Navigator.of(context).pushNamed('/public_expert_profile');
+                                },
+                                child: const Center(
+                                    child: Text(
+                                  'Show Profile',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
                               ),
                             ),
-                          ),
-                        ],
+
+                          )],
                       ),
                     ),
                     SizedBox(

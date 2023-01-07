@@ -1,5 +1,6 @@
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_state.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
@@ -43,6 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
           value: state.loginModel.data!.token,
         ).then((value) {
           token = state.loginModel.data!.token;
+          ConsultingCubit.get(context).indx();
+          ConsultingCubit.get(context).getHomeDataToken(0);
           Navigator.of(context).pushReplacementNamed('/home');
         });
       } else {
@@ -315,6 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () {
                                   LoginCubit.get(context).changeIsLoginAsGuesst();
+                                  ConsultingCubit.get(context).indx();
                                   Navigator.of(context).pushReplacementNamed('/home');
                                 },
                                 child: const Center(

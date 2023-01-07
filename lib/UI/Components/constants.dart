@@ -29,3 +29,4 @@ void printFullText(String text)
 }
 //String? token;   =>  we write the value of token when we want to test the token without login screen
 String? token;
+bool switchValue = false;

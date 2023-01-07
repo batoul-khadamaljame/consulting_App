@@ -2,9 +2,11 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
-import 'package:consulting_app/UI/Screens/home.dart';
+import 'package:consulting_app/UI/Components/constants.dart';
+import 'package:consulting_app/UI/Screens/home_guest.dart';
 import 'package:consulting_app/models/home_model.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
@@ -56,7 +58,130 @@ class FavoritesScreen extends StatelessWidget {
           ],
           elevation: 0.0,
         ),
-        drawer: const Drawer(),
+        drawer: Drawer(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: heightscreen * 0.07,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.settings,
+                          size: 50,
+                          color: Colors.deepPurple,
+                        ),
+                        SizedBox(
+                          width: widthscreen * 0.01,
+                        ),
+                        Text('Settings',
+                            style: TextStyle(
+                                fontSize: 27,
+                                color: Colors.deepPurple,
+                                fontWeight: FontWeight.bold))
+                      ],
+                    ),
+                    SizedBox(
+                      height: heightscreen * 0.05,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.language,
+                          size: 30,
+                          color: Colors.purple,
+                        ),
+                        SizedBox(
+                          width: widthscreen * 0.01,
+                        ),
+                        Text('Language',
+                          style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold),),
+                      ],
+                    ),
+                    SizedBox(
+                      height: heightscreen * 0.03,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          height: heightscreen * 0.05,
+                          width: widthscreen * 0.2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: switchValue
+                                ? Colors.white
+                                : ThemeColors.backgroundColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'English',
+                              style: TextStyle(fontSize: 18, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        Switch(
+                          value: switchValue,
+                          onChanged: (value) async{
+                            ConsultingCubit.get(context).changeLanguage(value,context);
+                            await switchValue?context.setLocale(Locale('ar')):context.setLocale(Locale('en'));
+                          },
+                          inactiveThumbColor: Colors.purple,
+                          inactiveTrackColor: Colors.purple,
+                          activeTrackColor: ThemeColors.highlight,
+                          activeColor: ThemeColors.highlight,
+                        ),
+                        Container(
+                          height: heightscreen * 0.05,
+                          width: widthscreen * 0.2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: switchValue
+                                ? ThemeColors.backgroundColor
+                                : Colors.white,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Arabic',
+                              style: TextStyle(fontSize: 18, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: heightscreen * 0.1,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.start,children: [
+                      Icon(
+                        Icons.info,
+                        size: 30,
+                        color: Colors.purple,
+                      ),
+                      SizedBox(
+                        width: widthscreen * 0.01,
+                      ),
+                      Text('About us',
+                        style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.purple,
+                            fontWeight: FontWeight.bold),),
+                    ],),
+                    SizedBox(
+                      height: heightscreen * 0.03,
+                    ),
+                    Text('This app was created by the developers Bassam,Batoul,Rajaei and Obada(BBRO).           You can sign up as a User or an Expert, then sell and buy some services of different types. We are so glad by offer this app that can be used on your phone',style: TextStyle(color: Colors.black,fontSize: 20,letterSpacing: 2)),
+                  ],
+                ),
+              ),
+            )),
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),

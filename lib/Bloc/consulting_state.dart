@@ -9,6 +9,8 @@ class ChangeBottomNavState extends ConsultingStates{}
 
 class ChangeCatIndex extends ConsultingStates{}
 
+class ChangeLanguage extends ConsultingStates{}
+
 class LoadingHomeDataState extends ConsultingStates{}
 
 class SuccessHomeDataState extends ConsultingStates{}

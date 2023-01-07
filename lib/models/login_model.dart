@@ -46,7 +46,7 @@ class User {
   String? password;
   String? phone;
   //String? image;
-  int? isExp;
+  dynamic isExp;
   int? balance;
 
 }

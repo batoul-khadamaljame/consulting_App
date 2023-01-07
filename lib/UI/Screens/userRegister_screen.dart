@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_state.dart';
@@ -51,6 +52,8 @@ class _UserRegisterState extends State<UserRegister> {
             value: state.loginModel.data!.token,
           ).then((value) {
             token = state.loginModel.data!.token;
+            ConsultingCubit.get(context).indx();
+            ConsultingCubit.get(context).getHomeDataToken(0);
             Navigator.of(context).pushReplacementNamed('/home');
           });
           }

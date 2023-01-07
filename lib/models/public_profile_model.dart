@@ -46,7 +46,7 @@ class User {
   String? password;
   String? phone;
   //String? image;
-  int? isExp;
+  dynamic isExp;
   int? balance;
 
 }
@@ -144,7 +144,6 @@ class Experiences{
 
 class Duration{
   Duration.fromJson(dynamic json) {
-    print("ffffffffffffffamos");
     from = json['from'];
     to = json['to'];
 

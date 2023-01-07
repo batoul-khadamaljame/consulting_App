@@ -26,14 +26,7 @@ class ReservationCubit extends Cubit<ReservationStates> {
       url: 'experience/${id}',
     ).then((value) {
       reservertionModel = ReservertionModel.fromJson(value.data);
-      print(reservertionModel!.data!.workStartTimes!);
-      print(reservertionModel!.data!.days!.sunday);
-      print(reservertionModel!.data!.days!.monday);
-      print(reservertionModel!.data!.days!.tuesday);
-      print(reservertionModel!.data!.days!.wednesday);
-      print(reservertionModel!.data!.days!.thursday);
-      print(reservertionModel!.data!.days!.friday);
-      print(reservertionModel!.data!.days!.saturday);
+      print(reservertionModel!.data!.expert_id);
 
       emit(ReservationSuccessState());
     }).catchError((error) {

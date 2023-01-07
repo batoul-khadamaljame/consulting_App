@@ -37,7 +37,7 @@ class DioHelper {
 
   static Future<Response> postData({
     required String url,
-    Map<String, dynamic>? data,
+    Map<dynamic, dynamic>? data,
     Map<String, dynamic>? query,
     String? token,
   }) async
@@ -57,5 +57,29 @@ class DioHelper {
         data: data,
       );
     }
+
+  static Future<Response> postData1({
+    required String url,
+    required dynamic data,
+    Map<String, dynamic>? query,
+    String? token,
+  }) async
+  {
+
+    dio!.options.headers =
+    {
+      'Accept': 'application/json',
+      'Authorization' : 'Bearer ${token}'??'',
+    };
+
+
+    return dio!.post(
+
+      url,
+      queryParameters: query,
+      data: data,
+
+    );
+  }
 
 }

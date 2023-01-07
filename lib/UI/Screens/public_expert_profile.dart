@@ -22,19 +22,18 @@ class PublicExpertProfileScreen extends StatelessWidget {
         .of(context)
         .size
         .width;
-
-    return BlocConsumer<ConsultingCubit, ConsultingStates>(
+    var cubit = PublicProfileCubit.get(context);
+    return BlocConsumer<PublicProfileCubit, PublicProfileStates>(
       listener: (context, state) {},
       builder: (context,
           state,) {
-        var model = PublicProfileCubit.get(context).publicExpertProfileModel;
         return ConditionalBuilder(
           condition: state is! PublicExpertProfileLoadingState,
           builder:(context)=> Scaffold(
             backgroundColor: ThemeColors.backgroundColor,
             body: SafeArea(
               child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: widthscreen*0.06,vertical: heightscreen * 0.025),
+                padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 25),
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
@@ -100,8 +99,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${model!.data!.user!.name}',
-                                  //'sdfffffffffffffffffffffffffffffffff',
+                                  //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.user!.name}',
+                                  'sdfffffffffffffffffffffffffffffffff',
                                   style: TextStyle(
                                       fontSize: 24, fontWeight: FontWeight.w700),
                                   maxLines: 2,
@@ -157,7 +156,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                       ),
                                   onRatingUpdate: (rating) {
 
-                                    //changeRate(rating);
+                                    PublicProfileCubit.get(context).changeRate(rating);
                                   }
                                 )
                               ],
@@ -189,8 +188,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
                         height: heightscreen * 0.02,
                       ),
                       Text(
-                        '${model!.data!.expert!.expertInfo!.skills}',
-                        //'gfdgdfgd fnfjrnfje rnfjeknfej wknfewk jnfjk ewnf cjkew nfj wekfnjkewnbfkejfbnjrkebfnejrhkfbnrejkbfnjrbrjhbr',
+                        //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.expertInfo!.skills}'.toString(),
+                        'gfdgdfgd fnfjrnfje rnfjeknfej wknfewk jnfjk ewnf cjkew nfj wekfnjkewnbfkejfbnjrkebfnejrhkfbnrejkbfnjrbrjhbr',
                         style: TextStyle(
                             color: Color.fromARGB(255, 59, 53, 66), fontSize: 18),
                       ),
@@ -227,7 +226,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                               SizedBox(
                                 height: heightscreen*0.01,
                               ),
-                          itemCount: model.data!.expert!.experiences!.length),
+                          itemCount: PublicProfileCubit.get(context).servicesLength!),
                       //model!.data!.expert!.experiences!.length),
                       SizedBox(
                         height: heightscreen * 0.03,
@@ -261,7 +260,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 36,
                               ),
                               Text(
-                                '${model.data!.expert!.expertInfo!.city}' + ' , ' + '${model.data!.expert!.expertInfo!.country}',
+                                '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.expertInfo!.city}'.toString() + ' , ' + '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.expertInfo!.country}'.toString(),
                                 //'damascus' + ' , ' + 'syria',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
@@ -306,8 +305,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 36,
                               ),
                               Text(
-                                '${model.data!.user!.email}',
-                                //'batoul@gmail.com',
+                                //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.user!.email}'.toString(),
+                                'batoul@gmail.com',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
                                   fontSize: 15,
@@ -352,8 +351,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 36,
                               ),
                               Text(
-                                '${model.data!.user!.phone}',
-                                //'09478989889',
+                                //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.user!.phone}'.toString(),
+                                '09478989889',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
                                   fontSize: 15,
@@ -370,7 +369,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          fallback: (context)=> CircularProgressIndicator(color: Colors.purple,),
+          fallback: (context)=> Center(child: CircularProgressIndicator(color: Colors.purple,)),
         );
       },
     );
@@ -391,8 +390,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
             width: 10,
           ),
           Text(
-            '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index].category_name}',
-            //'Management',
+            //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index].category_name}',
+            'Management',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w800,
@@ -406,8 +405,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
             width: 40,
           ),
           Text(
-            '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index].price}',
-            //'459 \$',
+            //'${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index].price}\$'.toString(),
+            '459 \$',
             style: TextStyle(
                 color: Color.fromARGB(255, 105, 33, 116),
                 fontSize: 15,

@@ -1,5 +1,7 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
+import 'package:consulting_app/Bloc/public_profile/public_profile_state.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,14 +15,13 @@ class PublicUserProfileScreen extends StatelessWidget {
     double heightscreen = MediaQuery.of(context).size.height;
     double widthscreen = MediaQuery.of(context).size.width;
 
-    return BlocConsumer<ConsultingCubit, ConsultingStates>(
+    return BlocConsumer<PublicProfileCubit, PublicProfileStates>(
       listener: (context, state) {},
       builder: (
           context,
           state,
-          ) {//var model = ConsultingCubit.get(context).;
-
-        //var list = model!.data!.expert!.experiences!;
+          ) {
+        var cubit = PublicProfileCubit.get(context);
         return Scaffold(
           backgroundColor: ThemeColors.backgroundColor,
           body: SafeArea(
@@ -89,10 +90,14 @@ class PublicUserProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'DR steaf hihihjjjdddd',
-                                //'${model!.data!.user!.name!}',
+                                //'DR steaf hihihjjjdddd',
+                                '${cubit!.publicUserProfileModel!.data!.user!.name!}',
                                 style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.w700),
+                                    fontSize: 24, fontWeight: FontWeight.w700,
+
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(
                                 height: 20,
@@ -164,19 +169,21 @@ class PublicUserProfileScreen extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
-                          children: const [
+                          children:  [
                             SizedBox(
                               height: 10,
                               width: 36,
                             ),
                             Text(
-                              //'${model.data!.user!.email!}',
-                              'batoul@gmail.com',
+                              '${cubit!.publicUserProfileModel!.data!.user!.email!}',
+                              //'batoul@gmail.com',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 42, 70),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
@@ -208,19 +215,21 @@ class PublicUserProfileScreen extends StatelessWidget {
                           height: 10,
                         ),
                         Row(
-                          children: const [
+                          children:  [
                             SizedBox(
                               height: 10,
                               width: 36,
                             ),
                             Text(
-                              //'${model.data!.user!.phone}',
-                              '09478989889',
+                              '${cubit!.publicUserProfileModel!.data!.user!.phone}',
+                              //'09478989889',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 42, 70),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),

@@ -1,3 +1,4 @@
+import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_state.dart';
 import 'package:consulting_app/UI/Components/components.dart';
@@ -59,6 +60,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
   bool? isThursday = false;
   bool? isFriday = false;
   bool? isSaturday = false;
+
 
 
   void addOtherCategoryController() {
@@ -141,6 +143,14 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     }
   }
 
+  void initState(){
+    medicinePriceController.clear();
+    careerPriceController.clear();
+    psychologyPriceController.clear();
+    familyPriceController.clear();
+    managementPriceController.clear();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +198,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
               value: state.loginModel.data!.token,
             ).then((value) {
               token = state.loginModel.data!.token;
-              Navigator.of(context).pushReplacementNamed('/home');
+              cubit.ExpertPhotoRegister();
             });
           } else {
             cubit.days.clear();
@@ -209,6 +219,23 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
             Navigator.pop(context);
           }
         }
+        if (state is RegisterPhotoSuccessState){
+          if(RegisterCubit.get(context).photoModel!.status== false){
+            cubit.days.clear();
+            medicinePriceController.clear();
+            careerPriceController.clear();
+            psychologyPriceController.clear();
+            familyPriceController.clear();
+            managementPriceController.clear();
+            cubit.services.clear();
+            cubit.times.clear();
+            print(state.photoModel.status!);
+          }
+          else{
+          ConsultingCubit.get(context).indx();
+          ConsultingCubit.get(context).getHomeDataToken(0);
+          Navigator.of(context).pushReplacementNamed('/home');
+        }}
       },
       builder: (context, state) {
         return Scaffold(
@@ -905,7 +932,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             if (value!.isEmpty) {
                               return 'Please enter your country';
                             }
-                            if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
+                            if (RegExp(r"[!@#<>?':_`~١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                     .hasMatch(value) ||
                                 RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                     .hasMatch(value)) {
@@ -961,7 +988,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             if (value!.isEmpty) {
                               return 'Please enter your city';
                             }
-                            if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
+                            if (RegExp(r"[!@#<>?':_`~١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                                     .hasMatch(value) ||
                                 RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                                     .hasMatch(value)) {
@@ -1700,7 +1727,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
             if (value!.isEmpty) {
               return 'Please enter your first name';
             }
-            if (RegExp(r"[!@#<>?':_`~ ١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
+            if (RegExp(r"[!@#<>?':_`~١٢٣٤٥٦٧٨٩٠؛،؟.,/;[\]\\|=+)(*&^%0-9-]")
                     .hasMatch(value) ||
                 RegExp(r'[!@#<>?":_`~.,/;{}،؟ًٌٍَُِّْ😅❤️🤩🔥👑🎉💙🤣💔👋💻😁🙋🤍🤝😂💪🌷🇦🇷👍🤦💚😍😥❤️🥳♾️🥰❤️🤗😘😪❤️❤️❤️❤️😬🤬❤️❤️€£¥₩°•○●□■♤♡◇♧☆▪️¤《》¡¿$÷×[\]\\|=+)(*&^%0-9-]')
                     .hasMatch(value)) {

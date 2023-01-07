@@ -1,7 +1,9 @@
+import 'package:consulting_app/Bloc/consulting_cubit.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
 import 'package:consulting_app/Bloc/search/search_cubit.dart';
 import 'package:consulting_app/Bloc/search/search_state.dart';
-import 'package:consulting_app/UI/Screens/home.dart';
+import 'package:consulting_app/UI/Screens/home_guest.dart';
 import 'package:consulting_app/models/search_model.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -479,13 +481,24 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
           ),
           Column(
             children:  [
-              LikeButton(
-                onTap: (isLiked) async{
-                  print('x');
-                  //ConsultingCubit.get(context).changeFavorites(model.id!);
-                },
+              LoginCubit.get(context).isLoginAsGuest == false?
+          LikeButton(
+            onTap: (bool isLiked) async {
+              print('isLiked= $isLiked');
+              ConsultingCubit.get(context).changeFavorites(model.id!);
+            },
+            likeBuilder: (isLiked) {
+              print('isLiked= $isLiked');
+
+              return Icon(
+                Icons.favorite,
+                color: isLiked ? Colors.red : Colors.grey,
                 size: 25,
-              ),
+              );
+            },
+          )
+
+        : Container(),
               const SizedBox(
                 height: 50,
               ),

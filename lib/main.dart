@@ -1,5 +1,7 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
+import 'package:consulting_app/Bloc/consulting_state.dart';
 import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
+import 'package:consulting_app/Bloc/home_guest/home_guest_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
@@ -12,7 +14,7 @@ import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
 import 'package:consulting_app/UI/Screens/public_expert_profile.dart';
 import 'package:consulting_app/UI/Screens/get_started.dart';
-import 'package:consulting_app/UI/Screens/home.dart';
+import 'package:consulting_app/UI/Screens/home_guest.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/UI/Screens/pages_controll.dart';
 import 'package:consulting_app/UI/Screens/public_user_profile.dart';
@@ -25,6 +27,8 @@ import 'package:consulting_app/UI/Screens/private_profile.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/codegen_loader.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,12 +36,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
 
   await CacheHelper.init();
   token = CacheHelper.getData(key: 'token');
+  CacheHelper.getData(key: 'switchValue')!=null?
+  switchValue = CacheHelper.getData(key: 'switchValue'):false
+  ;
   print(token);
 
   Widget widget;
@@ -59,7 +67,15 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp( MyApp(startWidget: widget));
+  runApp( EasyLocalization(
+    path: 'assets/translations/',
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      fallbackLocale: const Locale('en'),
+      assetLoader: const CodegenLoader(),
+      child: MyApp(startWidget: widget)));
 }
 
 class MyApp extends StatelessWidget {
@@ -68,14 +84,15 @@ class MyApp extends StatelessWidget {
 
    MyApp({required this.startWidget, Key? key}) : super(key: key);
 
-  int id = 0;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeData(id)..getUserData()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
-        ,),BlocProvider(
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeDataToken(0)..getUserData()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
+        ,),
+        BlocProvider(create: (BuildContext context)=>HomeGuestCubit()..getHomeDataGuest(0)),
+        BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
@@ -87,6 +104,9 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        locale: context.locale,
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {

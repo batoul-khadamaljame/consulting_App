@@ -3,6 +3,8 @@ import 'package:consulting_app/Bloc/consulting_state.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -16,7 +18,6 @@ class PagesControllScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = ConsultingCubit.get(context);
-
         return Scaffold(
           backgroundColor: ThemeColors.backgroundColor,
           appBar: null,
@@ -48,7 +49,11 @@ class PagesControllScreen extends StatelessWidget {
             onTabChange: (index) {
               cubit.changeBottomNavBar(index);
             },
-            tabs: cubit.bottomItems,
+            tabs: [
+              GButton(icon: Icons.home, text: LocaleKeys.Home.tr()),
+              GButton(icon: Icons.favorite, text: LocaleKeys.Favorites.tr()),
+              GButton(icon: Icons.supervised_user_circle, text: LocaleKeys.Profile.tr()),
+            ],
           ),
         );
       },
