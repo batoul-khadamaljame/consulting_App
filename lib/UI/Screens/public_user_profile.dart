@@ -91,7 +91,7 @@ class PublicUserProfileScreen extends StatelessWidget {
                             children: [
                               Text(
                                 //'DR steaf hihihjjjdddd',
-                                '${cubit!.publicUserProfileModel!.data!.user!.name!}',
+                                '${cubit!.publicUserProfileModel!.data!.name}',
                                 style: TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.w700,
 
@@ -175,7 +175,7 @@ class PublicUserProfileScreen extends StatelessWidget {
                               width: 36,
                             ),
                             Text(
-                              '${cubit!.publicUserProfileModel!.data!.user!.email!}',
+                              '${cubit.publicUserProfileModel!.data!.email!}',
                               //'batoul@gmail.com',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 42, 70),
@@ -221,7 +221,7 @@ class PublicUserProfileScreen extends StatelessWidget {
                               width: 36,
                             ),
                             Text(
-                              '${cubit!.publicUserProfileModel!.data!.user!.phone}',
+                              '${cubit.publicUserProfileModel!.data!.phone}',
                               //'09478989889',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 53, 42, 70),

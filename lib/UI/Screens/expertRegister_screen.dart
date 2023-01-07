@@ -13,25 +13,25 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-var medicinePriceController = TextEditingController();
-var careerPriceController = TextEditingController();
-var psychologyPriceController = TextEditingController();
-var familyPriceController = TextEditingController();
-var managementPriceController = TextEditingController();
+var medicinePriceControllerRegister = TextEditingController();
+var careerPriceControllerRegister = TextEditingController();
+var psychologyPriceControllerRegister = TextEditingController();
+var familyPriceControllerRegister = TextEditingController();
+var managementPriceControllerRegister = TextEditingController();
 
-List<TextEditingController> OtherNamesController = [];
-List<TextEditingController> OtherPricesController = [];
+List<TextEditingController> OtherNamesControllerRegister = [];
+List<TextEditingController> OtherPricesControllerRegister = [];
 
-var countryController = TextEditingController();
-var cityController = TextEditingController();
+var countryControllerRegister = TextEditingController();
+var cityControllerRegister = TextEditingController();
 
-var descriptionController = TextEditingController();
+var descriptionControllerRegister = TextEditingController();
 
-var startTimeController = TextEditingController();
-var endTimeController = TextEditingController();
+var startTimeControllerRegister = TextEditingController();
+var endTimeControllerRegister = TextEditingController();
 
-List<TextEditingController> starttimesController = [];
-List<TextEditingController> endtimesController = [];
+List<TextEditingController> starttimesControllerRegister = [];
+List<TextEditingController> endtimesControllerRegister = [];
 
 
 var formKey = GlobalKey<FormState>();
@@ -64,25 +64,25 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
 
 
   void addOtherCategoryController() {
-    OtherNamesController.add(TextEditingController());
-    OtherPricesController.add(TextEditingController());
-    print(OtherNamesController);
-    print(OtherPricesController);
+    OtherNamesControllerRegister.add(TextEditingController());
+    OtherPricesControllerRegister.add(TextEditingController());
+    print(OtherNamesControllerRegister);
+    print(OtherPricesControllerRegister);
   }
 
   void deleteOtherCategoryController() {
-    OtherNamesController.removeLast();
-    OtherPricesController.removeLast();
+    OtherNamesControllerRegister.removeLast();
+    OtherPricesControllerRegister.removeLast();
   }
 
   void addOtherTimesController() {
-    starttimesController.add(TextEditingController());
-    endtimesController.add(TextEditingController());
+    starttimesControllerRegister.add(TextEditingController());
+    endtimesControllerRegister.add(TextEditingController());
   }
 
   void deleteOtherTimesController() {
-    starttimesController.removeLast();
-    endtimesController.removeLast();
+    starttimesControllerRegister.removeLast();
+    endtimesControllerRegister.removeLast();
   }
 
 
@@ -101,28 +101,28 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
       bool isSaturday) {
     if (isMedecine) {
       RegisterCubit.get(context)
-          .addService('1', 'Medicine', medicinePriceController.text);
+          .addService('1', 'Medicine', medicinePriceControllerRegister.text);
     }
     if (isCareer) {
       RegisterCubit.get(context)
-          .addService('2', 'Career', careerPriceController.text);
+          .addService('2', 'Career', careerPriceControllerRegister.text);
     }
     if (isPsychology) {
       RegisterCubit.get(context)
-          .addService('3', 'Psychology', psychologyPriceController.text);
+          .addService('3', 'Psychology', psychologyPriceControllerRegister.text);
     }
     if (isFamily) {
       RegisterCubit.get(context)
-          .addService('4', 'Family', familyPriceController.text);
+          .addService('4', 'Family', familyPriceControllerRegister.text);
     }
     if (isManagement) {
       RegisterCubit.get(context)
-          .addService('5', 'Management', managementPriceController.text);
+          .addService('5', 'Management', managementPriceControllerRegister.text);
     }
 
-    for (int i = 0; i < OtherNamesController.length; i++) {
+    for (int i = 0; i < OtherNamesControllerRegister.length; i++) {
       RegisterCubit.get(context).addService(
-          '6', OtherNamesController[i].text, OtherPricesController[i].text);
+          '6', OtherNamesControllerRegister[i].text, OtherPricesControllerRegister[i].text);
     }
 
     if (isSunday ||
@@ -136,19 +136,19 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           isWednesday, isThursday, isFriday, isSaturday);
     }
     RegisterCubit.get(context)
-        .addTimes(startTimeController.text, endTimeController.text);
-    for (int i = 0; i < starttimesController.length; i++) {
+        .addTimes(startTimeControllerRegister.text, endTimeControllerRegister.text);
+    for (int i = 0; i < starttimesControllerRegister.length; i++) {
       RegisterCubit.get(context)
-          .addTimes(starttimesController[i].text, endtimesController[i].text);
+          .addTimes(starttimesControllerRegister[i].text, endtimesControllerRegister[i].text);
     }
   }
 
   void initState(){
-    medicinePriceController.clear();
-    careerPriceController.clear();
-    psychologyPriceController.clear();
-    familyPriceController.clear();
-    managementPriceController.clear();
+    medicinePriceControllerRegister.clear();
+    careerPriceControllerRegister.clear();
+    psychologyPriceControllerRegister.clear();
+    familyPriceControllerRegister.clear();
+    managementPriceControllerRegister.clear();
     super.initState();
   }
 
@@ -202,11 +202,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
             });
           } else {
             cubit.days.clear();
-            medicinePriceController.clear();
-            careerPriceController.clear();
-            psychologyPriceController.clear();
-            familyPriceController.clear();
-            managementPriceController.clear();
+            medicinePriceControllerRegister.clear();
+            careerPriceControllerRegister.clear();
+            psychologyPriceControllerRegister.clear();
+            familyPriceControllerRegister.clear();
+            managementPriceControllerRegister.clear();
+
             cubit.services.clear();
             cubit.times.clear();
             print(state.loginModel.status!);
@@ -222,20 +223,30 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
         if (state is RegisterPhotoSuccessState){
           if(RegisterCubit.get(context).photoModel!.status== false){
             cubit.days.clear();
-            medicinePriceController.clear();
-            careerPriceController.clear();
-            psychologyPriceController.clear();
-            familyPriceController.clear();
-            managementPriceController.clear();
+            medicinePriceControllerRegister.clear();
+            careerPriceControllerRegister.clear();
+            psychologyPriceControllerRegister.clear();
+            familyPriceControllerRegister.clear();
+            managementPriceControllerRegister.clear();
             cubit.services.clear();
             cubit.times.clear();
+            Navigator.pop(context);
+            showToast(
+              text: state.photoModel.message!,
+              state: ToastState.error,
+            );
             print(state.photoModel.status!);
           }
           else{
+            showToast(
+              text: 'registered sucessfully',
+              state: ToastState.success,
+            );
           ConsultingCubit.get(context).indx();
           ConsultingCubit.get(context).getHomeDataToken(0);
           Navigator.of(context).pushReplacementNamed('/home');
-        }}
+          }
+      }
       },
       builder: (context, state) {
         return Scaffold(
@@ -302,7 +313,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   ),
                                 ),
                                 TextFormField(
-                                  controller: medicinePriceController,
+                                  controller: medicinePriceControllerRegister,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   enabled: isMedecine,
@@ -347,7 +358,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                         isPsychology == false &&
                                         isFamily == false &&
                                         isManagement == false &&
-                                        OtherNamesController.length == 0) {
+                                        OtherNamesControllerRegister.length == 0) {
                                       return 'You should offer one service at least';
                                     }
                                     if (value!.isEmpty && isMedecine == true) {
@@ -377,7 +388,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isMedecine = newbool;
                                 if (isMedecine == false) {
-                                  medicinePriceController.clear();
+                                  medicinePriceControllerRegister.clear();
                                 }
                               });
                             },
@@ -407,7 +418,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 TextFormField(
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: careerPriceController,
+                                  controller: careerPriceControllerRegister,
                                   keyboardType: TextInputType.number,
                                   enabled: isCareer,
                                   cursorColor: ThemeColors.highlight,
@@ -473,7 +484,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isCareer = newbool;
                                 if (isCareer == false) {
-                                  careerPriceController.clear();
+                                  careerPriceControllerRegister.clear();
                                 }
                               });
                             },
@@ -504,7 +515,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: psychologyPriceController,
+                                  controller: psychologyPriceControllerRegister,
                                   keyboardType: TextInputType.number,
                                   enabled: isPsychology,
                                   decoration: InputDecoration(
@@ -569,7 +580,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isPsychology = newbool!;
                                 if (isPsychology == false) {
-                                  psychologyPriceController.clear();
+                                  psychologyPriceControllerRegister.clear();
                                 }
                               });
                             },
@@ -601,7 +612,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: familyPriceController,
+                                  controller: familyPriceControllerRegister,
                                   keyboardType: TextInputType.number,
                                   enabled: isFamily,
                                   decoration: InputDecoration(
@@ -665,7 +676,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isFamily = newbool;
                                 if (isFamily == false) {
-                                  familyPriceController.clear();
+                                  familyPriceControllerRegister.clear();
                                 }
                               });
                             },
@@ -696,7 +707,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: managementPriceController,
+                                  controller: managementPriceControllerRegister,
                                   keyboardType: TextInputType.number,
                                   enabled: isManagement,
                                   decoration: InputDecoration(
@@ -761,7 +772,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                               setState(() {
                                 isManagement = newbool;
                                 if (isManagement == false) {
-                                  managementPriceController.clear();
+                                  managementPriceControllerRegister.clear();
                                 }
                               });
                             },
@@ -843,7 +854,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if (OtherNamesController.length > 0) {
+                                      if (OtherNamesControllerRegister.length > 0) {
                                         deleteOtherCategoryController();
                                       }
                                     });
@@ -865,7 +876,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           //reverse: true,
-                          itemCount: OtherNamesController.length,
+                          itemCount: OtherNamesControllerRegister.length,
                           itemBuilder: (context, index) => addCatergory(index),
                         ),
                       ],
@@ -894,7 +905,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         Expanded(
                             child: TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          controller: countryController,
+                          controller: countryControllerRegister,
                           keyboardType: TextInputType.text,
                           onFieldSubmitted: (String value) {
                             print(value);
@@ -938,9 +949,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     .hasMatch(value)) {
                               return 'Invalid country';
                             }
-                            if (value.length > 10) {
-                              return 'You reached the maximum length';
-                            }
                             return null;
                           },
                         )),
@@ -950,7 +958,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         Expanded(
                             child: TextFormField(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          controller: cityController,
+                          controller: cityControllerRegister,
                           keyboardType: TextInputType.text,
                           onFieldSubmitted: (String value) {
                             print(value);
@@ -994,9 +1002,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     .hasMatch(value)) {
                               return 'Invalid city';
                             }
-                            if (value.length > 10) {
-                              return 'You reached the maximum length';
-                            }
+
                             return null;
                           },
                         )),
@@ -1023,7 +1029,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: descriptionController,
+                      controller: descriptionControllerRegister,
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       // minLines: null,
@@ -1218,7 +1224,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           width: 120,
                           height: 50,
                           child: TextFormField(
-                              controller: startTimeController,
+                              controller: startTimeControllerRegister,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.number,
@@ -1281,12 +1287,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   return 'Invalid start time';
                                 }
                                 if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                                        .hasMatch(endTimeController.text)) {
+                                        .hasMatch(endTimeControllerRegister.text)) {
                                   return 'Invalid start time';
                                 }
-                                if(endTimeController.text.isNotEmpty) {
+                                if(endTimeControllerRegister.text.isNotEmpty) {
                                   if (int.parse(value) >=
-                                      int.parse(endTimeController.text)) {
+                                      int.parse(endTimeControllerRegister.text)) {
                                     return 'Invalid start time';
                                   }
                                 }
@@ -1369,7 +1375,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: 120,
                             height: 50,
                             child: TextFormField(
-                                controller: endTimeController,
+                                controller: endTimeControllerRegister,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 keyboardType: TextInputType.number,
@@ -1432,12 +1438,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     return 'Invalid end time';
                                   }
                                   if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                                      .hasMatch(startTimeController.text)) {
+                                      .hasMatch(startTimeControllerRegister.text)) {
                                     return 'Invalid end time';
                                   }
-                                  if(startTimeController.text.isNotEmpty) {
+                                  if(startTimeControllerRegister.text.isNotEmpty) {
                                     if (int.parse(value) <=
-                                        int.parse(startTimeController.text)) {
+                                        int.parse(startTimeControllerRegister.text)) {
                                       return 'Invalid end time';
                                     }
                                   }
@@ -1541,7 +1547,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if(starttimesController.length<12) {
+                                      if(starttimesControllerRegister.length<12) {
                                         addOtherTimesController();
                                       }
                                     });
@@ -1579,7 +1585,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if (starttimesController.length > 0) {
+                                      if (starttimesControllerRegister.length > 0) {
                                         deleteOtherTimesController();
                                       }
                                     });
@@ -1606,7 +1612,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       //reverse: true,
-                      itemCount: starttimesController.length,
+                      itemCount: starttimesControllerRegister.length,
                       itemBuilder: (context, index) => Addtime(index),
                     ),
                     SizedBox(
@@ -1650,12 +1656,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
 
                                 RegisterCubit.get(context).ExpertRegister(
                                   name: fullname,
-                                  phone: numberController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  country: countryController.text,
-                                  city: cityController.text,
-                                  experience: descriptionController.text,
+                                  phone: numberControllerRegister.text,
+                                  email: emailControllerRegister.text,
+                                  password: passwordControllerRegister.text,
+                                  country: countryControllerRegister.text,
+                                  city: cityControllerRegister.text,
+                                  experience: descriptionControllerRegister.text,
                                 );
                               } else {
                                 setState(() {
@@ -1690,7 +1696,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     return Column(
       children: [
         TextFormField(
-          controller: OtherNamesController[index],
+          controller: OtherNamesControllerRegister[index],
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.text,
@@ -1741,7 +1747,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           },
         ),
         TextFormField(
-          controller: OtherPricesController[index],
+          controller: OtherPricesControllerRegister[index],
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.number,
@@ -1811,7 +1817,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
               height: 50,
               child: TextFormField(
                   inputFormatters: [],
-                  controller: starttimesController[index],
+                  controller: starttimesControllerRegister[index],
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
@@ -1870,12 +1876,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                       return 'Invalid start time';
                     }
                     if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                        .hasMatch(endtimesController[index].text)) {
+                        .hasMatch(endtimesControllerRegister[index].text)) {
                       return 'Invalid start time';
                     }
-                    if(endtimesController[index].text.isNotEmpty) {
+                    if(endtimesControllerRegister[index].text.isNotEmpty) {
                       if (int.parse(value) >=
-                          int.parse(endtimesController[index].text)) {
+                          int.parse(endtimesControllerRegister[index].text)) {
                         return 'Invalid start time';
                       }
                     }
@@ -1957,7 +1963,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                 width: 120,
                 height: 50,
                 child: TextFormField(
-                    controller: endtimesController[index],
+                    controller: endtimesControllerRegister[index],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
@@ -2016,12 +2022,12 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         return 'Invalid end time';
                       }
                       if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                          .hasMatch(starttimesController[index].text)) {
+                          .hasMatch(starttimesControllerRegister[index].text)) {
                         return 'Invalid end time';
                       }
-                      if(starttimesController[index].text.isNotEmpty) {
+                      if(starttimesControllerRegister[index].text.isNotEmpty) {
                         if (int.parse(value) <=
-                            int.parse(starttimesController[index].text)) {
+                            int.parse(starttimesControllerRegister[index].text)) {
                           return 'Invalid end time';
                         }
                       }

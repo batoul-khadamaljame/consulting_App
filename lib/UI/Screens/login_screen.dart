@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:consulting_app/theme/theme.dart';
 
-var emailController = TextEditingController();
-var passwordController = TextEditingController();
+var emailControllerLogin = TextEditingController();
+var passwordControllerLogin = TextEditingController();
 var formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatefulWidget {
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             cursorColor: ThemeColors.highlight,
                             autovalidateMode:
                             AutovalidateMode.onUserInteraction,
-                            controller: emailController,
+                            controller: emailControllerLogin,
                             keyboardType: TextInputType.emailAddress,
                             onFieldSubmitted: (String value) {
                               print(value);
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: LoginCubit
                                 .get(context)
                                 .isPassword,
-                            controller: passwordController,
+                            controller: passwordControllerLogin,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               labelText: ' password',
@@ -275,8 +275,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     {
                                       LoginCubit.get(context).changeIsLogin();
                                       LoginCubit.get(context).loginUser(
-                                          email: emailController.text,
-                                          password: passwordController.text);
+                                          email: emailControllerLogin.text,
+                                          password: passwordControllerLogin.text);
                                     }
 
                                   },

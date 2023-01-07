@@ -223,6 +223,7 @@ class ServiceReservation extends StatelessWidget {
                             Border.all(width: 0.5, color: Colors.deepPurple),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                            Text(
                             'Expert:',
@@ -233,9 +234,6 @@ class ServiceReservation extends StatelessWidget {
                                     color: Colors.black
                                 )
                             ),
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
                           ),
                           Text(
                             '${cubit.reservertionModel!.data!.name}',
@@ -249,9 +247,8 @@ class ServiceReservation extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(width: width*0.2,),
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 4),
+                            margin: EdgeInsets.symmetric(vertical: 4,horizontal: 2),
                             width: width * 0.27,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),

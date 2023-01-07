@@ -38,7 +38,6 @@ class User {
     phone = json['phone1'];
     //image = json['image'];
     isExp = json['isExp'];
-    balance = json['balance'];
   }
   int? id;
   String? name;
@@ -47,7 +46,6 @@ class User {
   String? phone;
   //String? image;
   dynamic isExp;
-  int? balance;
 
 }
 
@@ -82,6 +80,7 @@ class Expert{
 
 class ExpertInfo{
   ExpertInfo.fromJson(Map<String, dynamic> json) {
+    expert_id = json['user_id'];
     country = json['country'];
     city = json['city'];
     skills = json['skills'];
@@ -89,6 +88,7 @@ class ExpertInfo{
   String? country;
   String? city;
   String? skills;
+  dynamic expert_id;
 
 }
 

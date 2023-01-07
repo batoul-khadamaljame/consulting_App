@@ -21,6 +21,9 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   MultipartFile? file;
 
+
+
+  String imageString = "assets/images/imageprofile.jpeg";
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -32,7 +35,6 @@ class RegisterCubit extends Cubit<RegisterStates> {
     } on PlatformException {
       print('Failed to pick image');
     }
-
     emit(PickImage());
   }
 

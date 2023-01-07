@@ -4,6 +4,7 @@ import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_state.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
+import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:email_validator/email_validator.dart';
@@ -15,13 +16,13 @@ import 'package:image_picker/image_picker.dart';
 import '../Components/components.dart';
 
 
-var firstnameController = TextEditingController();
-var lastnameController = TextEditingController();
-var emailController = TextEditingController();
-var passwordController = TextEditingController();
-var confirmpasswordController = TextEditingController();
-var numberController = TextEditingController();
-var fullname = firstnameController.text + ' ' + lastnameController.text;
+var firstnameControllerRegister = TextEditingController();
+var lastnameControllerRegister = TextEditingController();
+var emailControllerRegister = TextEditingController();
+var passwordControllerRegister = TextEditingController();
+var confirmpasswordControllerRegister = TextEditingController();
+var numberControllerRegister = TextEditingController();
+var fullname = firstnameControllerRegister.text + ' ' + lastnameControllerRegister.text;
 var formKey = GlobalKey<FormState>();
 
 class UserRegister extends StatefulWidget {
@@ -52,9 +53,7 @@ class _UserRegisterState extends State<UserRegister> {
             value: state.loginModel.data!.token,
           ).then((value) {
             token = state.loginModel.data!.token;
-            ConsultingCubit.get(context).indx();
-            ConsultingCubit.get(context).getHomeDataToken(0);
-            Navigator.of(context).pushReplacementNamed('/home');
+            RegisterCubit.get(context).ExpertPhotoRegister();
           });
           }
               else {
@@ -64,6 +63,17 @@ class _UserRegisterState extends State<UserRegister> {
                 state: ToastState.error,
               );
             }
+        }
+        if (state is RegisterPhotoSuccessState){
+          if(RegisterCubit.get(context).photoModel!.status== false){
+          emailControllerLogin.clear();
+          passwordControllerLogin.clear();
+        }
+          else{
+            ConsultingCubit.get(context).indx();
+            ConsultingCubit.get(context).getHomeDataToken(0);
+            Navigator.of(context).pushReplacementNamed('/home');
+          }
         }
       },
       builder: (context, state) {
@@ -139,7 +149,7 @@ class _UserRegisterState extends State<UserRegister> {
                                                       // splashColor: Colors.blue,
                                                       child: ClipOval(
                                                         child: Image.asset(
-                                                          "assets/images/imageprofile.jpeg",
+                                                          RegisterCubit.get(context).imageString,
                                                           width: 115,
                                                           height: 115,
                                                           fit: BoxFit.cover,
@@ -192,7 +202,7 @@ class _UserRegisterState extends State<UserRegister> {
                                           cursorColor: ThemeColors.highlight,
                                           autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
-                                      controller: firstnameController,
+                                      controller: firstnameControllerRegister,
                                       keyboardType: TextInputType.text,
                                       onFieldSubmitted: (String value) {
                                         print(value);
@@ -267,7 +277,7 @@ class _UserRegisterState extends State<UserRegister> {
                                           cursorColor: ThemeColors.highlight,
                                           autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
-                                      controller: lastnameController,
+                                      controller: lastnameControllerRegister,
                                       keyboardType: TextInputType.text,
                                       onFieldSubmitted: (String value) {
                                         print(value);
@@ -339,7 +349,7 @@ class _UserRegisterState extends State<UserRegister> {
 
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: emailController,
+                                  controller: emailControllerRegister,
                                   keyboardType: TextInputType.emailAddress,
                                   onFieldSubmitted: (String value) {
                                     print(value);
@@ -399,7 +409,7 @@ class _UserRegisterState extends State<UserRegister> {
                                       AutovalidateMode.onUserInteraction,
                                   obscureText:
                                       RegisterCubit.get(context).isPassword,
-                                  controller: passwordController,
+                                  controller: passwordControllerRegister,
                                   keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
                                     labelText: ' password',
@@ -487,7 +497,7 @@ class _UserRegisterState extends State<UserRegister> {
                                       AutovalidateMode.onUserInteraction,
                                   obscureText:
                                       RegisterCubit.get(context).isPassword,
-                                  controller: confirmpasswordController,
+                                  controller: confirmpasswordControllerRegister,
                                   keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
                                     labelText: ' confirm password',
@@ -555,7 +565,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     ),
                                   ),
                                   validator: (value) {
-                                    if (value != passwordController.text) {
+                                    if (value != passwordControllerRegister.text) {
                                       return "Password doesn't match";
                                     }
                                   },
@@ -569,7 +579,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   cursorColor: ThemeColors.highlight,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
-                                  controller: numberController,
+                                  controller: numberControllerRegister,
                                   keyboardType: TextInputType.phone,
                                   onFieldSubmitted: (String value) {
                                     print(value);
@@ -666,11 +676,11 @@ class _UserRegisterState extends State<UserRegister> {
                                                   RegisterCubit.get(context)
                                                       .userRegister(
                                                     name: fullname,
-                                                    email: emailController.text,
+                                                    email: emailControllerRegister.text,
                                                     password:
-                                                        passwordController.text,
+                                                        passwordControllerRegister.text,
                                                     phone:
-                                                        numberController.text,
+                                                        numberControllerRegister.text,
                                                   );
                                                 }
                                               },
@@ -719,9 +729,9 @@ class _UserRegisterState extends State<UserRegister> {
                                               if (formKey.currentState!
                                                   .validate()) {
                                               print(fullname);
-                                              print(emailController.text);
-                                              print(passwordController.text);
-                                              print(numberController.text);
+                                              print(emailControllerRegister.text);
+                                              print(passwordControllerRegister.text);
+                                              print(numberControllerRegister.text);
                                               print(RegisterCubit.get(context).isExpert);
 
 

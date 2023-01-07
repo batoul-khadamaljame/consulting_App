@@ -10,9 +10,6 @@ class PublicExpertProfileLoadingState extends PublicProfileStates{}
 
 class PublicExpertProfileSuccessState extends PublicProfileStates
 {
-  final PublicProfileModel publicExpertProfileModel;
-
-  PublicExpertProfileSuccessState(this.publicExpertProfileModel);
 }
 class PublicExpertProfileErrorState extends PublicProfileStates
 {
@@ -27,9 +24,7 @@ class PublicUserProfileLoadingState extends PublicProfileStates{}
 
 class PublicUserProfileSuccessState extends PublicProfileStates
 {
-  final PublicProfileModel publicUserProfileModel;
 
-  PublicUserProfileSuccessState(this.publicUserProfileModel);
 }
 class PublicUserProfileErrorState extends PublicProfileStates
 {
