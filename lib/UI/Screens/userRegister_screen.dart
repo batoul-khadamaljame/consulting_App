@@ -7,6 +7,8 @@ import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/login_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -208,7 +210,7 @@ class _UserRegisterState extends State<UserRegister> {
                                         print(value);
                                       },
                                       decoration: InputDecoration(
-                                        labelText: "First Name",
+                                        labelText: LocaleKeys.First_Name.tr(),
                                         prefixIcon: const Icon(
                                           Icons.person,
                                           color: ThemeColors.icon,
@@ -283,7 +285,7 @@ class _UserRegisterState extends State<UserRegister> {
                                         print(value);
                                       },
                                       decoration: InputDecoration(
-                                        labelText: "Last Name",
+                                        labelText: LocaleKeys.Last_Name.tr(),
                                         prefixIcon: const Icon(
                                           Icons.person,
                                           color: ThemeColors.icon,
@@ -355,7 +357,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     print(value);
                                   },
                                   decoration: InputDecoration(
-                                    labelText: "Enter Email",
+                                    labelText: LocaleKeys.Email.tr(),
                                     prefixIcon: const Icon(
                                       Icons.email,
                                       color: ThemeColors.icon,
@@ -412,7 +414,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   controller: passwordControllerRegister,
                                   keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
-                                    labelText: ' password',
+                                    labelText: LocaleKeys.password.tr(),
                                     labelStyle: const TextStyle(
                                       color: Colors.deepPurpleAccent,
                                     ),
@@ -500,7 +502,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   controller: confirmpasswordControllerRegister,
                                   keyboardType: TextInputType.visiblePassword,
                                   decoration: InputDecoration(
-                                    labelText: ' confirm password',
+                                    labelText: LocaleKeys.confirm_password.tr(),
                                     labelStyle: const TextStyle(
                                       color: Colors.deepPurpleAccent,
                                     ),
@@ -585,7 +587,7 @@ class _UserRegisterState extends State<UserRegister> {
                                     print(value);
                                   },
                                   decoration: InputDecoration(
-                                    labelText: "phone",
+                                    labelText: LocaleKeys.phone.tr(),
                                     prefixIcon: const Icon(
                                       Icons.phone,
                                       color: ThemeColors.icon,
@@ -665,6 +667,7 @@ class _UserRegisterState extends State<UserRegister> {
                                           ),
                                           child: Material(
                                             color: Colors.transparent,
+
                                             child: InkWell(
                                               splashColor:
                                                   ThemeColors.splashinkweel,
@@ -684,9 +687,9 @@ class _UserRegisterState extends State<UserRegister> {
                                                   );
                                                 }
                                               },
-                                              child: const Center(
+                                              child:  Center(
                                                   child: Text(
-                                                'Sign up',
+                                                    LocaleKeys.Sign_up.tr(),
                                                 style: TextStyle(
                                                   color: ThemeColors
                                                       .backgroundColor,
@@ -740,9 +743,9 @@ class _UserRegisterState extends State<UserRegister> {
                                                         '/expertRegister');
                                               }
                                             },
-                                            child: const Center(
+                                            child:  Center(
                                                 child: Text(
-                                              'Continue',
+                                              LocaleKeys.Continue.tr(),
                                               style: TextStyle(
                                                 color:
                                                     ThemeColors.backgroundColor,
@@ -761,7 +764,7 @@ class _UserRegisterState extends State<UserRegister> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        const Text('Alrready have a account?'),
+                                         Text( LocaleKeys.Already_have_an_account.tr()),
                                         MaterialButton(
                                           onPressed: () {
                                             Navigator.of(context)

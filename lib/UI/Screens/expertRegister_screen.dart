@@ -6,6 +6,8 @@ import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/userRegister_screen.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -261,8 +263,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                 key: formKey,
                 child: Column(
                   children: [
-                    const Text(
-                      'More information',
+                     Text(
+                      LocaleKeys.More_information.tr(),
                       style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w900,
@@ -273,9 +275,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
+                        children:  [
                           Text(
-                            'Choose the services you offer',
+                              LocaleKeys.Choose_the_services_you_offer.tr(),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w900,
@@ -303,8 +305,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Medicene',
+                                 Text(
+                            LocaleKeys.Medicine.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -343,7 +345,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText: 'price',
+                                    labelText:   LocaleKeys.price.tr(),
+
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -407,8 +410,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Career',
+                                   Text(
+                            LocaleKeys.Career.tr(),
+
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -447,7 +451,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText: 'price',
+                                    labelText:                       LocaleKeys.Price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -503,8 +507,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Psychology',
+                                 Text(
+        LocaleKeys.Psychology.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -543,7 +547,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText: 'price',
+                                    labelText: LocaleKeys.Price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -599,8 +603,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Family',
+                                 Text(
+        LocaleKeys.Family.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -640,7 +644,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText: 'price',
+                                    labelText: LocaleKeys.Price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -694,8 +698,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Management',
+                                 Text(
+        LocaleKeys.Management.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -735,7 +739,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText: 'price',
+                                    labelText: LocaleKeys.Price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -783,8 +787,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         ),
                         Row(
                           children: [
-                            const Text(
-                              'Others :',
+                             Text(
+        LocaleKeys.Others.tr(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -886,9 +890,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children:  [
                         Text(
-                          'Your Address',
+        LocaleKeys.Address.tr(),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -910,7 +914,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           onFieldSubmitted: (String value) {
                             print(value);
                           },
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             suffixIcon: Icon(
                               Icons.place_outlined,
                               color: Colors.deepPurple,
@@ -937,7 +941,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 width: 1.5,
                               ),
                             ),
-                            labelText: 'country',
+                            labelText: LocaleKeys.country.tr(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -963,7 +967,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           onFieldSubmitted: (String value) {
                             print(value);
                           },
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             suffixIcon: Icon(
                               Icons.place_outlined,
                               color: Colors.deepPurple,
@@ -990,7 +994,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 width: 1.5,
                               ),
                             ),
-                            labelText: 'city',
+                            labelText: LocaleKeys.city.tr(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -1013,9 +1017,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children:  [
                         Text(
-                          'Your Experience',
+                          LocaleKeys.Your_Experience.tr(),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -1034,7 +1038,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                       keyboardType: TextInputType.multiline,
                       // minLines: null,
                       decoration: InputDecoration(
-                        labelText: "Description",
+                        labelText: LocaleKeys.Description.tr(),
                         prefixIcon: const Icon(
                           Icons.info,
                           color: ThemeColors.icon,
@@ -1084,9 +1088,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children:  [
                         Text(
-                          'Select your available time',
+        LocaleKeys.Select_your_available_time.tr(),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -1103,7 +1107,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                       child: Row(
                         children: [
                           Column(children: [
-                            const Text('Sunday'),
+                             Text(LocaleKeys.Sunday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isSunday,
@@ -1119,7 +1123,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Monday'),
+                             Text(LocaleKeys.Monday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isMonday,
@@ -1135,7 +1139,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Tuesday'),
+                             Text(LocaleKeys.Tuesday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isTuesday,
@@ -1151,7 +1155,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Wednesday'),
+                             Text(LocaleKeys.Wednesday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isWednesday,
@@ -1167,7 +1171,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Thursday'),
+                             Text(LocaleKeys.Thrusday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isThursday,
@@ -1183,7 +1187,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Friday'),
+                             Text(LocaleKeys.Friday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isFriday,
@@ -1199,7 +1203,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                            const Text('Saturday'),
+                             Text(LocaleKeys.Saturday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isSaturday,
@@ -1233,7 +1237,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 suffixStyle: const TextStyle(
                                     color: Colors.grey, fontSize: 16),
                                 suffixText: ":00",
-                                labelText: "Start Time",
+                                labelText: LocaleKeys.Start_Time.tr(),
                                 labelStyle: const TextStyle(
                                   color: ThemeColors.highlight,
                                 ),
@@ -1384,7 +1388,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   suffixStyle: const TextStyle(
                                       color: Colors.grey, fontSize: 16),
                                   suffixText: ":00",
-                                  labelText: "End Time",
+                                  labelText: LocaleKeys.End_Time.tr(),
                                   labelStyle: const TextStyle(
                                     color: ThemeColors.highlight,
                                   ),
@@ -1669,9 +1673,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 });
                               }
                             },
-                            child: const Center(
+                            child:  Center(
                                 child: Text(
-                              'Sign up',
+        LocaleKeys.Sign_up.tr(),
                               style: TextStyle(
                                 color: ThemeColors.backgroundColor,
                                 fontSize: 15,

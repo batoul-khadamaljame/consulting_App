@@ -7,6 +7,8 @@ import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,9 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           Row(
-                            children: const [
+                            children:  [
                               Text(
-                                'Welcome Back..',
+                                LocaleKeys.Welcome_Back.tr(),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 25,
@@ -111,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               print(value);
                             },
                             decoration: InputDecoration(
-                              labelText: "Enter Email",
+                              labelText: LocaleKeys.Enter_Email.tr(),
                               prefixIcon: const Icon(
                                 Icons.email,
                                 color: ThemeColors.icon,
@@ -171,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: passwordControllerLogin,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
-                              labelText: ' password',
+                              labelText: LocaleKeys.password.tr(),
                               labelStyle: const TextStyle(
                                 color: Colors.deepPurpleAccent,
                               ),
@@ -237,8 +239,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               MaterialButton(
                                 onPressed: () {},
-                                child: const Text(
-                                  'Forgot Password?',
+                                child:  Text(
+                                  LocaleKeys.Forget_Password.tr(),
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontSize: 11,
@@ -280,9 +282,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
 
                                   },
-                                  child: const Center(
+                                  child:  Center(
                                       child: Text(
-                                        'LOGIN',
+                                        LocaleKeys.Login.tr(),
                                         style: TextStyle(
                                           color: ThemeColors.backgroundColor,
                                           fontSize: 15,
@@ -321,9 +323,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ConsultingCubit.get(context).indx();
                                   Navigator.of(context).pushReplacementNamed('/home');
                                 },
-                                child: const Center(
+                                child:  Center(
                                     child: Text(
-                                      'login as guest',
+                                      LocaleKeys.Login_as_Guest.tr(),
                                       style: TextStyle(
                                         color: ThemeColors.backgroundColor,
                                         fontSize: 15,
@@ -340,14 +342,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text('Don\'t have an acount?'),
+                                   Text(LocaleKeys.You_dont_have_an_account.tr()),
                                   MaterialButton(
                                     onPressed: () {
                                       Navigator.of(context)
                                           .pushReplacementNamed('/getStarted');
                                     },
-                                    child: const Text(
-                                      'Sign Up',
+                                    child:  Text(
+                                      LocaleKeys.Sign_up.tr(),
                                       style: TextStyle(
                                         decoration: TextDecoration.underline,
                                         color: ThemeColors.highlight,

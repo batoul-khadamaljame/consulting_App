@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
 import 'package:consulting_app/Bloc/reservation_history/reservation_history_cubit.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/reservation_history.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -269,7 +272,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: ThemeColors.icons,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/messege');
+                          MessageCubit.get(context).getChatData();
+                          Navigator.pushNamed(context, '/home_message');
                         },
                       ),
                     ],
@@ -296,7 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               width: widthscreen * 0.01,
                             ),
-                            Text('Settings',
+                            Text(LocaleKeys.Settings.tr(),
                                 style: TextStyle(
                                     fontSize: 27,
                                     color: Colors.deepPurple,
@@ -316,7 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               width: widthscreen * 0.01,
                             ),
-                            Text('Language',
+                            Text(LocaleKeys.Language.tr(),
                               style: TextStyle(
                                   fontSize: 22,
                                   color: Colors.purple,
@@ -340,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'English',
+                                  LocaleKeys.English.tr(),
                                   style: TextStyle(fontSize: 18, color: Colors.black),
                                 ),
                               ),
@@ -367,7 +371,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Arabic',
+                                  LocaleKeys.Arabic.tr(),
                                   style: TextStyle(fontSize: 18, color: Colors.black),
                                 ),
                               ),
@@ -386,7 +390,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             width: widthscreen * 0.01,
                           ),
-                          Text('About us',
+                          Text(LocaleKeys.About_us.tr(),
                             style: TextStyle(
                                 fontSize: 22,
                                 color: Colors.purple,
@@ -421,11 +425,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(100),
                                     child: ClipOval(
-                                      child: Image.asset(
-                                        "assets/images/imageprofile.jpeg",
+                                      child: /*Image.network(
+                                        '${model.data!.user!.image}',
                                         width: 115,
                                         height: 115,
                                         fit: BoxFit.cover,
+                                      ),*/
+                                      CachedNetworkImage(
+                                        imageUrl: '${model.data!.user!.image}',
+                                        placeholder: (context, url) => new CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) => new Icon(Icons.error,color: Colors.red,),
                                       ),
                                     ),
                                     onTap: () {},
@@ -447,7 +456,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      'My Role:',
+                                      LocaleKeys.My_Role.tr(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -509,7 +518,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      'My Name:',
+                                      LocaleKeys.My_Name.tr(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -593,7 +602,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      'My Email:',
+                                      LocaleKeys.My_Email.tr(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -675,7 +684,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      'My Phone:',
+                                      LocaleKeys.My_Phone.tr(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -772,7 +781,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'My balance :',
+                                          LocaleKeys.My_balance.tr(),
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),
@@ -816,9 +825,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       onTap: () {
                                         ConsultingCubit.get(context).logout();
                                       },
-                                      child: const Center(
+                                      child:  Center(
                                           child: Text(
-                                        'Log out',
+                                            LocaleKeys.Log_out.tr(),
                                         style: TextStyle(
                                           color: ThemeColors.backgroundColor,
                                           fontSize: 18,
@@ -891,7 +900,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               width: widthscreen * 0.01,
                             ),
-                            Text('Settings',
+                            Text(LocaleKeys.Settings.tr(),
                                 style: TextStyle(
                                     fontSize: 27,
                                     color: Colors.deepPurple,
@@ -911,7 +920,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(
                               width: widthscreen * 0.01,
                             ),
-                            Text('Language',
+                            Text(LocaleKeys.Language.tr(),
                               style: TextStyle(
                                   fontSize: 22,
                                   color: Colors.purple,
@@ -935,7 +944,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'English',
+                                  LocaleKeys.English.tr(),
                                   style: TextStyle(fontSize: 18, color: Colors.black),
                                 ),
                               ),
@@ -962,7 +971,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Arabic',
+                                  LocaleKeys.Arabic.tr(),
                                   style: TextStyle(fontSize: 18, color: Colors.black),
                                 ),
                               ),
@@ -981,7 +990,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             width: widthscreen * 0.01,
                           ),
-                          Text('About us',
+                          Text(LocaleKeys.About_us.tr(),
                             style: TextStyle(
                                 fontSize: 22,
                                 color: Colors.purple,
@@ -1069,7 +1078,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Text(
-                                'My Role:',
+                                LocaleKeys.My_Role.tr(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -1133,7 +1142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Text(
-                                'My Name:',
+                                LocaleKeys.My_Name.tr(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -1221,7 +1230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Text(
-                                'My Email:',
+                                LocaleKeys.My_Email.tr(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -1300,7 +1309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Row(
                             children: [
                               Text(
-                                'My Phone:',
+                                LocaleKeys.My_Phone.tr(),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -1362,9 +1371,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(height: heightscreen * 0.04),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
+                              children:  [
                                 Text(
-                                  'My Services',
+                                  LocaleKeys.My_services.tr(),
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,
@@ -1394,8 +1403,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Medicene',
+                                       Text(
+                                        LocaleKeys.Medicine.tr(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
@@ -1410,7 +1419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         controller: medicinePriceController,
                                         enabled: false,
                                         keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           labelStyle: TextStyle(
                                             color: ThemeColors.highlight,
                                           ),
@@ -1434,7 +1443,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'price',
+                                          labelText: LocaleKeys.price.tr(),
                                           prefixIcon: Icon(
                                             Icons.price_change_outlined,
                                             color: ThemeColors.icon,
@@ -1467,8 +1476,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Career',
+                                       Text(
+                                        LocaleKeys.Career.tr(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
@@ -1483,7 +1492,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         controller: careerPriceController,
                                         keyboardType: TextInputType.number,
                                         cursorColor: ThemeColors.highlight,
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           labelStyle: TextStyle(
                                             color: ThemeColors.highlight,
                                           ),
@@ -1507,7 +1516,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'price',
+                                          labelText: LocaleKeys.price.tr(),
                                           prefixIcon: Icon(
                                             Icons.price_change_outlined,
                                             color: ThemeColors.icon,
@@ -1547,8 +1556,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Psychology',
+                                       Text(
+                                        LocaleKeys.Psychology.tr(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
@@ -1563,7 +1572,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         AutovalidateMode.onUserInteraction,
                                         controller: psychologyPriceController,
                                         keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           labelStyle: TextStyle(
                                             color: ThemeColors.highlight,
                                           ),
@@ -1587,7 +1596,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'price',
+                                          labelText: LocaleKeys.price.tr(),
                                           prefixIcon: Icon(
                                             Icons.price_change_outlined,
                                             color: ThemeColors.icon,
@@ -1625,8 +1634,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Family',
+                                       Text(
+                                        LocaleKeys.Family.tr(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
@@ -1644,7 +1653,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         controller: familyPriceController,
                                         keyboardType: TextInputType.number,
                                         enabled: isFamily,
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           labelStyle: TextStyle(
                                             color: ThemeColors.highlight,
                                           ),
@@ -1668,7 +1677,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'price',
+                                          labelText: LocaleKeys.price.tr(),
                                           prefixIcon: Icon(
                                             Icons.price_change_outlined,
                                             color: ThemeColors.icon,
@@ -1706,8 +1715,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   title: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Management',
+                                       Text(
+                                        LocaleKeys.Management.tr(),
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
@@ -1723,7 +1732,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         AutovalidateMode.onUserInteraction,
                                         controller: managementPriceController,
                                         keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           labelStyle: TextStyle(
                                             color: ThemeColors.highlight,
                                           ),
@@ -1747,7 +1756,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'price',
+                                          labelText: LocaleKeys.price.tr(),
                                           prefixIcon: Icon(
                                             Icons.price_change_outlined,
                                             color: ThemeColors.icon,
@@ -1777,9 +1786,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children:  [
                                   Text(
-                                    'My Address',
+                                    LocaleKeys.My_Address.tr(),
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w800,
@@ -1804,7 +1813,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onFieldSubmitted: (String value) {
                                           print(value);
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           suffixIcon: Icon(
                                             Icons.place_outlined,
                                             color: Colors.deepPurple,
@@ -1831,7 +1840,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'country',
+                                          labelText: LocaleKeys.country.tr(),
                                         ),
                                       )),
                                   const SizedBox(
@@ -1847,7 +1856,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onFieldSubmitted: (String value) {
                                           print(value);
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration:  InputDecoration(
                                           suffixIcon: Icon(
                                             Icons.place_outlined,
                                             color: Colors.deepPurple,
@@ -1874,7 +1883,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               width: 1.5,
                                             ),
                                           ),
-                                          labelText: 'city',
+                                          labelText: LocaleKeys.city.tr(),
                                         ),
                                       )),
                                 ],
@@ -1884,9 +1893,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children:  [
                                   Text(
-                                    'My Experience',
+                                    LocaleKeys.My_Experience.tr(),
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w800,
@@ -1908,7 +1917,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 keyboardType: TextInputType.multiline,
                                 // minLines: null,
                                 decoration: InputDecoration(
-                                  labelText: "Description",
+                                  labelText: LocaleKeys.Description.tr(),
                                   prefixIcon: const Icon(
                                     Icons.info,
                                     color: ThemeColors.icon,
@@ -1958,9 +1967,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children:  [
                                   Text(
-                                    'My Scheduale',
+                                    LocaleKeys.My_Secheduale.tr(),
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w800,
@@ -1978,7 +1987,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Row(
                                   children: [
                                     Column(children: [
-                                      const Text('Sunday'),
+                                       Text(LocaleKeys.Sunday.tr()),
                                       Checkbox(
 
                                         activeColor: Colors.deepPurple,
@@ -1991,7 +2000,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Monday'),
+                                       Text(LocaleKeys.Monday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isMonday,
@@ -2003,7 +2012,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Tuesday'),
+                                       Text(LocaleKeys.Tuesday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isTuesday,
@@ -2015,7 +2024,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Wednesday'),
+                                       Text(LocaleKeys.Wednesday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isWednesday,
@@ -2027,7 +2036,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Thursday'),
+                                       Text(LocaleKeys.Thrusday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isThursday,
@@ -2039,7 +2048,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Friday'),
+                                       Text(LocaleKeys.Friday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isFriday,
@@ -2051,7 +2060,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       width: widthscreen * 0.05,
                                     ),
                                     Column(children: [
-                                      const Text('Saturday'),
+                                       Text(LocaleKeys.Saturday.tr()),
                                       Checkbox(
                                         activeColor: Colors.deepPurple,
                                         value: isSaturday,
@@ -2090,7 +2099,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'My balance :',
+                                    LocaleKeys.My_balance.tr(),
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
@@ -2132,9 +2141,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ReservationHistoryCubit.get(context).getExpertReservations();
                                   Navigator.of(context).pushNamed('/reservation_history');
                                 },
-                                child: const Center(
+                                child:  Center(
                                     child: Text(
-                                      'Reservations history',
+                                      LocaleKeys.Reservations.tr(),
                                       style: TextStyle(
                                         color: ThemeColors.backgroundColor,
                                         fontSize: 16,
@@ -2167,9 +2176,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onTap: () {
                                   ConsultingCubit.get(context).logout();
                                 },
-                                child: const Center(
+                                child:  Center(
                                     child: Text(
-                                      'Log out',
+                                      LocaleKeys.Log_out.tr(),
                                       style: TextStyle(
                                         color: ThemeColors.backgroundColor,
                                         fontSize: 18,
@@ -2205,11 +2214,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       children: [
         TextFormField(
+          readOnly: true,
+          enabled: false,
           controller: OtherNamesController[index],
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.text,
-          decoration: const InputDecoration(
+          decoration:  InputDecoration(
             labelStyle: TextStyle(
               color: ThemeColors.highlight,
             ),
@@ -2232,7 +2243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 1.5,
               ),
             ),
-            labelText: 'your consultation',
+            labelText: LocaleKeys.your_consultation.tr(),
             prefixIcon: Icon(
               Icons.work_outline,
               color: ThemeColors.icon,
@@ -2260,7 +2271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           cursorColor: ThemeColors.highlight,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
+          decoration:  InputDecoration(
             suffixStyle: TextStyle(color: Colors.grey),
             suffixText: "\$",
             labelStyle: TextStyle(
@@ -2285,7 +2296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 1.5,
               ),
             ),
-            labelText: 'price',
+            labelText: LocaleKeys.price.tr(),
             prefixIcon: Icon(
               Icons.price_change_outlined,
               color: ThemeColors.icon,
@@ -2325,6 +2336,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               width: 120,
               height: 50,
               child: TextFormField(
+                enabled: false,
+                  readOnly: true,
                   controller: starttimesController[index],
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.number,
@@ -2333,7 +2346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     suffixStyle:
                     const TextStyle(color: Colors.grey, fontSize: 16),
                     suffixText: ":00",
-                    labelText: "Start Time",
+                    labelText: LocaleKeys.Start_Time.tr(),
                     labelStyle: const TextStyle(
                       color: ThemeColors.highlight,
                     ),
@@ -2471,6 +2484,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 120,
                 height: 50,
                 child: TextFormField(
+                  readOnly: true,
+                    enabled: false,
                     controller: endtimesController[index],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     keyboardType: TextInputType.number,
@@ -2479,7 +2494,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       suffixStyle:
                       const TextStyle(color: Colors.grey, fontSize: 16),
                       suffixText: ":00",
-                      labelText: "End Time",
+                      labelText: LocaleKeys.End_Time.tr(),
                       labelStyle: const TextStyle(
                         color: ThemeColors.highlight,
                       ),

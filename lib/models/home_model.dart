@@ -25,20 +25,20 @@ class HomeModel {
 class ExpertCardModel {
 
   int? id;
-  //dynamic rate;
+  dynamic rate;
   String? name;
   String? type;
   dynamic price;
-  //File? image;
-  //bool? inFavorites;
+  String? image_url;
+  dynamic favorite_status;
 
   ExpertCardModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    //rate = json['rate'];
+    rate = json['rate'];
     name = json['name'];
     type = json['type'];
     price = json['price'];
-    //image = json['image'];
-    //inFavorites = json['in_favorites'];
+    image_url = json['image_url'];
+    favorite_status = json['favorite_status'];
   }
 }

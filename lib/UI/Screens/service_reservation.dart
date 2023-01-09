@@ -5,7 +5,9 @@ import 'package:consulting_app/Bloc/reservation/reservation_state.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -85,8 +87,8 @@ class ServiceReservation extends StatelessWidget {
                 ),
               ),
               centerTitle: true,
-              title: const Text(
-                'Service Info',
+              title:  Text(
+                LocaleKeys.Service_Info.tr(),
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -126,7 +128,7 @@ class ServiceReservation extends StatelessWidget {
                       child: Row(
                         children: [
                            Text(
-                            'Service:',
+                            '${LocaleKeys.Service.tr()}:',
                             style: GoogleFonts.lato(
                               textStyle: const TextStyle(
                                 fontSize: 21,
@@ -181,7 +183,7 @@ class ServiceReservation extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                            Text(
-                        'Price:',
+                        '${LocaleKeys.Price.tr()}:',
                         style: GoogleFonts.lato(
                           textStyle: const TextStyle(
                               fontSize: 21,
@@ -226,7 +228,7 @@ class ServiceReservation extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                            Text(
-                            'Expert:',
+                            '${LocaleKeys.Expert.tr()}:',
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     fontSize: 21,
@@ -268,9 +270,9 @@ class ServiceReservation extends StatelessWidget {
                                   PublicProfileCubit.get(context).getPublicExpertProfileData(cubit.reservertionModel!.data!.expert_id);
                                   Navigator.of(context).pushNamed('/public_expert_profile');
                                 },
-                                child: const Center(
+                                child:  Center(
                                     child: Text(
-                                  'Show Profile',
+                                      LocaleKeys.Show_Profile.tr(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
@@ -289,8 +291,8 @@ class ServiceReservation extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Pick Date:',
+                         Text(
+                          '${LocaleKeys.Pick_Date.tr()}:',
                           style: TextStyle(
                               color: Colors.deepPurple,
                               fontWeight: FontWeight.bold,
@@ -468,8 +470,8 @@ class ServiceReservation extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  'Avaliable times:',
+                                 Text(
+                                  '${LocaleKeys.Available_times.tr()}:',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -538,9 +540,9 @@ class ServiceReservation extends StatelessWidget {
                                       context: context);
 
                                 },
-                                child: const Center(
+                                child:  Center(
                                     child: Text(
-                                  'Check Service',
+                                  LocaleKeys.Make_reservation.tr(),
                                   style: TextStyle(
                                     color: ThemeColors.backgroundColor,
                                     fontSize: 15,

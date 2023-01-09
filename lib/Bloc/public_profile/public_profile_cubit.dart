@@ -38,14 +38,14 @@ class PublicProfileCubit extends Cubit<PublicProfileStates> {
   }
 
 
-  PublicProfileUserModel? publicUserProfileModel;
+  PublicProfileModel? publicUserProfileModel;
 
   void getPublicUserProfileModelData(id) {
     emit(PublicUserProfileLoadingState());
     DioHelper.getData(
       url: 'profile/${id}',
     ).then((value) {
-      publicUserProfileModel = PublicProfileUserModel.fromJson(value.data);
+      publicUserProfileModel = PublicProfileModel.fromJson(value.data);
       emit(PublicUserProfileSuccessState());
     }).catchError((error) {
       emit(PublicUserProfileErrorState(error.toString()));

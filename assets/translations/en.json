@@ -45,7 +45,57 @@
   "End Time": "End Time",
   "My balance": "My balance",
   "Reservations": "Reservations",
-  "Log out": "Log out"
+  "Log out": "Log out",
+
+  "Get Started" :"Get Started",
+  "Sign up by choosing your role." :"Sign up by choosing your role.",
+  "I'm a User" :"I'm a User",
+  "I'm an Expert" :"I'm an Expert",
+  "Login":"Login",
+
+  "First Name" : "First Name",
+  "Last Name" : "Last Name",
+  "Enter Email" : "Enter Email",
+  "password" : "password",
+  "confirm password" : "confirm password",
+  "phone" : "phone",
+  "Sign up" : "Sign up",
+
+  "Already have an account?" :"Already have an account?",
+  "Log in":"Log in",
+
+  "More information" : "More information",
+  "Choose the services you offer" : "Choose the services you offer",
+  "Your Address" : "Your Address",
+  "Your Experience" : "Your Experience",
+  "Select your available time" : "Select your available time",
+  "Your Experience": "Your Experience",
+
+  "You don't have an account?": "You don't have an account?",
+
+  "Show Profile": "Show Profile",
+  "Continue":"Continue",
+
+  "About":"About",
+  "Register": "Register",
+  "Welcome Back..": "Welcome Back..",
+  "Forget Password?":"Forget Password?",
+  "Login as guest": "Login as guest",
+
+  "About" : "About",
+  "services" : "services",
+  "Address" : "Address",
+  "Email" : "Email",
 
 
+  "Service Info" : "Service Info",
+  "Service" : "Service",
+  "Price" : "Price",
+  "Expert" : "Expert",
+  "Pick Date:" : "Pick Date",
+  "Available times:" : "Available times",
+  "Make reservation" : "Make reservation",
+
+  "Search" : "Search",
+  "Category" : "Category"
 }

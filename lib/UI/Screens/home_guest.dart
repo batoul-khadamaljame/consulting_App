@@ -20,9 +20,9 @@ class HomeGuest extends StatelessWidget {
   HomeGuest({Key? key}) : super(key: key);
 
   List<String> banners = [
-    'assets/banners/img1.png',
-    'assets/banners/img2.png',
-    'assets/banners/img3.png'
+    'assets/banners/banner1.png',
+    'assets/banners/banner2.png',
+    'assets/banners/banner3.png'
   ];
 
 
@@ -509,11 +509,10 @@ class HomeGuest extends StatelessWidget {
               decoration: BoxDecoration(
                   border: Border.all(width: 0.5, color: Colors.deepPurple),
                   borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
+                  image:  DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/demo/img.png'),
-                    //Image.file(model.image!) as ImageProvider,
-                  )),
+                    image: NetworkImage('${model.image_url}'),
+                  ),),
             ),
             const SizedBox(
               width: 25,
@@ -524,9 +523,9 @@ class HomeGuest extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        //model.rate.toString(),
-                        '4.5',
+                       Text(
+                        '${model.rate.toString()}',
+                        //'4.5',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,

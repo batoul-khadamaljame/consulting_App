@@ -4,6 +4,7 @@ import 'package:consulting_app/Bloc/enter_moblie_number_cubit.dart';
 import 'package:consulting_app/Bloc/home_guest/home_guest_cubit.dart';
 import 'package:consulting_app/Bloc/input_date_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
@@ -11,7 +12,9 @@ import 'package:consulting_app/Bloc/reservation_history/reservation_history_cubi
 import 'package:consulting_app/Bloc/search/search_cubit.dart';
 import 'package:consulting_app/BlocObserver.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
+import 'package:consulting_app/UI/Screens/chat.dart';
 import 'package:consulting_app/UI/Screens/expertRegister_screen.dart';
+import 'package:consulting_app/UI/Screens/home_message.dart';
 import 'package:consulting_app/UI/Screens/public_expert_profile.dart';
 import 'package:consulting_app/UI/Screens/get_started.dart';
 import 'package:consulting_app/UI/Screens/home_guest.dart';
@@ -46,7 +49,7 @@ void main() async {
   CacheHelper.getData(key: 'switchValue')!=null?
   switchValue = CacheHelper.getData(key: 'switchValue'):false
   ;
-  print(token);
+  print('token= $token');
 
   Widget widget;
   if (token != null) {
@@ -89,7 +92,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeDataToken(0)..getUserData()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
+        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeDataToken(0)..getUserData()..getFavorites()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
         ,),
         BlocProvider(create: (BuildContext context)=>HomeGuestCubit()..getHomeDataGuest(0)),
         BlocProvider(
@@ -101,6 +104,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ReservationCubit()),
         BlocProvider(create: (BuildContext context) => PublicProfileCubit()),
         BlocProvider(create: (BuildContext context) => ReservationHistoryCubit()),
+        BlocProvider(create: (BuildContext context) => MessageCubit()),
+
 
       ],
       child: MaterialApp(
@@ -122,6 +127,8 @@ class MyApp extends StatelessWidget {
           '/public_expert_profile':(context) => PublicExpertProfileScreen(),
           '/public_user_profile':(context) => PublicUserProfileScreen(),
           '/reservation_history':(context) => ReservationHisory(),
+          '/home_message': (context) => HomeMessageScreen(),
+          '/chat': (context) => ChatScreen(),
         },
         home: null,
       ),

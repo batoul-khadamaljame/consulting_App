@@ -2,10 +2,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
+import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
+import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
 import 'package:consulting_app/UI/Screens/home_guest.dart';
+import 'package:consulting_app/models/favorites_model.dart';
 import 'package:consulting_app/models/home_model.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +26,21 @@ class FavoritesScreen extends StatelessWidget {
     double widthscreen = MediaQuery.of(context).size.width;
 
     return BlocConsumer<ConsultingCubit, ConsultingStates>(
-  listener: (context, state) {},
+  listener: (context, state) {
+    if (state is SuccessChangeFavoritesState) {
+      if (state.model.status!) {
+        showToast(
+          text: state.model.message!,
+          state: ToastState.success,
+        );
+      }
+    }
+  },
   builder: (context, state) {
     return ConditionalBuilder(
       condition: state is! LoadingGetFavoritesState,
       builder:(context)=> Scaffold(
+        backgroundColor: ThemeColors.backgroundColor,
         appBar: AppBar(
           iconTheme: IconThemeData(color: ThemeColors.icons),
           backgroundColor: ThemeColors.backgroundColor,
@@ -52,7 +67,8 @@ class FavoritesScreen extends StatelessWidget {
                 color: ThemeColors.icons,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/messege');
+                MessageCubit.get(context).getChatData();
+                Navigator.pushNamed(context, '/home_message');
               },
             ),
           ],
@@ -78,7 +94,7 @@ class FavoritesScreen extends StatelessWidget {
                         SizedBox(
                           width: widthscreen * 0.01,
                         ),
-                        Text('Settings',
+                        Text(LocaleKeys.Settings.tr(),
                             style: TextStyle(
                                 fontSize: 27,
                                 color: Colors.deepPurple,
@@ -98,7 +114,7 @@ class FavoritesScreen extends StatelessWidget {
                         SizedBox(
                           width: widthscreen * 0.01,
                         ),
-                        Text('Language',
+                        Text(LocaleKeys.Language.tr(),
                           style: TextStyle(
                               fontSize: 22,
                               color: Colors.purple,
@@ -122,7 +138,7 @@ class FavoritesScreen extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              'English',
+                              LocaleKeys.English.tr(),
                               style: TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
@@ -149,7 +165,7 @@ class FavoritesScreen extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              'Arabic',
+                              LocaleKeys.Arabic.tr(),
                               style: TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
@@ -168,7 +184,7 @@ class FavoritesScreen extends StatelessWidget {
                       SizedBox(
                         width: widthscreen * 0.01,
                       ),
-                      Text('About us',
+                      Text(LocaleKeys.About_us.tr(),
                         style: TextStyle(
                             fontSize: 22,
                             color: Colors.purple,
@@ -177,8 +193,15 @@ class FavoritesScreen extends StatelessWidget {
                     SizedBox(
                       height: heightscreen * 0.03,
                     ),
-                    Text('This app was created by the developers Bassam,Batoul,Rajaei and Obada(BBRO).           You can sign up as a User or an Expert, then sell and buy some services of different types. We are so glad by offer this app that can be used on your phone',style: TextStyle(color: Colors.black,fontSize: 20,letterSpacing: 2)),
-                  ],
+                switchValue
+                    ? Text(
+                    'تم إنشاء هذا التطبيق من قبل المطورين بسام وبتول ورجائي وعبادة (BBRO). يمكنك التسجيل كمستخدم أو خبير ، ثم بيع وشراء بعض الخدمات من أنواع مختلفة. نحن سعداء جدًا بتقديم هذا التطبيق الذي يمكن استخدامه على هاتفك',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        letterSpacing: 2))
+                    : Text(
+                  'This app was created by the developers Bassam,Batoul,Rajaei and Obada(BBRO).           You can sign up as a User or an Expert, then sell and buy some services of different types. We are so glad by offer this app that can be used on your phone',       )],
                 ),
               ),
             )),
@@ -191,21 +214,28 @@ class FavoritesScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('Your favorites',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800,fontSize: 35,)),
+                      Text(LocaleKeys.Your_favorites.tr(),style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800,fontSize: 35,)),
                     ],
                   ),
                   SizedBox(height: heightscreen*0.05,),
                   ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: expertsList.length,
+                      itemCount: ConsultingCubit.get(context)
+                          .favoriteModel!
+                          .data!
+                          .length,
                       /*            itemCount: ConsultingCubit.get(context).favoriteModel!.data!.data!.length,*/
                       separatorBuilder: (BuildContext context, int index) =>
                           SizedBox(
                             height: heightscreen*0.02,
                           ),
 
-                      itemBuilder: (context, index) => buildExpertCard(expertsList[index].id,expertsList[index].rate.toString() ,expertsList[index].name, expertsList[index].type, expertsList[index].price.toString(), expertsList[index].image, expertsList[index].inFavorites)
+                    itemBuilder: (context, index) => buildExpertCard(
+                        ConsultingCubit.get(context)
+                            .favoriteModel!
+                            .data![index],
+                        context),
 
 
                     /*itemBuilder: (context, index) => buildListProduct(
@@ -229,7 +259,7 @@ class FavoritesScreen extends StatelessWidget {
   }
 }
 
-Widget buildExpertCard(int id, String rate, String name, String type,String price, String image, bool inFavorites){
+Widget buildExpertDummyCard(int id, String rate, String name, String type,String price, String image, bool inFavorites){
   return Container(
     padding: EdgeInsets.all(12),
     height: 140,
@@ -301,17 +331,24 @@ Widget buildExpertCard(int id, String rate, String name, String type,String pric
     ),
   );
 }
-/*
-Widget buildExpertCard(ExpertModel model, context) {
-    return Container(
-      padding: EdgeInsets.all(12),
+
+
+Widget buildExpertCard(ExpertCardModelFavorite model, context) {
+  return InkWell(
+    onTap: () {
+      ReservationCubit.get(context).initDate();
+      ReservationCubit.get(context).getReservationData(model.id);
+      Navigator.of(context).pushNamed('/reservation');
+    },
+    child: Container(
+      padding: const EdgeInsets.all(12),
       height: 140,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
             color: Colors.purple.withOpacity(0.3),
             blurRadius: 5,
           )
@@ -324,14 +361,15 @@ Widget buildExpertCard(ExpertModel model, context) {
             height: 105,
             width: 110,
             decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.deepPurple),
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: Image.file(model.image!) as ImageProvider,
-                )),
+              border: Border.all(width: 0.5, color: Colors.deepPurple),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage('${model.image_url}'),
+              ),
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 25,
           ),
           Expanded(
@@ -341,79 +379,89 @@ Widget buildExpertCard(ExpertModel model, context) {
                 Row(
                   children: [
                     Text(
-                      model.rate,
+                      '${model.rate.toString()}',
+                      //'4.5',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.star,
                       color: Colors.yellow,
                       size: 12,
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  '$model.name',
-                  style: TextStyle(
+                  '${model.name}',
+                  style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.w700),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text('Type: ' + '$model.type',
-                    style: TextStyle(
+                Text(LocaleKeys.Type.tr() + '${model.type}',
+                    style: const TextStyle(
                         color: Colors.deepPurple,
                         fontSize: 14,
                         fontWeight: FontWeight.w600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "$model.price\$",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
-                ),
+                Text('${model.price}\$'.toString(),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Column(
             children: [
               LikeButton(
-                onTap: (isLiked) async{
-                  print('x');
+                onTap: (bool isLiked) async {
+                  print(isLiked);
                   ConsultingCubit.get(context).changeFavorites(model.id!);
+                  ConsultingCubit.get(context).getFavorites();
+                  return !isLiked;
+                },
+                likeBuilder: (_) {
+                  return Icon(
+                    Icons.favorite,
+                    color: model.favorite_status! ? Colors.red : Colors.grey,
+                  );
                 },
                 size: 25,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              Icon(Icons.chevron_right_outlined)
+              const Icon(Icons.chevron_right_outlined)
             ],
           )
         ],
       ),
-    );
+    ),
+  );
 
 
-  }*/
+  }
 

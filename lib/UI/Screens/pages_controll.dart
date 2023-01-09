@@ -48,6 +48,9 @@ class PagesControllScreen extends StatelessWidget {
             selectedIndex: cubit.currentIndex,
             onTabChange: (index) {
               cubit.changeBottomNavBar(index);
+              if(index ==0 ){
+                ConsultingCubit.get(context).getHomeDataToken(0);
+              }
             },
             tabs: [
               GButton(icon: Icons.home, text: LocaleKeys.Home.tr()),

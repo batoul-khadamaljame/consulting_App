@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:consulting_app/models/favorites_model.dart';
 
 class PublicProfileModel {
 
@@ -36,7 +35,7 @@ class User {
     name = json['name'];
     email = json['email'];
     phone = json['phone1'];
-    //image = json['image'];
+    image = json['img'];
     isExp = json['isExp'];
   }
   int? id;
@@ -44,7 +43,7 @@ class User {
   String? email;
   String? password;
   String? phone;
-  //String? image;
+  String? image;
   dynamic isExp;
 
 }

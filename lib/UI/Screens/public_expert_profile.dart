@@ -1,10 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
+import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_state.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -97,11 +102,16 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(33),
                                 ),
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: Image.asset(
-                                  'assets/demo/tech.png',
+                                child: /*Image.network(
+                                  '${cubit.publicExpertProfileModel!.data!.user!.image}',
                                   fit: BoxFit.cover,
                                   width: 150,
                                   height: 180,
+                                ),*/
+                                CachedNetworkImage(
+                                  imageUrl: "${cubit.publicExpertProfileModel!.data!.user!.image}",
+                                  placeholder: (context, url) => new CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -142,17 +152,26 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                     SizedBox(
                                       width: 30,
                                     ),
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(13),
-                                        color: Color.fromARGB(120, 206, 157, 223),
-                                      ),
-                                      child: Icon(
-                                        Icons.message,
-                                        color: Color.fromARGB(255, 160, 7, 168),
-                                        size: 30,
+                                    InkWell(
+                                      onTap: (){
+                                        MessageCubit.get(context)
+                                            .creatchat(expertid: PublicProfileCubit.get(context).publicExpertProfileModel!.data!.user!.id!);
+
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/chat');
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(13),
+                                          color: Color.fromARGB(120, 206, 157, 223),
+                                        ),
+                                        child: Icon(
+                                          Icons.message,
+                                          color: Color.fromARGB(255, 160, 7, 168),
+                                          size: 30,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -172,6 +191,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
 
                                   onRatingUpdate: (rating) {
                                     PublicProfileCubit.get(context).changeRate(rating,cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.expert_id!,context);
+                                    ConsultingCubit.get(context).getHomeDataToken(LoginCubit.get(context).loginModel!.data!.user!.id);
                                   }
                                 )
                               ],
@@ -183,7 +203,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                         height: heightscreen * 0.03,
                       ),
                       Row(
-                        children: const [
+                        children:  [
                           Icon(
                             Icons.info_outline,
                             size: 25,
@@ -193,7 +213,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            'About',
+                            LocaleKeys.About.tr(),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -211,7 +231,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                         height: heightscreen * 0.04,
                       ),
                       Row(
-                        children: const [
+                        children:  [
                           Icon(
                             Icons.work_outline_outlined,
                             size: 25,
@@ -221,7 +241,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                             width: 10,
                           ),
                           Text(
-                            'services',
+                            LocaleKeys.services.tr(),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -249,7 +269,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children: const [
+                            children:  [
                               Icon(
                                 Icons.place_outlined,
                                 size: 25,
@@ -259,7 +279,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                'Address',
+                                LocaleKeys.Address.tr(),
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -294,7 +314,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children: const [
+                            children:  [
                               Icon(
                                 Icons.email_outlined,
                                 size: 25,
@@ -304,7 +324,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                'Email',
+                                LocaleKeys.Email.tr(),
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -340,7 +360,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children: const [
+                            children:  [
                               Icon(
                                 Icons.phone_android_outlined,
                                 size: 25,
@@ -350,7 +370,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                 width: 10,
                               ),
                               Text(
-                                'Phone',
+                                LocaleKeys.phone.tr(),
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),

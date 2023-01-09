@@ -14,7 +14,7 @@ const HOME6 = 'home/6';
 
 const RESERVATIONDONE = 'reserve';
 
-const FAVORITES = 'favorites';
+const FAVORITES = 'showfavourites';
 
 const MYPROFILE = 'myProfile';
 
@@ -22,4 +22,11 @@ const LOGOUT = 'logout';
 
 const HISTORY = 'history';
 
+const CREATECHAT = 'createChat';
+
+const GETCHAT = 'getChat';
+
+const GETMESSAGES = 'getMessages';
+
+const CREATMESSAGES = 'createMessages';
 

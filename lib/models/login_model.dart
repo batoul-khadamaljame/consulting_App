@@ -36,7 +36,7 @@ class User {
     name = json['name'];
     email = json['email'];
     phone = json['phone1'];
-    //image = json['image'];
+    image = json['img'];
     isExp = json['isExp'];
     balance = json['balance'];
   }
@@ -45,7 +45,7 @@ class User {
   String? email;
   String? password;
   String? phone;
-  //String? image;
+  String? image;
   dynamic isExp;
   int? balance;
 

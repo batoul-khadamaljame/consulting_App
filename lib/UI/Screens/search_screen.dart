@@ -6,6 +6,8 @@ import 'package:consulting_app/Bloc/search/search_state.dart';
 import 'package:consulting_app/UI/Screens/home_guest.dart';
 import 'package:consulting_app/models/search_model.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:like_button/like_button.dart';
@@ -70,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    const Center(child: Text('Search',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),)),
+                     Center(child: Text(LocaleKeys.Search.tr(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),)),
                     const SizedBox(height: 20,),
                     Container(
                       height: 55,
@@ -88,11 +90,11 @@ controller: tabController,
                         unselectedLabelColor: Colors.black,
                         labelStyle: const TextStyle(fontSize: 18),
                         tabs:  [
-                          const Tab(
-                            text: 'Category',
+                           Tab(
+                            text: LocaleKeys.Category.tr(),
                           ),
-                          const Tab(
-                            text: 'Expert',
+                           Tab(
+                            text: LocaleKeys.Expert.tr(),
 
                           ),
                         ],
@@ -123,7 +125,7 @@ controller: tabController,
                                       SearchCubit.get(context).searchCategory(text);
                                     },
                                     decoration: InputDecoration(
-                                      labelText: "Search",
+                                      labelText: LocaleKeys.Search.tr(),
                                       prefixIcon: const Icon(
                                         Icons.search,
                                         color: ThemeColors.icon,
@@ -249,7 +251,7 @@ controller: tabController,
                                     SearchCubit.get(context).searchExpert(text);
                                   },
                                   decoration: InputDecoration(
-                                    labelText: "Search",
+                                    labelText: LocaleKeys.Search.tr(),
                                     prefixIcon: const Icon(
                                       Icons.search,
                                       color: ThemeColors.icon,
@@ -374,9 +376,9 @@ controller: tabController,
   }
 }
 
-Widget buildExpertCard(ExpertCardSearchModel model, context) {
+Widget buildExpertCard(ExpertCardModelSearch model, context) {
   return InkWell(
-    onTap:(){
+    onTap: () {
       ReservationCubit.get(context).initDate();
       ReservationCubit.get(context).getReservationData(model.id);
       Navigator.of(context).pushNamed('/reservation');
@@ -402,13 +404,13 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
             height: 105,
             width: 110,
             decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.deepPurple),
-                borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/demo/img.png'),
-                  //Image.file(model.image!) as ImageProvider,
-                )),
+              border: Border.all(width: 0.5, color: Colors.deepPurple),
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage('${model.image_url}'),
+              ),
+            ),
           ),
           const SizedBox(
             width: 25,
@@ -419,9 +421,9 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
               children: [
                 Row(
                   children: [
-                    const Text(
-                      //model.rate.toString(),
-                      '4.5',
+                    Text(
+                      '${model.rate.toString()}',
+                      //'4.5',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 14,
@@ -452,7 +454,7 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
                 const SizedBox(
                   height: 10,
                 ),
-                Text('Type: ' + '${model.type}',
+                Text(LocaleKeys.Type.tr() + '${model.type}',
                     style: const TextStyle(
                         color: Colors.deepPurple,
                         fontSize: 14,
@@ -462,17 +464,13 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(
-                    '${model.price}\$'.toString(),
+                Text('${model.price}\$'.toString(),
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.w700
-
-                    ),
+                        fontWeight: FontWeight.w700),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis
-                ),
+                    overflow: TextOverflow.ellipsis),
               ],
             ),
           ),
@@ -480,25 +478,21 @@ Widget buildExpertCard(ExpertCardSearchModel model, context) {
             width: 20,
           ),
           Column(
-            children:  [
-              LoginCubit.get(context).isLoginAsGuest == false?
-          LikeButton(
-            onTap: (bool isLiked) async {
-              print('isLiked= $isLiked');
-              ConsultingCubit.get(context).changeFavorites(model.id!);
-            },
-            likeBuilder: (isLiked) {
-              print('isLiked= $isLiked');
-
-              return Icon(
-                Icons.favorite,
-                color: isLiked ? Colors.red : Colors.grey,
+            children: [
+              LikeButton(
+                onTap: (bool isLiked) async {
+                  print(isLiked);
+                  ConsultingCubit.get(context).changeFavorites(model.id!);
+                  return !isLiked;
+                },
+                likeBuilder: (_) {
+                  return Icon(
+                    Icons.favorite,
+                    color: model.favorite_status ? Colors.red : Colors.grey,
+                  );
+                },
                 size: 25,
-              );
-            },
-          )
-
-        : Container(),
+              ),
               const SizedBox(
                 height: 50,
               ),

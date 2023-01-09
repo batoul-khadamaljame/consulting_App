@@ -20,10 +20,13 @@
   "Favorties": "المفضلة",
   "Your favorites": "المفضلات",
 
+  "Continue":"استمرار",
+
+
   "Profile": "الصفحة الشخصية",
   "My Role": "دوري",
   "My Name": "اسمي",
-  "My Email": "الايميل الخاص بي",
+  "My Email": "الايميلي",
   "My Phone": "رقم هاتفي",
   "My services": "خدماتي",
   "price": "السعر",
@@ -45,5 +48,53 @@
   "End Time": "وقت النهاية",
   "My balance": "حسابي",
   "Reservations": "الححجوزات",
-  "Log out": "تسجيل الخروج"
+  "Log out": "تسجيل الخروج",
+
+
+  "Welcome Back..": "أهلا بعودتك..",
+  "Get Started" :"أبدأ الان",
+  "Sign up by choosing your role." :"قم بالتسجيل عن طريق اختيار الدور الخاص بك",
+  "I'm a User" :"انا مستخدم",
+  "I'm an Expert" :"انا خبير",
+  "Login":"تسجيل الدخول",
+
+  "Login as guest": "نسجيل الدخول كضيف",
+  "Forget Password?":"نسيت كلمة المرور",
+  "First Name" : "الاسم",
+  "Last Name" : "الكنية",
+  "Enter Email" : "ادخل الايميل",
+  "password" : "كلمة السر",
+  "confirm password" : "تأكيد كلمة السر",
+  "phone" : "رقم الهاتف",
+  "Sign up" : "تسجيل",
+
+  "Already have an account?" :"تمتلك حساب بالفعل ؟",
+  "Log in":"تسجيل الدخول",
+  "Register":"تسجيل حساب جديد",
+  "You don't have an account?": "لا تملك حساب؟",
+  "About":"عن",
+  "Show Profile": "عرض الصفحة",
+
+  "More information" : "المزيد من المعلومات",
+  "Choose the services you offer" : "اختر الخدمات التي تقدمها",
+  "Your Address" : "عنوانك",
+  "Your Experience" : "خبراتك",
+  "Select your available time" : "اختر الاوقات المتاح فيها",
+
+
+  "About" : "حول",
+  "services" : "الخدمات",
+  "Address" : "العنوان",
+  "Email" : "الايميل",
+
+  "Service Info" : "معلومات الخدمة",
+  "Service" : "الخدمة",
+  "Price" : "السعر",
+  "Expert" : "الخبير",
+  "Pick Date:" : "اختر اليوم",
+  "Available times:" : "الاوقات المتاحة",
+  "Make reservation" : "احجز الخدمة",
+
+  "Search" : "البحث",
+  "Category" : "التصنيف"
 }

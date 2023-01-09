@@ -13,6 +13,7 @@ import 'package:consulting_app/models/favorites_model.dart';
 import 'package:consulting_app/models/home_model.dart';
 import 'package:consulting_app/models/login_model.dart';
 import 'package:consulting_app/models/logout_model.dart';
+import 'package:consulting_app/models/search_model.dart';
 import 'package:consulting_app/network/local/cash_helper.dart';
 import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:consulting_app/network/remote/end_point.dart';
@@ -126,7 +127,7 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
     });
   }
 
-  FavoriteModel? favoriteModel;
+  FavoritesModel? favoriteModel;
 
   void getFavorites() {
     emit(LoadingGetFavoritesState());
@@ -134,7 +135,7 @@ class ConsultingCubit extends Cubit<ConsultingStates> {
       url: FAVORITES,
       token: token,
     ).then((value) {
-      favoriteModel = FavoriteModel.fromJson(value.data);
+      favoriteModel = FavoritesModel.fromJson(value.data);
       print(value.data.toString());
       emit(SuccessGetFavoritesState());
     }).catchError((error) {

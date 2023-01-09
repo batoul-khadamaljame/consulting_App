@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/consulting_state.dart';
-import 'package:consulting_app/Bloc/login/login_cubit.dart';
+import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
 import 'package:consulting_app/Bloc/reservation/reservation_cubit.dart';
 import 'package:consulting_app/UI/Components/components.dart';
 import 'package:consulting_app/UI/Components/constants.dart';
@@ -18,11 +18,10 @@ class HomeWithToken extends StatelessWidget {
   HomeWithToken({Key? key}) : super(key: key);
 
   List<String> banners = [
-    'assets/banners/img1.png',
-    'assets/banners/img2.png',
-    'assets/banners/img3.png'
+    'assets/banners/banner1.png',
+    'assets/banners/banner2.png',
+    'assets/banners/banner3.png'
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +38,14 @@ class HomeWithToken extends StatelessWidget {
             );
           }
         }
-        if (state is SuccessHomeDataState) {
+
+
+
+
+        if (state is SuccessHomeDataState){
           ConsultingCubit.get(context).getUserData();
         }
+
         if (state is SuccessChangeFavoritesState) {
           if (state.model.status!) {
             showToast(
@@ -80,7 +84,8 @@ class HomeWithToken extends StatelessWidget {
                   color: ThemeColors.icons,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/messege');
+                  MessageCubit.get(context).getChatData();
+                  Navigator.pushNamed(context, '/home_message');
                 },
               ),
             ],
@@ -247,9 +252,11 @@ class HomeWithToken extends StatelessWidget {
                         .map(
                           (e) => Container(
                             decoration: BoxDecoration(
+                              border: Border.all(width: 0.5, color: Colors.deepPurple),
                               borderRadius: BorderRadius.circular(40),
                               image: DecorationImage(
                                 image: ExactAssetImage(e),
+
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -385,15 +392,21 @@ class HomeWithToken extends StatelessWidget {
             ),
             Container(
               child: Text(
-                type == 'All'?LocaleKeys.All.tr():
-                type == 'Medicine'?LocaleKeys.Medicine.tr():
-                type == 'Career'?LocaleKeys.Career.tr():
-                type == 'Psychology'?LocaleKeys.Psychology.tr():
-                type == 'Family'?LocaleKeys.Family.tr():
-                type == 'Management'?LocaleKeys.Management.tr():
-                type == 'Others'?LocaleKeys.Others.tr():LocaleKeys.Others.tr()
-
-                ,
+                type == 'All'
+                    ? LocaleKeys.All.tr()
+                    : type == 'Medicine'
+                        ? LocaleKeys.Medicine.tr()
+                        : type == 'Career'
+                            ? LocaleKeys.Career.tr()
+                            : type == 'Psychology'
+                                ? LocaleKeys.Psychology.tr()
+                                : type == 'Family'
+                                    ? LocaleKeys.Family.tr()
+                                    : type == 'Management'
+                                        ? LocaleKeys.Management.tr()
+                                        : type == 'Others'
+                                            ? LocaleKeys.Others.tr()
+                                            : LocaleKeys.Others.tr(),
                 style: const TextStyle(
                   color: ThemeColors.backgroundColor,
                   fontSize: 13,
@@ -562,13 +575,14 @@ class HomeWithToken extends StatelessWidget {
               height: 105,
               width: 110,
               decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: Colors.deepPurple),
-                  borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/demo/img.png'),
-                    //Image.file(model.image!) as ImageProvider,
-                  )),
+                border: Border.all(width: 0.5, color: Colors.deepPurple),
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image:
+                  NetworkImage('${model.image_url}'),
+                ),
+              ),
             ),
             const SizedBox(
               width: 25,
@@ -579,9 +593,9 @@ class HomeWithToken extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        //model.rate.toString(),
-                        '4.5',
+                       Text(
+                        '${model.rate.toString()}',
+                        //'4.5',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -641,12 +655,14 @@ class HomeWithToken extends StatelessWidget {
                   onTap: (bool isLiked) async {
                     print(isLiked);
                     ConsultingCubit.get(context).changeFavorites(model.id!);
+                    ConsultingCubit.get(context).getFavorites();
+                    model.favorite_status = model.favorite_status!;
                     return !isLiked;
                   },
-                  likeBuilder: (isLiked) {
+                  likeBuilder: (_) {
                     return Icon(
                       Icons.favorite,
-                      color: isLiked ? Colors.red : Colors.grey,
+                      color: model.favorite_status ? Colors.red : Colors.grey,
                     );
                   },
                   size: 25,
@@ -674,18 +690,12 @@ class Categories {
 
 List<Categories> categoriesList = [
   Categories(0, 'All', 'assets/categories/all.png'),
-  Categories(
-      1, 'Medicine', 'assets/categories/medicine1.png'),
-  Categories(
-      2, 'Career', 'assets/categories/career.png'),
-  Categories(3, 'Psychology',
-      'assets/categories/Psychology.png'),
-  Categories(
-      4, 'Family', 'assets/categories/family.png'),
-  Categories(5, 'Management',
-      'assets/categories/manegment.png'),
-  Categories(
-      6, 'Others', 'assets/categories/others.png'),
+  Categories(1, 'Medicine', 'assets/categories/medicine1.png'),
+  Categories(2, 'Career', 'assets/categories/career.png'),
+  Categories(3, 'Psychology', 'assets/categories/Psychology.png'),
+  Categories(4, 'Family', 'assets/categories/family.png'),
+  Categories(5, 'Management', 'assets/categories/manegment.png'),
+  Categories(6, 'Others', 'assets/categories/others.png'),
 ];
 
 //dummy data

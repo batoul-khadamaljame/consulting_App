@@ -1,6 +1,8 @@
 
 import 'package:consulting_app/Bloc/register/register_cubit.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 
@@ -36,8 +38,8 @@ class GetStartedScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushNamed('/login');
                       },
-                      child: const Text(
-                        "Login",
+                      child:  Text(
+                        LocaleKeys.Login.tr(),
                         style: TextStyle(fontSize: 20,color: Colors.black),
                       ),
                     ),
@@ -48,8 +50,8 @@ class GetStartedScreen extends StatelessWidget {
                   Container(
                     width: width,
                     padding: const EdgeInsets.only(left: 40),
-                    child: const Text(
-                      'Get Started',
+                    child:  Text(
+                      LocaleKeys.Get_Started.tr(),
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -62,8 +64,8 @@ class GetStartedScreen extends StatelessWidget {
                   Container(
                     width: width,
                     padding: const EdgeInsets.only(left: 40),
-                    child: const Text(
-                      "Sign up by choosing your role.",
+                    child:  Text(
+                      LocaleKeys.Sign_up_by_choosing_your_role.tr(),
                       style: TextStyle(
                           fontSize: 16,color: Colors.black
                       ),
@@ -113,8 +115,8 @@ class GetStartedScreen extends StatelessWidget {
                                   width: width * 0.65,
                                   height: height*0.07,
                                   padding: const EdgeInsets.only(left: 10, top: 10),
-                                  child: const Text(
-                                    "I'm a User",
+                                  child:  Text(
+                                    LocaleKeys.Im_a_User.tr(),
                                     style: TextStyle(
                                         fontSize: 22, fontWeight: FontWeight.bold),
                                   ),
@@ -179,8 +181,8 @@ class GetStartedScreen extends StatelessWidget {
                                   width: width * 0.65,
                                   height: height*0.07,
                                   padding: const EdgeInsets.only(left: 10, top: 10),
-                                  child: const Text(
-                                    "I'm an Expert",
+                                  child:  Text(
+                                    LocaleKeys.Im_an_Expert.tr(),
                                     style: TextStyle(
                                         fontSize: 22, fontWeight: FontWeight.bold),
                                   ),

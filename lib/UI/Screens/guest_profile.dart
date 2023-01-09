@@ -2,6 +2,8 @@
 import 'package:consulting_app/Bloc/consulting_cubit.dart';
 import 'package:consulting_app/Bloc/login/login_cubit.dart';
 import 'package:consulting_app/theme/theme.dart';
+import 'package:consulting_app/translations/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class GuestProfileScreen extends StatelessWidget {
@@ -50,7 +52,7 @@ class GuestProfileScreen extends StatelessWidget {
         children: [
           Image(image: AssetImage('assets/images/guest.png'),color: Colors.deepPurple,),
           SizedBox(height: 10,),
-          Text("You don't have an account",style: TextStyle(fontSize: 20,color: Colors.black),),
+          Text(LocaleKeys.You_dont_have_an_account.tr(),style: TextStyle(fontSize: 20,color: Colors.black),),
           SizedBox(height: 5,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -78,12 +80,12 @@ class GuestProfileScreen extends StatelessWidget {
                       ConsultingCubit.get(context).indx();
                       Navigator.of(context).pushReplacementNamed('/login');
                     },
-                    child: const Center(
+                    child:  Center(
                         child: Text(
-                          'LOGIN',
+                          LocaleKeys.Login.tr(),
                           style: TextStyle(
                             color: ThemeColors.backgroundColor,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         )),
@@ -121,9 +123,9 @@ class GuestProfileScreen extends StatelessWidget {
                       ConsultingCubit.get(context).indx();
                       Navigator.of(context).pushReplacementNamed('/getStarted');
                     },
-                    child: const Center(
+                    child:  Center(
                         child: Text(
-                          'Register',
+                          LocaleKeys.Register.tr(),
                           style: TextStyle(
                             color:
                             ThemeColors.backgroundColor,
