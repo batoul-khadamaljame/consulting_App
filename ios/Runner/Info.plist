@@ -63,10 +63,6 @@
 	    <string>ar</string>
 	    <string>en</string>
 	</array>
-Privacy - Microphone Usage Description, and add a note in the Value column.
-Privacy - Camera Usage Description, and add a note in the Value column.
-<key>NSPhotoLibraryUsageDescription</key>
-<string>App needs access to photo lib for profile images</string>
 </dict>  
 </plist>
 
