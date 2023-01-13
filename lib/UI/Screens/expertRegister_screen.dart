@@ -35,7 +35,6 @@ var endTimeControllerRegister = TextEditingController();
 List<TextEditingController> starttimesControllerRegister = [];
 List<TextEditingController> endtimesControllerRegister = [];
 
-
 var formKey = GlobalKey<FormState>();
 
 class ExpertRegisterScreen extends StatefulWidget {
@@ -46,7 +45,6 @@ class ExpertRegisterScreen extends StatefulWidget {
 }
 
 class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
-
   //category
   bool? isMedecine = false;
   bool? isCareer = false;
@@ -62,8 +60,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
   bool? isThursday = false;
   bool? isFriday = false;
   bool? isSaturday = false;
-
-
 
   void addOtherCategoryController() {
     OtherNamesControllerRegister.add(TextEditingController());
@@ -87,7 +83,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
     endtimesControllerRegister.removeLast();
   }
 
-
   void addServices(
       bool isMedecine,
       bool isCareer,
@@ -110,21 +105,23 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
           .addService('2', 'Career', careerPriceControllerRegister.text);
     }
     if (isPsychology) {
-      RegisterCubit.get(context)
-          .addService('3', 'Psychology', psychologyPriceControllerRegister.text);
+      RegisterCubit.get(context).addService(
+          '3', 'Psychology', psychologyPriceControllerRegister.text);
     }
     if (isFamily) {
       RegisterCubit.get(context)
           .addService('4', 'Family', familyPriceControllerRegister.text);
     }
     if (isManagement) {
-      RegisterCubit.get(context)
-          .addService('5', 'Management', managementPriceControllerRegister.text);
+      RegisterCubit.get(context).addService(
+          '5', 'Management', managementPriceControllerRegister.text);
     }
 
     for (int i = 0; i < OtherNamesControllerRegister.length; i++) {
       RegisterCubit.get(context).addService(
-          '6', OtherNamesControllerRegister[i].text, OtherPricesControllerRegister[i].text);
+          '6',
+          OtherNamesControllerRegister[i].text,
+          OtherPricesControllerRegister[i].text);
     }
 
     if (isSunday ||
@@ -137,15 +134,15 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
       RegisterCubit.get(context).addDays(isSunday, isMonday, isTuesday,
           isWednesday, isThursday, isFriday, isSaturday);
     }
-    RegisterCubit.get(context)
-        .addTimes(startTimeControllerRegister.text, endTimeControllerRegister.text);
+    RegisterCubit.get(context).addTimes(
+        startTimeControllerRegister.text, endTimeControllerRegister.text);
     for (int i = 0; i < starttimesControllerRegister.length; i++) {
-      RegisterCubit.get(context)
-          .addTimes(starttimesControllerRegister[i].text, endtimesControllerRegister[i].text);
+      RegisterCubit.get(context).addTimes(starttimesControllerRegister[i].text,
+          endtimesControllerRegister[i].text);
     }
   }
 
-  void initState(){
+  void initState() {
     medicinePriceControllerRegister.clear();
     careerPriceControllerRegister.clear();
     psychologyPriceControllerRegister.clear();
@@ -214,7 +211,6 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
             cubit.times.clear();
             print(state.loginModel.status!);
 
-
             showToast(
               text: state.loginModel.message!,
               state: ToastState.error,
@@ -222,8 +218,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
             Navigator.pop(context);
           }
         }
-        if (state is RegisterPhotoSuccessState){
-          if(RegisterCubit.get(context).photoModel!.status== false){
+        if (state is RegisterPhotoSuccessState) {
+          if (RegisterCubit.get(context).photoModel!.status == false) {
             cubit.days.clear();
             medicinePriceControllerRegister.clear();
             careerPriceControllerRegister.clear();
@@ -238,17 +234,16 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
               state: ToastState.error,
             );
             print(state.photoModel.status!);
-          }
-          else{
+          } else {
             showToast(
               text: 'registered sucessfully',
               state: ToastState.success,
             );
-          ConsultingCubit.get(context).indx();
-          ConsultingCubit.get(context).getHomeDataToken(0);
-          Navigator.of(context).pushReplacementNamed('/home');
+            ConsultingCubit.get(context).indx();
+            ConsultingCubit.get(context).getHomeDataToken(0);
+            Navigator.of(context).pushReplacementNamed('/home');
           }
-      }
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -263,7 +258,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                 key: formKey,
                 child: Column(
                   children: [
-                     Text(
+                    Text(
                       LocaleKeys.More_information.tr(),
                       style: TextStyle(
                           fontSize: 30,
@@ -273,25 +268,23 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     SizedBox(
                       height: heightscreen * 0.03,
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children:  [
-                          Text(
-                              LocaleKeys.Choose_the_services_you_offer.tr(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
-                              backgroundColor: Color.fromARGB(50, 105, 22, 135),
-                              // backgroundColor: Color.fromARGB(
-                              //   100,
-                              //   172,
-                              //   122,
-                              //   183,
-                              // ),
-                              // color: Color.fromARGB(255, 172, 122, 183),
-                            ),
-                          ),
-                        ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Text(
+                        LocaleKeys.Choose_the_services_you_offer.tr(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          backgroundColor: Color.fromARGB(50, 105, 22, 135),
+                          // backgroundColor: Color.fromARGB(
+                          //   100,
+                          //   172,
+                          //   122,
+                          //   183,
+                          // ),
+                          // color: Color.fromARGB(255, 172, 122, 183),
+                        ),
+                      ),
+                    ]),
                     SizedBox(
                       height: heightscreen * 0.03,
                     ),
@@ -305,8 +298,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 Text(
-                            LocaleKeys.Medicine.tr(),
+                                Text(
+                                  LocaleKeys.Medicine.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -345,8 +338,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText:   LocaleKeys.price.tr(),
-
+                                    labelText: LocaleKeys.price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -361,7 +353,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                         isPsychology == false &&
                                         isFamily == false &&
                                         isManagement == false &&
-                                        OtherNamesControllerRegister.length == 0) {
+                                        OtherNamesControllerRegister.length ==
+                                            0) {
                                       return 'You should offer one service at least';
                                     }
                                     if (value!.isEmpty && isMedecine == true) {
@@ -410,9 +403,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                   Text(
-                            LocaleKeys.Career.tr(),
-
+                                Text(
+                                  LocaleKeys.Career.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -451,7 +443,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                             ),
                                           )
                                         : null,
-                                    labelText:                       LocaleKeys.Price.tr(),
+                                    labelText: LocaleKeys.Price.tr(),
                                     prefixIcon: const Icon(
                                       Icons.price_change_outlined,
                                       color: ThemeColors.icon,
@@ -507,8 +499,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 Text(
-        LocaleKeys.Psychology.tr(),
+                                Text(
+                                  LocaleKeys.Psychology.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -603,8 +595,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 Text(
-        LocaleKeys.Family.tr(),
+                                Text(
+                                  LocaleKeys.Family.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -698,8 +690,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 Text(
-        LocaleKeys.Management.tr(),
+                                Text(
+                                  LocaleKeys.Management.tr(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
@@ -787,8 +779,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         ),
                         Row(
                           children: [
-                             Text(
-        LocaleKeys.Others.tr(),
+                            Text(
+                              LocaleKeys.Others.tr(),
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -858,7 +850,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if (OtherNamesControllerRegister.length > 0) {
+                                      if (OtherNamesControllerRegister.length >
+                                          0) {
                                         deleteOtherCategoryController();
                                       }
                                     });
@@ -890,9 +883,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(
-        LocaleKeys.Address.tr(),
+                          LocaleKeys.Address.tr(),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -914,7 +907,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           onFieldSubmitted: (String value) {
                             print(value);
                           },
-                          decoration:  InputDecoration(
+                          decoration: InputDecoration(
                             suffixIcon: Icon(
                               Icons.place_outlined,
                               color: Colors.deepPurple,
@@ -967,7 +960,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           onFieldSubmitted: (String value) {
                             print(value);
                           },
-                          decoration:  InputDecoration(
+                          decoration: InputDecoration(
                             suffixIcon: Icon(
                               Icons.place_outlined,
                               color: Colors.deepPurple,
@@ -1017,7 +1010,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(
                           LocaleKeys.Your_Experience.tr(),
                           style: TextStyle(
@@ -1088,9 +1081,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children:  [
+                      children: [
                         Text(
-        LocaleKeys.Select_your_available_time.tr(),
+                          LocaleKeys.Select_your_available_time.tr(),
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
@@ -1107,7 +1100,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                       child: Row(
                         children: [
                           Column(children: [
-                             Text(LocaleKeys.Sunday.tr()),
+                            Text(LocaleKeys.Sunday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isSunday,
@@ -1123,7 +1116,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Monday.tr()),
+                            Text(LocaleKeys.Monday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isMonday,
@@ -1139,7 +1132,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Tuesday.tr()),
+                            Text(LocaleKeys.Tuesday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isTuesday,
@@ -1155,7 +1148,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Wednesday.tr()),
+                            Text(LocaleKeys.Wednesday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isWednesday,
@@ -1171,7 +1164,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Thrusday.tr()),
+                            Text(LocaleKeys.Thrusday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isThursday,
@@ -1187,7 +1180,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Friday.tr()),
+                            Text(LocaleKeys.Friday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isFriday,
@@ -1203,7 +1196,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                             width: widthscreen * 0.05,
                           ),
                           Column(children: [
-                             Text(LocaleKeys.Saturday.tr()),
+                            Text(LocaleKeys.Saturday.tr()),
                             Checkbox(
                               activeColor: Colors.deepPurple,
                               value: isSaturday,
@@ -1290,13 +1283,15 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                     int.parse(value) > 23) {
                                   return 'Invalid start time';
                                 }
-                                if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                                        .hasMatch(endTimeControllerRegister.text)) {
+                                if (RegExp(
+                                        r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                    .hasMatch(endTimeControllerRegister.text)) {
                                   return 'Invalid start time';
                                 }
-                                if(endTimeControllerRegister.text.isNotEmpty) {
+                                if (endTimeControllerRegister.text.isNotEmpty) {
                                   if (int.parse(value) >=
-                                      int.parse(endTimeControllerRegister.text)) {
+                                      int.parse(
+                                          endTimeControllerRegister.text)) {
                                     return 'Invalid start time';
                                   }
                                 }
@@ -1441,13 +1436,17 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                       int.parse(value) > 23) {
                                     return 'Invalid end time';
                                   }
-                                  if (RegExp(r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
-                                      .hasMatch(startTimeControllerRegister.text)) {
+                                  if (RegExp(
+                                          r"[!@#<>?':_`~ N؛،؟.,/;[\]\\|=+)(*&-]")
+                                      .hasMatch(
+                                          startTimeControllerRegister.text)) {
                                     return 'Invalid end time';
                                   }
-                                  if(startTimeControllerRegister.text.isNotEmpty) {
+                                  if (startTimeControllerRegister
+                                      .text.isNotEmpty) {
                                     if (int.parse(value) <=
-                                        int.parse(startTimeControllerRegister.text)) {
+                                        int.parse(
+                                            startTimeControllerRegister.text)) {
                                       return 'Invalid end time';
                                     }
                                   }
@@ -1551,7 +1550,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if(starttimesControllerRegister.length<12) {
+                                      if (starttimesControllerRegister.length <
+                                          12) {
                                         addOtherTimesController();
                                       }
                                     });
@@ -1589,7 +1589,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   borderRadius: BorderRadius.circular(30),
                                   onTap: () {
                                     setState(() {
-                                      if (starttimesControllerRegister.length > 0) {
+                                      if (starttimesControllerRegister.length >
+                                          0) {
                                         deleteOtherTimesController();
                                       }
                                     });
@@ -1665,7 +1666,8 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                   password: passwordControllerRegister.text,
                                   country: countryControllerRegister.text,
                                   city: cityControllerRegister.text,
-                                  experience: descriptionControllerRegister.text,
+                                  experience:
+                                      descriptionControllerRegister.text,
                                 );
                               } else {
                                 setState(() {
@@ -1673,9 +1675,9 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                                 });
                               }
                             },
-                            child:  Center(
+                            child: Center(
                                 child: Text(
-        LocaleKeys.Sign_up.tr(),
+                              LocaleKeys.Sign_up.tr(),
                               style: TextStyle(
                                 color: ThemeColors.backgroundColor,
                                 fontSize: 15,
@@ -1883,7 +1885,7 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                         .hasMatch(endtimesControllerRegister[index].text)) {
                       return 'Invalid start time';
                     }
-                    if(endtimesControllerRegister[index].text.isNotEmpty) {
+                    if (endtimesControllerRegister[index].text.isNotEmpty) {
                       if (int.parse(value) >=
                           int.parse(endtimesControllerRegister[index].text)) {
                         return 'Invalid start time';
@@ -2029,9 +2031,10 @@ class _ExpertRegisterScreenState extends State<ExpertRegisterScreen> {
                           .hasMatch(starttimesControllerRegister[index].text)) {
                         return 'Invalid end time';
                       }
-                      if(starttimesControllerRegister[index].text.isNotEmpty) {
+                      if (starttimesControllerRegister[index].text.isNotEmpty) {
                         if (int.parse(value) <=
-                            int.parse(starttimesControllerRegister[index].text)) {
+                            int.parse(
+                                starttimesControllerRegister[index].text)) {
                           return 'Invalid end time';
                         }
                       }

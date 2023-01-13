@@ -47,9 +47,26 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+
+<string>To take user profile image</string>
+<key>NSPhotoLibraryUsageDescription</key>
+
+<string>To choose user profile image</string>
+<key>NSMicrophoneUsageDescription</key>
+
+<string>Used to capture audio for image picker plugin</string>
+	<key>CFBundleLocalizations</key>
 	<array>
 	    <string>ar</string>
 	    <string>en</string>
 	</array>
-</dict>
+Privacy - Microphone Usage Description, and add a note in the Value column.
+Privacy - Camera Usage Description, and add a note in the Value column.
+<key>NSPhotoLibraryUsageDescription</key>
+<string>App needs access to photo lib for profile images</string>
+</dict>  
 </plist>
+

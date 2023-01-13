@@ -3,14 +3,13 @@ import 'package:dio/dio.dart';
 class DioHelper {
   static late Dio dio;
 
-  static init()
-  {
+  static init() {
     dio = Dio(
       BaseOptions(
+        baseUrl: 'http://127.0.0.1:8000/api/',
         //baseUrl:'http://10.0.2.2:8000/api/',
-        baseUrl:'http://192.168.43.127:8000/api/',
+        //baseUrl:'http://192.168.43.127:8000/api/',
         receiveDataWhenStatusError: true,
-
       ),
     );
   }
@@ -20,13 +19,10 @@ class DioHelper {
     Map<String, dynamic>? query,
     String lang = 'en',
     String? token,
-  }) async
-  {
-
-    dio!.options.headers =
-    {
+  }) async {
+    dio!.options.headers = {
       'Accept': 'application/json',
-      'Authorization' : 'Bearer ${token}'??'',
+      'Authorization': 'Bearer ${token}' ?? '',
     };
 
     return await dio!.get(
@@ -40,46 +36,34 @@ class DioHelper {
     Map<dynamic, dynamic>? data,
     Map<String, dynamic>? query,
     String? token,
-  }) async
-  {
+  }) async {
+    dio!.options.headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${token}' ?? '',
+    };
 
-      dio!.options.headers =
-      {
-        'Accept': 'application/json',
-        'Authorization' : 'Bearer ${token}'??'',
-      };
-
-
-      return dio!.post(
-
-        url,
-        queryParameters: query,
-        data: data,
-      );
-    }
+    return dio!.post(
+      url,
+      queryParameters: query,
+      data: data,
+    );
+  }
 
   static Future<Response> postData1({
     required String url,
     required dynamic data,
     Map<String, dynamic>? query,
     String? token,
-  }) async
-  {
-
-    dio!.options.headers =
-    {
+  }) async {
+    dio!.options.headers = {
       'Accept': 'application/json',
-      'Authorization' : 'Bearer ${token}'??'',
+      'Authorization': 'Bearer ${token}' ?? '',
     };
 
-
     return dio!.post(
-
       url,
       queryParameters: query,
       data: data,
-
     );
   }
-
 }

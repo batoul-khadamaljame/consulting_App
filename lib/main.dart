@@ -32,10 +32,11 @@ import 'package:consulting_app/network/remote/dio_helper.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:consulting_app/translations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,9 +47,9 @@ void main() async {
 
   await CacheHelper.init();
   token = CacheHelper.getData(key: 'token');
-  CacheHelper.getData(key: 'switchValue')!=null?
-  switchValue = CacheHelper.getData(key: 'switchValue'):false
-  ;
+  CacheHelper.getData(key: 'switchValue') != null
+      ? switchValue = CacheHelper.getData(key: 'switchValue')
+      : false;
   print('token= $token');
 
   Widget widget;
@@ -70,8 +71,8 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp( EasyLocalization(
-    path: 'assets/translations/',
+  runApp(EasyLocalization(
+      path: 'assets/translations/',
       supportedLocales: const [
         Locale('en'),
         Locale('ar'),
@@ -82,19 +83,24 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   final Widget startWidget;
 
-   MyApp({required this.startWidget, Key? key}) : super(key: key);
-
+  MyApp({required this.startWidget, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => ConsultingCubit()..getHomeDataToken(0)..getUserData()..getFavorites()/*..getCategories()*///..getFavorites()/*..getUserData()*/,),
-        ,),
-        BlocProvider(create: (BuildContext context)=>HomeGuestCubit()..getHomeDataGuest(0)),
+        BlocProvider(
+          create: (BuildContext context) => ConsultingCubit()
+            ..getHomeDataToken(0)
+            ..getUserData()
+            ..getFavorites() /*..getCategories()*/ //..getFavorites()/*..getUserData()*/,),
+          ,
+        ),
+        BlocProvider(
+            create: (BuildContext context) =>
+                HomeGuestCubit()..getHomeDataGuest(0)),
         BlocProvider(
             create: (BuildContext context) => EnterMoblieNumberCubit()),
         BlocProvider(create: (BuildContext context) => InputDateCubit()),
@@ -103,10 +109,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => SearchCubit()),
         BlocProvider(create: (BuildContext context) => ReservationCubit()),
         BlocProvider(create: (BuildContext context) => PublicProfileCubit()),
-        BlocProvider(create: (BuildContext context) => ReservationHistoryCubit()),
+        BlocProvider(
+            create: (BuildContext context) => ReservationHistoryCubit()),
         BlocProvider(create: (BuildContext context) => MessageCubit()),
-
-
       ],
       child: MaterialApp(
         supportedLocales: context.supportedLocales,
@@ -115,7 +120,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (context) => startWidget,
+          '/': (context) => LoginScreen(),
           '/login': (context) => LoginScreen(),
           '/getStarted': (context) => GetStartedScreen(),
           '/userRegister': (context) => UserRegister(),
@@ -124,9 +129,9 @@ class MyApp extends StatelessWidget {
           '/search': (context) => SearchScreen(),
           '/settings': (context) => SettingsScreen(),
           '/reservation': (context) => ServiceReservation(),
-          '/public_expert_profile':(context) => PublicExpertProfileScreen(),
-          '/public_user_profile':(context) => PublicUserProfileScreen(),
-          '/reservation_history':(context) => ReservationHisory(),
+          '/public_expert_profile': (context) => PublicExpertProfileScreen(),
+          '/public_user_profile': (context) => PublicUserProfileScreen(),
+          '/reservation_history': (context) => ReservationHisory(),
           '/home_message': (context) => HomeMessageScreen(),
           '/chat': (context) => ChatScreen(),
         },

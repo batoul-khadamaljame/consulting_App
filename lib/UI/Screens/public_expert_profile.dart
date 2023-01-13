@@ -7,6 +7,8 @@ import 'package:consulting_app/Bloc/messanger/message_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_cubit.dart';
 import 'package:consulting_app/Bloc/public_profile/public_profile_state.dart';
 import 'package:consulting_app/UI/Components/components.dart';
+import 'package:consulting_app/UI/Screens/audiocallscreen.dart';
+import 'package:consulting_app/UI/Screens/videocall_screen.dart';
 import 'package:consulting_app/theme/theme.dart';
 import 'package:consulting_app/translations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,28 +19,23 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class PublicExpertProfileScreen extends StatelessWidget {
   const PublicExpertProfileScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    double heightscreen = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double widthscreen = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double heightscreen = MediaQuery.of(context).size.height;
+    double widthscreen = MediaQuery.of(context).size.width;
     var cubit = PublicProfileCubit.get(context);
     return BlocConsumer<PublicProfileCubit, PublicProfileStates>(
       listener: (context, state) {
-        if(state is ChangeRateSuccessState){
-          if(PublicProfileCubit.get(context).publicExpertProfileModel!.status == false) {
+        if (state is ChangeRateSuccessState) {
+          if (PublicProfileCubit.get(context)
+                  .publicExpertProfileModel!
+                  .status ==
+              false) {
             showToast(
               text: state.ratemodel.message!,
               state: ToastState.error,
             );
-          }
-          else{
+          } else {
             showToast(
               text: state.ratemodel.message!,
               state: ToastState.success,
@@ -46,15 +43,17 @@ class PublicExpertProfileScreen extends StatelessWidget {
           }
         }
       },
-      builder: (context,
-          state,) {
+      builder: (
+        context,
+        state,
+      ) {
         return ConditionalBuilder(
           condition: state is! PublicExpertProfileLoadingState,
-          builder:(context)=> Scaffold(
+          builder: (context) => Scaffold(
             backgroundColor: ThemeColors.backgroundColor,
             body: SafeArea(
               child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20,vertical: 25),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
@@ -108,10 +107,13 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                   width: 150,
                                   height: 180,
                                 ),*/
-                                CachedNetworkImage(
-                                  imageUrl: "${cubit.publicExpertProfileModel!.data!.user!.image}",
-                                  placeholder: (context, url) => new CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                    CachedNetworkImage(
+                                  imageUrl:
+                                      "${cubit.publicExpertProfileModel!.data!.user!.image}",
+                                  placeholder: (context, url) =>
+                                      new CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      new Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -125,37 +127,84 @@ class PublicExpertProfileScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  cubit.publicExpertProfileModel!.data!.user!.name!,
+                                  cubit.publicExpertProfileModel!.data!.user!
+                                      .name!,
                                   style: TextStyle(
-                                      fontSize: 24, fontWeight: FontWeight.w700),
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(
-                                  height: heightscreen*0.02,
+                                  height: heightscreen * 0.02,
                                 ),
                                 Row(
                                   children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(13),
-                                        color: Color.fromARGB(120, 206, 157, 223),
-                                      ),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: Color.fromARGB(255, 160, 7, 168),
-                                        size: 30,
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AudioCallScreen()));
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(13),
+                                          color: Color.fromRGBO(
+                                              206, 157, 223, 0.471),
+                                        ),
+                                        child: Icon(
+                                          Icons.phone,
+                                          color:
+                                              Color.fromARGB(255, 160, 7, 168),
+                                          size: 30,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 30,
+                                      width: 20,
                                     ),
                                     InkWell(
-                                      onTap: (){
-                                        MessageCubit.get(context)
-                                            .creatchat(expertid: PublicProfileCubit.get(context).publicExpertProfileModel!.data!.user!.id!);
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VideoCall()));
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(13),
+                                          color: Color.fromRGBO(
+                                              206, 157, 223, 0.471),
+                                        ),
+                                        child: Icon(
+                                          Icons.video_call,
+                                          color:
+                                              Color.fromARGB(255, 160, 7, 168),
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        MessageCubit.get(context).creatchat(
+                                            expertid:
+                                                PublicProfileCubit.get(context)
+                                                    .publicExpertProfileModel!
+                                                    .data!
+                                                    .user!
+                                                    .id!);
 
                                         Navigator.of(context)
                                             .pushReplacementNamed('/chat');
@@ -164,12 +213,15 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                         height: 40,
                                         width: 40,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(13),
-                                          color: Color.fromARGB(120, 206, 157, 223),
+                                          borderRadius:
+                                              BorderRadius.circular(13),
+                                          color: Color.fromARGB(
+                                              120, 206, 157, 223),
                                         ),
                                         child: Icon(
                                           Icons.message,
-                                          color: Color.fromARGB(255, 160, 7, 168),
+                                          color:
+                                              Color.fromARGB(255, 160, 7, 168),
                                           size: 30,
                                         ),
                                       ),
@@ -177,23 +229,35 @@ class PublicExpertProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: heightscreen*0.02,
+                                  height: heightscreen * 0.02,
                                 ),
                                 RatingBar.builder(
-                                  itemSize: 25,
-                                  itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4),
-                                  itemBuilder: (context, _) =>
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.yellow,
-                                      ),
-
-                                  onRatingUpdate: (rating) {
-                                    PublicProfileCubit.get(context).changeRate(rating,cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.expert_id!,context);
-                                    ConsultingCubit.get(context).getHomeDataToken(LoginCubit.get(context).loginModel!.data!.user!.id);
-                                  }
-                                )
+                                    itemSize: 25,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4),
+                                    itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                        ),
+                                    onRatingUpdate: (rating) {
+                                      PublicProfileCubit.get(context)
+                                          .changeRate(
+                                              rating,
+                                              cubit
+                                                  .publicExpertProfileModel!
+                                                  .data!
+                                                  .expert!
+                                                  .expertInfo!
+                                                  .expert_id!,
+                                              context);
+                                      ConsultingCubit.get(context)
+                                          .getHomeDataToken(
+                                              LoginCubit.get(context)
+                                                  .loginModel!
+                                                  .data!
+                                                  .user!
+                                                  .id);
+                                    })
                               ],
                             ),
                           ),
@@ -203,7 +267,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                         height: heightscreen * 0.03,
                       ),
                       Row(
-                        children:  [
+                        children: [
                           Icon(
                             Icons.info_outline,
                             size: 25,
@@ -223,15 +287,17 @@ class PublicExpertProfileScreen extends StatelessWidget {
                         height: heightscreen * 0.02,
                       ),
                       Text(
-                        cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.skills!,
+                        cubit.publicExpertProfileModel!.data!.expert!
+                            .expertInfo!.skills!,
                         style: TextStyle(
-                            color: Color.fromARGB(255, 59, 53, 66), fontSize: 18),
+                            color: Color.fromARGB(255, 59, 53, 66),
+                            fontSize: 18),
                       ),
                       SizedBox(
                         height: heightscreen * 0.04,
                       ),
                       Row(
-                        children:  [
+                        children: [
                           Icon(
                             Icons.work_outline_outlined,
                             size: 25,
@@ -252,15 +318,15 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       ),
 
                       ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) =>
-                              Serveses(context,index),
-                          separatorBuilder: (context, index) =>
-                              SizedBox(
-                                height: heightscreen*0.01,
-                              ),
-                          itemCount:cubit.publicExpertProfileModel!.data!.expert!.experiences!.length!,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) =>
+                            Serveses(context, index),
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: heightscreen * 0.01,
+                        ),
+                        itemCount: cubit.publicExpertProfileModel!.data!.expert!
+                            .experiences!.length!,
                       ),
                       //model!.data!.expert!.experiences!.length),
                       SizedBox(
@@ -269,7 +335,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children:  [
+                            children: [
                               Icon(
                                 Icons.place_outlined,
                                 size: 25,
@@ -286,23 +352,23 @@ class PublicExpertProfileScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: heightscreen*0.01,
+                            height: heightscreen * 0.01,
                           ),
                           Row(
-                            children:  [
+                            children: [
                               SizedBox(
                                 height: 10,
                                 width: 36,
                               ),
                               Text(
-                                '${cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.city}  , ' + '${cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.country}',
+                                '${cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.city}  , ' +
+                                    '${cubit.publicExpertProfileModel!.data!.expert!.expertInfo!.country}',
                                 //'damascus' + ' , ' + 'syria',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
                                 ),
-
                               ),
                             ],
                           ),
@@ -314,7 +380,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children:  [
+                            children: [
                               Icon(
                                 Icons.email_outlined,
                                 size: 25,
@@ -331,16 +397,17 @@ class PublicExpertProfileScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: heightscreen*0.01,
+                            height: heightscreen * 0.01,
                           ),
                           Row(
-                            children:  [
+                            children: [
                               SizedBox(
                                 height: 10,
                                 width: 36,
                               ),
                               Text(
-                                cubit.publicExpertProfileModel!.data!.user!.email!,
+                                cubit.publicExpertProfileModel!.data!.user!
+                                    .email!,
                                 //'batoul@gmail.com',
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
@@ -360,7 +427,7 @@ class PublicExpertProfileScreen extends StatelessWidget {
                       Column(
                         children: [
                           Row(
-                            children:  [
+                            children: [
                               Icon(
                                 Icons.phone_android_outlined,
                                 size: 25,
@@ -377,16 +444,17 @@ class PublicExpertProfileScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: heightscreen*0.01,
+                            height: heightscreen * 0.01,
                           ),
                           Row(
-                            children:  [
+                            children: [
                               SizedBox(
                                 height: 10,
                                 width: 36,
                               ),
                               Text(
-                                cubit.publicExpertProfileModel!.data!.user!.phone!,
+                                cubit.publicExpertProfileModel!.data!.user!
+                                    .phone!,
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 53, 42, 70),
                                   fontSize: 15,
@@ -403,14 +471,16 @@ class PublicExpertProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          fallback: (context)=> Center(child: CircularProgressIndicator(color: Colors.purple,)),
+          fallback: (context) => Center(
+              child: CircularProgressIndicator(
+            color: Colors.purple,
+          )),
         );
       },
     );
   }
 
-  Widget Serveses(context , index) =>
-      Row(
+  Widget Serveses(context, index) => Row(
         children: [
           SizedBox(
             width: 35,
@@ -439,7 +509,8 @@ class PublicExpertProfileScreen extends StatelessWidget {
             width: 40,
           ),
           Text(
-            '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index]!.price}'.toString(),
+            '${PublicProfileCubit.get(context).publicExpertProfileModel!.data!.expert!.experiences![index]!.price}'
+                .toString(),
             //'459 \$',
             style: TextStyle(
                 color: Color.fromARGB(255, 105, 33, 116),
