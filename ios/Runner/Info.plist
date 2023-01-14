@@ -14,6 +14,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ar</string>
+		<string>en</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>consulting_app</string>
 	<key>CFBundlePackageType</key>
@@ -24,10 +29,22 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Video call whith other users</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Talk to other users</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To choose user profile image</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -47,22 +64,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-
-<string>To take user profile image</string>
-<key>NSPhotoLibraryUsageDescription</key>
-
-<string>To choose user profile image</string>
-<key>NSMicrophoneUsageDescription</key>
-
-<string>Used to capture audio for image picker plugin</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-	    <string>ar</string>
-	    <string>en</string>
-	</array>
-</dict>  
+</dict>
 </plist>
-
